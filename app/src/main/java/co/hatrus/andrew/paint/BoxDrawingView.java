@@ -106,11 +106,6 @@ public class BoxDrawingView extends View {
                 Log.d(TAG,"onTouch mv"+MotionEvent.ACTION_MOVE);
                 if(mMovingBox!=null) {
                     mMovingBox.setCurrent(curr);
-//                    float dist =distanceBetweenPointFs(mMovingBox.getCurrent(),mCurrentBox.getCurrent());
-//                    if(dist>DRAW_RADIUS/3){
-//                        mMovingBox.setOrigin(mCurrentBox.getCurrent());
-//                        Log.d(TAG,"onTouch "+MotionEvent.ACTION_MOVE+" dist: "+dist);
-//                    }
                     mBoxList.add(mMovingBox);
                     invalidate();
                     mMovingBox = new Box(mMovingBox.getCurrent());
