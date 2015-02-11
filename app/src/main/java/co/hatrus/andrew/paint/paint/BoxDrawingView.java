@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.paint;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+
+import co.hatrus.andrew.paint.model.Box;
 
 /**
  * Created by user on 10.02.15.
@@ -31,7 +33,7 @@ public class BoxDrawingView extends View {
     public BoxDrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mBoxPaint = new Paint();
-        mBoxPaint.setColor(0x88aabbee);
+        mBoxPaint.setColor(0xbbaabbee);
         mBoxPaint.setStyle(Paint.Style.STROKE);
         mBoxPaint.setStrokeWidth(8);
         mBackgroundPaint = new Paint();

@@ -1,10 +1,8 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.paint;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import co.hatrus.andrew.paint.MainFragmentActivity;
 
 
 public class DragAndDrawActivity extends MainFragmentActivity {

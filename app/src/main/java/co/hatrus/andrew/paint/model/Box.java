@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.model;
 
 import android.graphics.PointF;
 import android.os.Parcel;

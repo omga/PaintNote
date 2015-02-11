@@ -7,6 +7,9 @@
     <string name="title_activity_drag_and_draw">DragAndDrawActivity</string>
     <string name="title_activity_main_fragment">MainFragmentActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment OLOL</string>
-    <string name="action_something">hohoho</string>
+    <string name="action_something">Do Something</string>
+    <string name="title_activity_note_list">NoteListActivity</string>
+    <string name="action_add_note">Add Note</string>
+    <string name="title_activity_base_note">TextNoteActivity</string>
 
 </resources>

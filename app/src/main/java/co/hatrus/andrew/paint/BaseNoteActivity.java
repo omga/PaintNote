@@ -1,42 +1,33 @@
 package co.hatrus.andrew.paint;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+
+import co.hatrus.andrew.paint.MainFragmentActivity;
+import co.hatrus.andrew.paint.R;
 
 
-public abstract class MainFragmentActivity extends ActionBarActivity{
+public abstract class BaseNoteActivity extends MainFragmentActivity {
 
-    protected int getLayoutResId(){
-        return R.layout.activity_main_fragment;
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResId());
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, createFragment())
-                    .commit();
-        }
+        setContentView(R.layout.activity_base_note);
+    }
+    protected int getLayoutResId(){
+        return R.layout.activity_base_note;
     }
 
-    protected abstract Fragment createFragment();
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_base_note, menu);
         return true;
     }
 
@@ -54,6 +45,4 @@ public abstract class MainFragmentActivity extends ActionBarActivity{
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }
