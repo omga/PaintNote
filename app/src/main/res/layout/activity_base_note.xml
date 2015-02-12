@@ -15,10 +15,9 @@
         android:id="@+id/container"
         android:layout_width="match_parent" android:layout_height="match_parent"
         tools:context="co.hatrus.andrew.paint.MainFragmentActivity"
-        tools:ignore="MergeRootFrame"
-        android:layout_below="@+id/node_title"
+        android:layout_below="@id/node_title"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+         />
 
 
 </RelativeLayout>

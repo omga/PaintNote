@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
  */
 public class ChecklistNoteActivity extends BaseNoteActivity {
     @Override
-    protected Fragment createFragment() {
-        return null;
+    protected BaseNoteFragment createFragment() {
+        return new ChecklistNoteFragment();
     }
 }

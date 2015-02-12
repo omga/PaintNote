@@ -26,6 +26,7 @@
             android:name=".TextNoteActivity"
             android:label="@string/title_activity_base_note" >
         </activity>
+        <activity android:name=".ChecklistNoteActivity"/>
     </application>
 
 </manifest>

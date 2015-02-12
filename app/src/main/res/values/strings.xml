@@ -11,5 +11,8 @@
     <string name="title_activity_note_list">NoteListActivity</string>
     <string name="action_add_note">Add Note</string>
     <string name="title_activity_base_note">TextNoteActivity</string>
+    <string name="dialog_textnote_item">Text</string>
+    <string name="dialog_listnote_item">List</string>
+    <string name="dialog_paintnote_item">Paint</string>
 
 </resources>

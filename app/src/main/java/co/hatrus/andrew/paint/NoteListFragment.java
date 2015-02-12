@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -40,7 +41,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private ArrayAdapter mAdapter;
     private List<Note> mNotes;
 
     /**
@@ -99,7 +100,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onNoteSelected(mNotes.get(position).getTitle());
+            mListener.onNoteSelected(position);
         }
     }
 
@@ -115,6 +116,9 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
             ((TextView) emptyView).setText(emptyText);
         }
     }
+    public void updateUI(){
+        mAdapter.notifyDataSetChanged();
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -128,7 +132,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      */
     public interface OnFragmentInteractionListener {
 
-        public void onNoteSelected(String id);
+        public void onNoteSelected(int id);
     }
 
 }

@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
  */
 public class TextNoteActivity extends BaseNoteActivity {
     @Override
-    protected Fragment createFragment() {
+    protected BaseNoteFragment createFragment() {
         return new TextNoteFragment();
     }
 }

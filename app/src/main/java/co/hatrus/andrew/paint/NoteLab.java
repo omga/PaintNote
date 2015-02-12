@@ -3,6 +3,8 @@ package co.hatrus.andrew.paint;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,10 +45,17 @@ public class NoteLab {
         b.setText("texty2");
         ListNote c = new ListNote();
         c.setTitle("listnote3");
-
+        List<String > list = new LinkedList<>();
+        list.add("abc");
+        list.add("abc2");
+        list.add("abc3");
+        c.setNotes(list);
         mNotes.add(a);
         mNotes.add(b);
         mNotes.add(c);
+        for(int i=0;i<20;i++){
+            mNotes.add(new TextNote());
+        }
 
         return mNotes;
     }

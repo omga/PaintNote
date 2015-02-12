@@ -18,17 +18,7 @@ public abstract class MainFragmentActivity extends ActionBarActivity{
     protected int getLayoutResId(){
         return R.layout.activity_main_fragment;
     }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(getLayoutResId());
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, createFragment())
-                    .commit();
-        }
-    }
 
     protected abstract Fragment createFragment();
 
