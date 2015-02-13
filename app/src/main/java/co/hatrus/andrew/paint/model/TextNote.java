@@ -18,10 +18,10 @@ public class TextNote extends Note {
         this.text = text;
     }
 
-    public JSONObject toJSON(){
+    public JSONObject toJSON() {
         JSONObject json = new JSONObject();
         try {
-            json.put(JSON_TITLE,getTitle());
+            json.put(JSON_TITLE, getTitle());
             json.put(JSON_TEXT, text);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -6,14 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by user on 11.02.15.
  */
-public class ListNote extends Note{
+public class ListNote extends Note {
     public static final String JSON_NOTES = "checknotes";
     List<String> notes = new LinkedList<>();
 
@@ -33,7 +32,7 @@ public class ListNote extends Note{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("JSON LIST",json.toString());
+        Log.d("JSON LIST", json.toString());
         return json;
     }
 }

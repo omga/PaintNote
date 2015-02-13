@@ -7,15 +7,29 @@ import android.os.Parcelable;
 /**
  * Created by user on 10.02.15.
  */
-public class Box implements Parcelable{
+public class Box implements Parcelable {
+    public static final Creator<Box> CREATOR =
+            new Creator<Box>() {
+                @Override
+                public Box createFromParcel(Parcel source) {
+                    return new Box(source);
+                }
+
+                @Override
+                public Box[] newArray(int size) {
+                    return new Box[size];
+                }
+            };
     private PointF mOrigin;
     private PointF mCurrent;
 
     public Box(PointF origin) {
         mOrigin = mCurrent = origin;
     }
-    public void setCurrent(PointF current) {
-        mCurrent = current;
+
+    private Box(Parcel in) {
+        mOrigin = new PointF(in.readFloat(), in.readFloat());
+        mCurrent = new PointF(in.readFloat(), in.readFloat());
     }
 
     public PointF getOrigin() {
@@ -30,6 +44,10 @@ public class Box implements Parcelable{
         return mCurrent;
     }
 
+    public void setCurrent(PointF current) {
+        mCurrent = current;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -41,21 +59,5 @@ public class Box implements Parcelable{
         dest.writeFloat(mOrigin.y);
         dest.writeFloat(mCurrent.x);
         dest.writeFloat(mCurrent.y);
-    }
-    public static final Creator<Box> CREATOR =
-            new Creator<Box>() {
-                @Override
-                public Box createFromParcel(Parcel source) {
-                    return new Box(source);
-                }
-
-                @Override
-                public Box[] newArray(int size) {
-                    return new Box[size];
-                }
-            };
-    private Box(Parcel in){
-        mOrigin = new PointF(in.readFloat(),in.readFloat());
-        mCurrent = new PointF(in.readFloat(),in.readFloat());
     }
 }
