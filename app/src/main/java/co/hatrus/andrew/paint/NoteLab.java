@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import co.hatrus.andrew.paint.db.DataBaseHelper;
 import co.hatrus.andrew.paint.model.ListNote;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.TextNote;
@@ -19,9 +20,11 @@ public class NoteLab {
     private List<Note> mNotes = new ArrayList<>(5);
     private Context mAppContext;
     private static NoteLab sNoteLab;
+    private DataBaseHelper mDBHelper;
 
     private NoteLab(Context appContext){
         mAppContext = appContext;
+        mDBHelper = new DataBaseHelper(appContext);
     }
 
     public static NoteLab getInstance(Context appContext){
@@ -30,6 +33,7 @@ public class NoteLab {
         return sNoteLab;
     }
     public void addNote(Note note){
+        mDBHelper.insertTextNote(note);
         mNotes.add(note);
     }
     public Note getNote(int id){
@@ -37,6 +41,7 @@ public class NoteLab {
     }
 
     public List<Note> getNoteList(){
+
         TextNote a = new TextNote();
         a.setTitle("textnote1");
         a.setText("texty");
@@ -60,5 +65,8 @@ public class NoteLab {
         return mNotes;
     }
 
+    public DataBaseHelper.NoteCursor getCursor(){
+        return mDBHelper.queryNotes();
+    }
 
 }

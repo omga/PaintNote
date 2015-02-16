@@ -1,6 +1,8 @@
 package co.hatrus.andrew.paint;
 
 import android.app.Activity;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import java.util.List;
 
 
+import co.hatrus.andrew.paint.db.DataBaseHelper;
 import co.hatrus.andrew.paint.model.Note;
 
 /**
@@ -43,7 +47,8 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      */
     private ArrayAdapter mAdapter;
     private List<Note> mNotes;
-
+    private DataBaseHelper.NoteCursor mCursor;
+    private NoteCursorAdapter mCursorAdapter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -57,6 +62,8 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
 
 
         mNotes = NoteLab.getInstance(getActivity().getApplicationContext()).getNoteList();
+        mCursor = NoteLab.getInstance(getActivity().getApplicationContext()).getCursor();
+        mCursorAdapter = new NoteCursorAdapter(getActivity(),mCursor);
         mAdapter = new ArrayAdapter<Note>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 mNotes);
@@ -69,7 +76,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        ((AdapterView<ListAdapter>) mListView).setAdapter(mCursorAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -133,6 +140,27 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
     public interface OnFragmentInteractionListener {
 
         public void onNoteSelected(int id);
+    }
+
+    private class NoteCursorAdapter extends CursorAdapter {
+        private DataBaseHelper.NoteCursor mCursor;
+
+        public NoteCursorAdapter(Context context, DataBaseHelper.NoteCursor c) {
+            super(context, c, 0);
+            mCursor = c;
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            return inflater.inflate(android.R.layout.simple_list_item_1,parent,false);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            Note note = mCursor.getNote();
+
+        }
     }
 
 }

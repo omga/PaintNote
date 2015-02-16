@@ -17,4 +17,5 @@ public abstract class BaseNoteFragment extends Fragment {
         return this;
     }
 
+
 }

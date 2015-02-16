@@ -4,4 +4,10 @@
     tools:context="co.hatrus.andrew.paint.BaseNoteActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_save_note"
+          android:title="Save"
+          android:orderInCategory="1"
+          app:showAsAction="always"
+
+          />
 </menu>

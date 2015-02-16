@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by user on 11.02.15.
  */
-public abstract class Note {
+public class Note {
     public static final String JSON_TITLE = "mTitle";
 
     private int mId;
