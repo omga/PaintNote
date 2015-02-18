@@ -19,7 +19,6 @@ import co.hatrus.andrew.paint.model.TextNote;
 public class TextNoteFragment extends BaseNoteFragment {
 
     private EditText mNoteText;
-    TextNote mNote;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,15 +26,20 @@ public class TextNoteFragment extends BaseNoteFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_text_note, container, false);
         mNoteText = (EditText) v.findViewById(R.id.note_text);
-        mNote = (TextNote) NoteLab.getInstance(getActivity()).getNote(getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_ID));
-        mNoteText.setText(mNote.getText());
+        if(mNote!=null)
+            mNoteText.setText(((TextNote)mNote).getText());
+        else mNote = new TextNote();
         return v;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mNote.setText(mNoteText.getText().toString());
+        ((TextNote)mNote).setText(mNoteText.getText().toString());
     }
 
+    @Override
+    public void setNoteData() {
+        ((TextNote)mNote).setText(mNoteText.getText().toString().trim());
+    }
 }

@@ -25,7 +25,7 @@ public class NoteListActivity extends MainFragmentActivity
 
 
     public static final String NOTE_ID_EXTRA = "note_id";
-    List<Note> mNotes;
+    NoteLab mNoteLab;
 
     @Override
     protected Fragment createFragment() {
@@ -36,7 +36,8 @@ public class NoteListActivity extends MainFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
-        mNotes=NoteLab.getInstance(getApplicationContext()).getNoteList();
+        mNoteLab = NoteLab.getInstance(getApplicationContext());
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, createFragment())
@@ -51,10 +52,10 @@ public class NoteListActivity extends MainFragmentActivity
     }
 
     @Override
-    public void onNoteSelected(int id) {
+    public void onNoteSelected(Note note) {
+        int id = note.getId();
         Toast.makeText(this,"clicked: "+id,Toast.LENGTH_SHORT).show();
         Intent intent;// = new Intent(NoteListActivity.this,TextNoteActivity.class);
-        Note note = mNotes.get(id);
         if(note instanceof ListNote)
             intent = new Intent(NoteListActivity.this,ChecklistNoteActivity.class);
 //        else if (note instanceof PaintNote)
@@ -102,27 +103,20 @@ public class NoteListActivity extends MainFragmentActivity
                         // The 'which' argument contains the index position
                         // of the selected item
                         Intent intent;
-                        Note note;
                         switch(which){
                             case 0:
                                 intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
-                                note = new TextNote();
-                                mNotes.add(note);
-                                intent.putExtra("note_id",mNotes.size()-1);
-                                startActivity(intent);
                                 break;
                             case 1:
                                 intent = new Intent(NoteListActivity.this,ChecklistNoteActivity.class);
-                                note = new ListNote();
-                                mNotes.add(note);
-                                intent.putExtra("note_id",mNotes.size()-1);
-                                startActivity(intent);
                                 break;
                             case 2:
                                 intent = new Intent(NoteListActivity.this,DragAndDrawActivity.class);
-                                startActivity(intent);
                                 break;
+                            default:
+                                intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
                         }
+                        startActivity(intent);
                     }
                 });
         return builder.create();

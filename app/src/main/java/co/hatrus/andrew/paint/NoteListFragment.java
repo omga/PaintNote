@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import co.hatrus.andrew.paint.db.DataBaseHelper;
 import co.hatrus.andrew.paint.model.Note;
+import co.hatrus.andrew.paint.model.TextNote;
 
 /**
  * A fragment representing a list of Items.
@@ -37,6 +39,11 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
     private OnFragmentInteractionListener mListener;
 
     /**
+     * Field to save state (position) of the ListView
+     */
+    Parcelable mListViewState=null;
+
+    /**
      * The fragment's ListView/GridView.
      */
     private AbsListView mListView;
@@ -45,8 +52,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ArrayAdapter mAdapter;
-    private List<Note> mNotes;
+
     private DataBaseHelper.NoteCursor mCursor;
     private NoteCursorAdapter mCursorAdapter;
     /**
@@ -60,13 +66,8 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        mNotes = NoteLab.getInstance(getActivity().getApplicationContext()).getNoteList();
-        mCursor = NoteLab.getInstance(getActivity().getApplicationContext()).getCursor();
-        mCursorAdapter = new NoteCursorAdapter(getActivity(),mCursor);
-        mAdapter = new ArrayAdapter<Note>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1,
-                mNotes);
+//        mCursor = NoteLab.getInstance(getActivity().getApplicationContext()).getCursor();
+//        mCursorAdapter = new NoteCursorAdapter(getActivity(),mCursor);
     }
 
     @Override
@@ -76,7 +77,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mCursorAdapter);
+        //(mListView).setAdapter(mCursorAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -101,13 +102,20 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         mListener = null;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCursor.close();
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onNoteSelected(position);
+            mCursor.moveToPosition(position+1);
+            mListener.onNoteSelected(mCursor.getNote());
+
         }
     }
 
@@ -124,8 +132,19 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         }
     }
     public void updateUI(){
-        mAdapter.notifyDataSetChanged();
+        mCursor = NoteLab.getInstance(getActivity().getApplicationContext()).getCursor();
+        mCursorAdapter = new NoteCursorAdapter(getActivity(),mCursor);
+        (mListView).setAdapter(mCursorAdapter);
+        if(mListViewState!=null)
+            mListView.onRestoreInstanceState(mListViewState);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mListViewState = mListView.onSaveInstanceState();
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -139,7 +158,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      */
     public interface OnFragmentInteractionListener {
 
-        public void onNoteSelected(int id);
+        public void onNoteSelected(Note note);
     }
 
     private class NoteCursorAdapter extends CursorAdapter {
@@ -159,8 +178,17 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             Note note = mCursor.getNote();
+            TextView title = (TextView)view;
+            title.setText(note.getTitle());
 
         }
+
+//        @Override
+//        public Note getItem(int position) {
+//            Object o = super.getItem(position);
+//            Note note = (Note) o;
+//            return note;
+//        }
     }
 
 }

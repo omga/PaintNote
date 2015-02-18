@@ -35,4 +35,9 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
+    @Override
+    public void setNoteData() {
+
+    }
 }

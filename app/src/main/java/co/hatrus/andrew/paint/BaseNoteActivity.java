@@ -2,7 +2,6 @@ package co.hatrus.andrew.paint;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -14,6 +13,10 @@ import co.hatrus.andrew.paint.model.Note;
 public abstract class BaseNoteActivity extends MainFragmentActivity {
     EditText mTitle;
     Note mNote;
+    NoteLab mNoteLab;
+    public Note getNote(){
+        return mNote;
+    }
 
     @Override
     protected abstract BaseNoteFragment createFragment();
@@ -22,11 +25,13 @@ public abstract class BaseNoteActivity extends MainFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_note);
-        mTitle = (EditText) findViewById(R.id.node_title);
-        int note_id = getIntent().getIntExtra(NoteListActivity.NOTE_ID_EXTRA, 0);
-        mNote = NoteLab.getInstance(getApplicationContext()).getNoteList().
-                get(note_id);
-        setNoteTitle(mNote.getTitle());
+        mTitle = (EditText) findViewById(R.id.note_title);
+        int note_id = getIntent().getIntExtra(NoteListActivity.NOTE_ID_EXTRA, -1);
+        mNoteLab = NoteLab.getInstance(getApplicationContext());
+        if(note_id!=-1) {
+            mNote = mNoteLab.getNote(note_id);
+            setNoteTitle(mNote.getTitle());
+        }
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, createFragment().putArgs(note_id))
@@ -47,7 +52,6 @@ public abstract class BaseNoteActivity extends MainFragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mNote.setTitle(mTitle.getText().toString());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,9 +67,9 @@ public abstract class BaseNoteActivity extends MainFragmentActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_save_note:
-                Toast.makeText(this, "save: " + mNote.toString(), Toast.LENGTH_LONG).show();
-                NoteLab.getInstance(getApplicationContext()).addNote(mNote);
-                return true;
+                Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
+                ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container)).setNoteTitle(mTitle.getText().toString().trim());
+                break;
             case R.id.action_settings:
                 Toast.makeText(this,"settings",Toast.LENGTH_LONG).show();
                 break;

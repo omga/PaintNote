@@ -14,21 +14,23 @@ import java.util.List;
  */
 public class ListNote extends Note {
     public static final String JSON_NOTES = "checknotes";
-    List<String> notes = new LinkedList<>();
+    LinkedList<String> mNoteItems = new LinkedList<>();
 
-    public List<String> getNotes() {
-        return notes;
+    public List<String> getItems() {
+        return mNoteItems;
     }
 
-    public void setNotes(List<String> notes) {
-        this.notes = notes;
+    public void setItems(LinkedList<String> notes) {
+        this.mNoteItems = notes;
     }
+
+
 
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
         try {
             json.put(JSON_TITLE, getTitle());
-            json.put(JSON_NOTES, new JSONArray(notes));
+            json.put(JSON_NOTES, new JSONArray(mNoteItems));
         } catch (JSONException e) {
             e.printStackTrace();
         }

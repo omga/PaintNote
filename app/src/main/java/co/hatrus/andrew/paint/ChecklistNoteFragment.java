@@ -2,11 +2,11 @@ package co.hatrus.andrew.paint;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import co.hatrus.andrew.paint.model.ListNote;
 
@@ -16,14 +16,29 @@ import co.hatrus.andrew.paint.model.ListNote;
  */
 public class ChecklistNoteFragment extends BaseNoteFragment {
     ListView checklist;
-    ListNote note;
+    Button addBtn;
+    ArrayAdapter mAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_checklist_note,container,false);
-        checklist = (ListView) v;
-        note = (ListNote) NoteLab.getInstance(getActivity()).getNote(getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_ID));
-        note.toJSON();
-        checklist.setAdapter(new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,android.R.id.text1,note.getNotes()));
+        checklist = (ListView) v.findViewById(R.id.checklist_view);
+        addBtn = (Button) v.findViewById(R.id.checklist_add_btn);
+        if(mNote==null)
+            mNote = new ListNote();
+        mAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,android.R.id.text1,((ListNote)mNote).getItems());
+        checklist.setAdapter(mAdapter);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ListNote)mNote).getItems().add("new item");
+                mAdapter.notifyDataSetChanged();
+            }
+        });
         return v;
+    }
+
+    @Override
+    public void setNoteData() {
+
     }
 }

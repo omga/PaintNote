@@ -14,5 +14,6 @@
     <string name="dialog_textnote_item">Text</string>
     <string name="dialog_listnote_item">List</string>
     <string name="dialog_paintnote_item">Paint</string>
+    <string name="checklist_add_text">Add</string>
 
 </resources>
