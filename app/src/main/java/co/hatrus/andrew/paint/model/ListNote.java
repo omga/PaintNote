@@ -1,40 +1,48 @@
 package co.hatrus.andrew.paint.model;
 
-import android.util.Log;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by user on 11.02.15.
  */
-public class ListNote extends Note {
-    public static final String JSON_NOTES = "checknotes";
-    LinkedList<String> mNoteItems = new LinkedList<>();
+public class ListNote extends RealmObject {
+    @PrimaryKey
+    private int id;
+    private Note note;
+    private RealmList<CheckList> noteItems;
 
-    public List<String> getItems() {
-        return mNoteItems;
+
+    public ListNote() {
+        note = new Note();
+        this.note.setType(2);
     }
 
-    public void setItems(LinkedList<String> notes) {
-        this.mNoteItems = notes;
+    public RealmList<CheckList> getNoteItems() {
+        return noteItems;
+    }
+
+    public void setNoteItems(RealmList<CheckList> noteItems) {
+        this.noteItems = noteItems;
     }
 
 
 
-    public JSONObject toJSON() {
-        JSONObject json = new JSONObject();
-        try {
-            json.put(JSON_TITLE, getTitle());
-            json.put(JSON_NOTES, new JSONArray(mNoteItems));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d("JSON LIST", json.toString());
-        return json;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
     }
 }

@@ -25,6 +25,8 @@ public class NoteListActivity extends MainFragmentActivity
 
 
     public static final String NOTE_ID_EXTRA = "note_id";
+    public static final String NOTE_TYPE_EXTRA = "note_type";
+    public static final String NOTE_TITLE_EXTRA = "note_title";
     NoteLab mNoteLab;
 
     @Override
@@ -52,17 +54,19 @@ public class NoteListActivity extends MainFragmentActivity
     }
 
     @Override
-    public void onNoteSelected(Note note) {
-        int id = note.getId();
+    public void onNoteSelected(Note note,int id) {
+
         Toast.makeText(this,"clicked: "+id,Toast.LENGTH_SHORT).show();
         Intent intent;// = new Intent(NoteListActivity.this,TextNoteActivity.class);
-        if(note instanceof ListNote)
+        if(note.getType() == Note.NOTE_TYPE_LIST)
             intent = new Intent(NoteListActivity.this,ChecklistNoteActivity.class);
-//        else if (note instanceof PaintNote)
-//            intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
+        else if (note.getType() == Note.NOTE_TYPE_PAINT)
+            intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
         else
             intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
         intent.putExtra(NOTE_ID_EXTRA, id);
+        intent.putExtra(NOTE_TITLE_EXTRA, note.getTitle());
+        intent.putExtra(NOTE_TYPE_EXTRA, note.getType());
         startActivity(intent);
     }
 

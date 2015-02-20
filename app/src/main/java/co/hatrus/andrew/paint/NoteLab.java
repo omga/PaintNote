@@ -11,6 +11,9 @@ import co.hatrus.andrew.paint.db.DataBaseHelper;
 import co.hatrus.andrew.paint.model.ListNote;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.TextNote;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 /**
  * Created by user on 11.02.15.
@@ -19,11 +22,38 @@ public class NoteLab {
     private List<Note> mNotes = new ArrayList<>(5);
     private Context mAppContext;
     private static NoteLab sNoteLab;
-    private DataBaseHelper mDBHelper;
+    //private DataBaseHelper mDBHelper;
+    private Realm mRealm;
+
+    public TextNote createTextNote() {
+        mRealm.beginTransaction();
+        Note n = mRealm.createObject(Note.class);
+        TextNote tn = mRealm.createObject(TextNote.class);
+        tn.setNote(n);
+        mRealm.commitTransaction();
+        return tn;
+    }
+
+    public Realm getRealm() {
+        return mRealm;
+    }
+
+    public void setRealm(Realm realm) {
+        mRealm = realm;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        mRealm.close();
+    }
 
     private NoteLab(Context appContext){
         mAppContext = appContext;
-        mDBHelper = new DataBaseHelper(appContext);
+        mRealm = Realm.getInstance(appContext);
+//        mRealm.close();
+//        mRealm.deleteRealmFile(appContext);
+        //mDBHelper = new DataBaseHelper(appContext);
     }
 
     public static NoteLab getInstance(Context appContext){
@@ -33,27 +63,75 @@ public class NoteLab {
     }
 
     public void addNote(Note note){
-        mDBHelper.insertNote(note);
+        mRealm.beginTransaction();
+        mRealm.copyToRealm(note);
+        //mDBHelper.insertNote(note);
+        mRealm.commitTransaction();
+    }
+
+    public void addTextNote(TextNote textnote){
+        mRealm.beginTransaction();
+        mRealm.copyToRealm(textnote);
+        mRealm.commitTransaction();
+    }
+
+    public void addListNote(ListNote listnote){
+        mRealm.beginTransaction();
+        mRealm.copyToRealm(listnote);
+        mRealm.commitTransaction();
     }
 
     public void updateNote(Note note, int id){
-        mDBHelper.updateNote(id,note);
+        //mDBHelper.updateNote(id,note);
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(note);
+        mRealm.commitTransaction();
     }
 
-    public Note getNote(int id){
-        DataBaseHelper.NoteCursor noteCursor = mDBHelper.queryNote(id);
-        Note note=null;
-        noteCursor.moveToFirst();
-        // if we got a row, get a run
-        if (!noteCursor.isAfterLast())
-            note = noteCursor.getNote();
-        noteCursor.close();
-        Log.d("NoteLab","crsr " + noteCursor+",note "+note+ " id= "+id);
-        return note;
+    public void updateTextNote(TextNote note, int id){
+        //mDBHelper.updateNote(id,note);
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(note);
+        mRealm.commitTransaction();
     }
 
-    public DataBaseHelper.NoteCursor getCursor(){
-        return mDBHelper.queryNotes();
+    public void updateListNote(ListNote note, int id){
+        //mDBHelper.updateNote(id,note);
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(note);
+        mRealm.commitTransaction();
+    }
+
+//    public Note getNote(int id){
+//        DataBaseHelper.NoteCursor noteCursor = mDBHelper.queryNote(id);
+//        Note note=null;
+//        noteCursor.moveToFirst();
+//        // if we got a row, get a run
+//        if (!noteCursor.isAfterLast())
+//            note = noteCursor.getNote();
+//        noteCursor.close();
+//        Log.d("NoteLab","crsr " + noteCursor+",note "+note+ " id= "+id);
+//        return note;
+//    }
+//
+
+    public TextNote getTextNoteData(int id){
+        TextNote result = mRealm.where(TextNote.class).equalTo("note.id",id).findFirst();
+        return result;
+    }
+    public ListNote getListNoteData(int id){
+        ListNote result = mRealm.where(ListNote.class).equalTo("note.id",id).findFirst();
+        return result;
+    }
+
+
+//    public DataBaseHelper.NoteCursor getCursor() {
+//        return mDBHelper.queryNotes();
+//    }
+    public RealmResults<Note> getNotes(){
+        RealmQuery<Note> noteQuery = mRealm.where(Note.class);
+        RealmResults<Note> results = noteQuery.findAll();
+        return results;
     }
 
     public List<Note> getNoteList(){

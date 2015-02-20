@@ -11,7 +11,6 @@ import android.util.Log;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 import co.hatrus.andrew.paint.model.ListNote;
 import co.hatrus.andrew.paint.model.Note;
@@ -25,7 +24,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DB_NAME = "paintnote.sqlite";
     private static final String TABLE_NOTE = "note";
-    private static final String TABLE_NOTE_ID = "_id";
+    private static final String COLUMN_NOTE_ID = "_id";
     private static final String COLUMN_NOTE_TITTLE = "title";
     private static final String COLUMN_NOTE_DATA = "note_data";
     private static final String COLUMN_NOTE_TIME = "time_created";
@@ -63,15 +62,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NOTE_TITTLE, note.getTitle());
         cv.put(COLUMN_NOTE_TIME, note.getTimeCreated().getTime());
-        if(note instanceof TextNote) {
-            cv.put(COLUMN_NOTE_TYPE, TEXTNOTE_TYPE_CODE);
-            cv.put(COLUMN_NOTE_DATA,((TextNote) note).getText());
-        } else if (note instanceof ListNote){
-            String listStr=((ListNote) note).getItems().toString();
-            listStr=listStr.substring(1,listStr.length()-1);
-            cv.put(COLUMN_NOTE_TYPE, LISTNOTE_TYPE_CODE);
-            cv.put(COLUMN_NOTE_DATA,listStr);
-        } else return null;
+//        if(note instanceof TextNote) {
+//            cv.put(COLUMN_NOTE_TYPE, TEXTNOTE_TYPE_CODE);
+//            cv.put(COLUMN_NOTE_DATA,((TextNote) note).getText());
+//        } else if (note instanceof ListNote){
+//            String listStr=((ListNote) note).getItems().toString();
+//            listStr=listStr.substring(1,listStr.length()-1);
+//            cv.put(COLUMN_NOTE_TYPE, LISTNOTE_TYPE_CODE);
+//            cv.put(COLUMN_NOTE_DATA,listStr);
+//        } else return null;
         return cv;
     }
     public long insertNote(Note note){
@@ -81,13 +80,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public long updateNote(int id, Note note){
         ContentValues cv = setContentValues(note);
-        return getWritableDatabase().update(TABLE_NOTE,cv,TABLE_NOTE_ID + " = ?", new String[]{String.valueOf(id)});
+        return getWritableDatabase().update(TABLE_NOTE,cv, COLUMN_NOTE_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     public NoteCursor queryNote(int id){
         Cursor wrapped = getReadableDatabase().query(TABLE_NOTE,
                 null, // all columns
-                TABLE_NOTE_ID + " = ?", // look for a run ID
+                COLUMN_NOTE_ID + " = ?", // look for a run ID
                 new String[]{ String.valueOf(id) }, // with this value
                 null, // group by
                 null, // order by
@@ -97,7 +96,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public NoteCursor queryNotes(){
-        Cursor c = getReadableDatabase().query(TABLE_NOTE,null,null,null,null,null,null);//COLUMN_NOTE_TIME + " DESC");
+        Cursor c = getReadableDatabase().query(TABLE_NOTE,null,null,null,null,null,COLUMN_NOTE_TIME + " DESC");
         return new NoteCursor(c);
     }
 
@@ -108,24 +107,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         public Note getNote(){
             if (isBeforeFirst() || isAfterLast())
                 return null;
-            Note note;
-            switch (getInt(getColumnIndex(COLUMN_NOTE_TYPE))){
-                case 2:
-                    note = new ListNote();
-                    String data = getString(getColumnIndex(COLUMN_NOTE_DATA));
-                    LinkedList<String> listNotes= new LinkedList<>(Arrays.asList(data.split(",\\s*")));
-                        ((ListNote) note).setItems(listNotes);
-                    break;
-                case 3:
-                    note = new TextNote();
-                    break;
-                default:
-                    note = new TextNote();
-                    ((TextNote)note).setText(getString(getColumnIndex(COLUMN_NOTE_DATA)));
-            }
-            note.setId(getPosition());
-            note.setTitle(getString(getColumnIndex(COLUMN_NOTE_TITTLE)));
-            note.setTimeCreated(new Date(getLong(getColumnIndex(COLUMN_NOTE_TIME))));
+            Note note = null;
+//            switch (getInt(getColumnIndex(COLUMN_NOTE_TYPE))){
+//                case 2:
+//                    note = new ListNote();
+//                    String data = getString(getColumnIndex(COLUMN_NOTE_DATA));
+//                    LinkedList<String> listNotes= new LinkedList<>(Arrays.asList(data.split(",\\s*")));
+//                        ((ListNote) note).setItems(listNotes);
+//                    break;
+//                case 3:
+//                    note = new TextNote();
+//                    break;
+//                default:
+//                    note = new TextNote();
+//                    ((TextNote)note).setText(getString(getColumnIndex(COLUMN_NOTE_DATA)));
+//            }
+//            note.setId(getInt(getColumnIndex(COLUMN_NOTE_ID)));
+//            note.setTitle(getString(getColumnIndex(COLUMN_NOTE_TITTLE)));
+//            note.setTimeCreated(new Date(getLong(getColumnIndex(COLUMN_NOTE_TIME))));
             return note;
         }
     }

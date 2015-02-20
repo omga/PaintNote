@@ -12,11 +12,7 @@ import co.hatrus.andrew.paint.model.Note;
 
 public abstract class BaseNoteActivity extends MainFragmentActivity {
     EditText mTitle;
-    Note mNote;
     NoteLab mNoteLab;
-    public Note getNote(){
-        return mNote;
-    }
 
     @Override
     protected abstract BaseNoteFragment createFragment();
@@ -27,14 +23,15 @@ public abstract class BaseNoteActivity extends MainFragmentActivity {
         setContentView(R.layout.activity_base_note);
         mTitle = (EditText) findViewById(R.id.note_title);
         int note_id = getIntent().getIntExtra(NoteListActivity.NOTE_ID_EXTRA, -1);
+        String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
+        int note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
         mNoteLab = NoteLab.getInstance(getApplicationContext());
         if(note_id!=-1) {
-            mNote = mNoteLab.getNote(note_id);
-            setNoteTitle(mNote.getTitle());
+            setNoteTitle(noteTitle);
         }
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, createFragment().putArgs(note_id))
+                    .add(R.id.container, createFragment().putArgs(note_id,note_type))
                     .commit();
         }
     }
@@ -46,7 +43,7 @@ public abstract class BaseNoteActivity extends MainFragmentActivity {
         this.mTitle.setText(title);
     }
     public String getNoteTitle(){
-        return mTitle.getText().toString();
+        return mTitle.getText().toString().trim();
     }
 
     @Override

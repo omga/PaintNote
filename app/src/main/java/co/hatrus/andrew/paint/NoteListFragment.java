@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import java.util.List;
 import co.hatrus.andrew.paint.db.DataBaseHelper;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.TextNote;
+import io.realm.RealmBaseAdapter;
+import io.realm.RealmResults;
 
 /**
  * A fragment representing a list of Items.
@@ -53,8 +56,10 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      * Views.
      */
 
-    private DataBaseHelper.NoteCursor mCursor;
-    private NoteCursorAdapter mCursorAdapter;
+//    private DataBaseHelper.NoteCursor mCursor;
+//    private NoteCursorAdapter mCursorAdapter;
+    private RealmResults<Note> mRealmResults;
+    private NoteRealmAdapter mRealmAdapter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -105,7 +110,8 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCursor.close();
+        //mCursor.close();
+        mRealmResults.clear();
     }
 
     @Override
@@ -113,8 +119,9 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mCursor.moveToPosition(position+1);
-            mListener.onNoteSelected(mCursor.getNote());
+            Note note = mRealmResults.get(position);
+            Log.d("OnClick", "pos+1: "+ position+ ", note: "+note.getTitle()+", instanceof: "+ note.getClass()+", getId "+note.getId());
+            mListener.onNoteSelected(note, note.getId());
 
         }
     }
@@ -132,9 +139,11 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         }
     }
     public void updateUI(){
-        mCursor = NoteLab.getInstance(getActivity().getApplicationContext()).getCursor();
-        mCursorAdapter = new NoteCursorAdapter(getActivity(),mCursor);
-        (mListView).setAdapter(mCursorAdapter);
+//        mCursor = NoteLab.getInstance(getActivity().getApplicationContext()).getCursor();
+//        mCursorAdapter = new NoteCursorAdapter(getActivity(),mCursor);
+        mRealmResults = NoteLab.getInstance(getActivity().getApplicationContext()).getNotes();
+        mRealmAdapter = new NoteRealmAdapter(getActivity(), mRealmResults, true);
+        (mListView).setAdapter(mRealmAdapter);
         if(mListViewState!=null)
             mListView.onRestoreInstanceState(mListViewState);
     }
@@ -158,7 +167,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      */
     public interface OnFragmentInteractionListener {
 
-        public void onNoteSelected(Note note);
+        public void onNoteSelected(Note note, int id);
     }
 
     private class NoteCursorAdapter extends CursorAdapter {
@@ -183,12 +192,27 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
 
         }
 
-//        @Override
-//        public Note getItem(int position) {
-//            Object o = super.getItem(position);
-//            Note note = (Note) o;
-//            return note;
-//        }
+    }
+
+    /**
+     * ListView adapter for RealmResults
+     */
+    private class NoteRealmAdapter extends RealmBaseAdapter<Note> {
+
+        public NoteRealmAdapter(Context context, RealmResults<Note> realmResults, boolean automaticUpdate) {
+            super(context, realmResults, automaticUpdate);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView title;
+            if (convertView == null) {
+                convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            }
+            title = (TextView) convertView.findViewById(android.R.id.text1);
+            title.setText(realmResults.get(position).getTitle());
+            return convertView;
+        }
     }
 
 }

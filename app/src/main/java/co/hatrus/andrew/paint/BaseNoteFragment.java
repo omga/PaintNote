@@ -15,17 +15,18 @@ import co.hatrus.andrew.paint.model.Note;
 public abstract class BaseNoteFragment extends Fragment {
 
     public static final String EXTRA_NOTE_ID = "NoteFragment.NoteId";
-    protected Note mNote;
-    protected NoteLab mNoteLab;
-    private int id;
+    public static final String EXTRA_NOTE_TYPE = "NoteFragment.NoteType";
 
-    public void setNoteTitle(String title){
-        mNote.setTitle(title);
-    }
+    protected NoteLab mNoteLab;
+    protected int id;
+    protected int type;
+
+
     public abstract void setNoteData();
-    protected BaseNoteFragment putArgs( int id){
+    protected BaseNoteFragment putArgs(int id, int type){
         Bundle args = new Bundle();
         args.putInt(EXTRA_NOTE_ID,id);
+        args.putInt(EXTRA_NOTE_TYPE,type);
         this.setArguments(args);
         return this;
     }
@@ -34,9 +35,12 @@ public abstract class BaseNoteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         id = getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_ID,-1);
+        type = getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_ID,1);
         mNoteLab =  NoteLab.getInstance(getActivity());
         if(id!=-1)
-            mNote = mNoteLab.getNote(id);
+            setNote();
+        else
+            newNote();
         setHasOptionsMenu(true);
 
     }
@@ -46,10 +50,20 @@ public abstract class BaseNoteFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         setNoteData();
         if(id!=-1)
-            mNoteLab.updateNote(mNote,id);
+            updateNote(id);
         else
-            mNoteLab.addNote(mNote);
+            saveNote();
         Log.d("BaseNoteFragment","onOptionsItemSelected");
         return true;
     }
+
+    protected abstract void setNote();
+
+    protected abstract void newNote();
+
+    protected abstract void updateNote(int id);
+
+    protected abstract void saveNote();
+
+    public abstract void setNoteTitle(String title);
 }

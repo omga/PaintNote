@@ -40,4 +40,29 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     public void setNoteData() {
 
     }
+
+    @Override
+    protected void setNote() {
+
+    }
+
+    @Override
+    protected void newNote() {
+
+    }
+
+    @Override
+    protected void updateNote(int id) {
+
+    }
+
+    @Override
+    protected void saveNote() {
+
+    }
+
+    @Override
+    public void setNoteTitle(String title) {
+
+    }
 }
