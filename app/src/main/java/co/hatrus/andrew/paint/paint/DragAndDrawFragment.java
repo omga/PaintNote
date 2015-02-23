@@ -52,7 +52,7 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     }
 
     @Override
-    protected void updateNote(int id) {
+    protected void updateNote() {
 
     }
 

@@ -54,7 +54,7 @@ public class NoteListActivity extends MainFragmentActivity
     }
 
     @Override
-    public void onNoteSelected(Note note,int id) {
+    public void onNoteSelected(Note note,String id) {
 
         Toast.makeText(this,"clicked: "+id,Toast.LENGTH_SHORT).show();
         Intent intent;// = new Intent(NoteListActivity.this,TextNoteActivity.class);

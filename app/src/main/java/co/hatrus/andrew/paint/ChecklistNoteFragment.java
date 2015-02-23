@@ -3,6 +3,7 @@ package co.hatrus.andrew.paint;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.UUID;
+
 import co.hatrus.andrew.paint.model.CheckList;
 import co.hatrus.andrew.paint.model.ListNote;
+import co.hatrus.andrew.paint.model.Note;
 
 
 /**
@@ -35,8 +39,14 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListNote.getNoteItems().add(new CheckList("new checklist item"));
+                mNoteLab.getRealm().beginTransaction();
+                CheckList checkListItem = mNoteLab.getRealm().createObject(CheckList.class);
+                checkListItem.setId(UUID.randomUUID().toString());
+                checkListItem.setItem("new shit item");
+                mListNote.getNoteItems().add(checkListItem);
+                mNoteLab.getRealm().commitTransaction();
                 mAdapter.notifyDataSetChanged();
+
             }
         });
         checklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,27 +68,39 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     @Override
     protected void setNote() {
         mListNote = mNoteLab.getListNoteData(id);
+        Log.e("sSSSSSSSSSSssssss", mListNote.getId());
+        Log.e("sSSSSSSSSSSaaa","txt: "+mListNote.getNoteItems().size());
+        Log.e("sSSSSSSSSSSuuu","ttl: "+mListNote.getNote().getTitle());
     }
 
     @Override
     protected void newNote() {
         mListNote = new ListNote();
+//        Note n = new Note();
+//        n.setType(Note.NOTE_TYPE_LIST);
+//        mListNote.setNote(n);
+        Log.e("sSSSSSSSSSSssssss",mListNote.getId());
+        Log.e("sSSSSSSSSSSssssss",mListNote.getNote().getId());
     }
 
     @Override
-    protected void updateNote(int id) {
-        setNoteData();
-        mNoteLab.updateListNote(mListNote,id);
+    protected void updateNote() {
     }
 
     @Override
     protected void saveNote() {
-        setNoteData();
-        mNoteLab.addListNote(mListNote);
+
+        mNoteLab.updateListNote(mListNote,2);
+
     }
 
     @Override
     public void setNoteTitle(String title) {
-
+        mNoteLab.getRealm().beginTransaction();
+        mListNote.getNote().setTitle(title);
+        Log.e("sSSSSSSSSSSssssss", mListNote.getId());
+        Log.e("sSSSSSSSSSSaaa","txt: "+mListNote.getNoteItems());
+        Log.e("sSSSSSSSSSSuuu","ttl: "+mListNote.getNote().getTitle());
+        mNoteLab.getRealm().commitTransaction();
     }
 }

@@ -3,20 +3,25 @@ package co.hatrus.andrew.paint.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.UUID;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by user on 11.02.15.
  */
+@RealmClass
 public class TextNote extends RealmObject {
 
     @PrimaryKey
-    private int id;
+    private String id;
     private String text;
     private Note note;
     public TextNote() {
         super();
+        id = UUID.randomUUID().toString();
         note = new Note();
         this.note.setType(1);
     }
@@ -29,11 +34,11 @@ public class TextNote extends RealmObject {
         this.text = text;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         id = id;
     }
 

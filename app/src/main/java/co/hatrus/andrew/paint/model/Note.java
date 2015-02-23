@@ -1,14 +1,17 @@
 package co.hatrus.andrew.paint.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by user on 11.02.15.
  */
+@RealmClass
 public class Note extends RealmObject {
     @Ignore
     public static final int NOTE_TYPE_TEXT = 1;
@@ -17,12 +20,13 @@ public class Note extends RealmObject {
     @Ignore
     public static final int NOTE_TYPE_PAINT = 3;
     @PrimaryKey
-    private int id;
+    private String id;
     private String title;
     private Date timeCreated;
     private int type;
 
     public Note() {
+        id = UUID.randomUUID().toString();
         timeCreated = new Date();
     }
     public String getTitle() {
@@ -41,11 +45,11 @@ public class Note extends RealmObject {
         this.timeCreated = date;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String UUID) {
         id = id;
     }
 

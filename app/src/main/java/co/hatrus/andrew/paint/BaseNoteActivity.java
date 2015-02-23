@@ -22,11 +22,11 @@ public abstract class BaseNoteActivity extends MainFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_note);
         mTitle = (EditText) findViewById(R.id.note_title);
-        int note_id = getIntent().getIntExtra(NoteListActivity.NOTE_ID_EXTRA, -1);
+        String note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);
         String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
         int note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
         mNoteLab = NoteLab.getInstance(getApplicationContext());
-        if(note_id!=-1) {
+        if(note_id!=null) {
             setNoteTitle(noteTitle);
         }
         if (savedInstanceState == null) {

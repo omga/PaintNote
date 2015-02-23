@@ -111,7 +111,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
     public void onDestroy() {
         super.onDestroy();
         //mCursor.close();
-        mRealmResults.clear();
+        //mRealmResults.clear();
     }
 
     @Override
@@ -167,7 +167,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      */
     public interface OnFragmentInteractionListener {
 
-        public void onNoteSelected(Note note, int id);
+        public void onNoteSelected(Note note, String id);
     }
 
     private class NoteCursorAdapter extends CursorAdapter {

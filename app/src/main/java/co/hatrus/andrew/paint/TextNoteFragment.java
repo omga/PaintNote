@@ -3,6 +3,7 @@ package co.hatrus.andrew.paint;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,47 +36,52 @@ public class TextNoteFragment extends BaseNoteFragment {
 
         return v;
     }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mTextNote.setText(mNoteText.getText().toString());
-//    }
+
 
     @Override
     public void setNoteData() {
+        mNoteLab.getRealm().beginTransaction();
         mTextNote.setText(mNoteText.getText().toString().trim());
+        mNoteLab.getRealm().commitTransaction();
     }
 
     @Override
     protected void setNote() {
         mTextNote = mNoteLab.getTextNoteData(id);
+        Log.e("sSSSSSSSSSSssssss",mTextNote.getId());
+        Log.e("sSSSSSSSSSSaaa","txt: "+mTextNote.getText());
+        Log.e("sSSSSSSSSSSuuu","ttl: "+mTextNote.getNote().getTitle());
     }
 
     @Override
     protected void newNote() {
-       // mTextNote = mNoteLab.createTextNote();
-        mRealm = mNoteLab.getRealm();
-        mRealm.beginTransaction();
-        mTextNote = mRealm.createObject(TextNote.class);
+
+        mTextNote = new TextNote();
+        Note n = new Note();
+        n.setType(Note.NOTE_TYPE_TEXT);
+        mTextNote.setNote(n);
+        Log.e("sSSSSSSSSSSssssss",mTextNote.getId());
+        Log.e("sSSSSSSSSSSssssss",n.getId());
 
     }
 
     @Override
-    protected void updateNote(int id) {
+    protected void updateNote() {
+
         setNoteData();
-        mNoteLab.updateTextNote(mTextNote,id);
+
     }
 
     @Override
     protected void saveNote() {
-//        setNoteData();
-//        mNoteLab.addTextNote(mTextNote);
-        mRealm.commitTransaction();
+        mNoteLab.updateTextNote(mTextNote,1);
     }
 
     @Override
     public void setNoteTitle(String title) {
-//        mTextNote.getNote().setTitle(title);
+        mNoteLab.getRealm().beginTransaction();
+        mTextNote.getNote().setTitle(title);
+        mTextNote.setText(mNoteText.getText().toString().trim());
+        mNoteLab.getRealm().commitTransaction();
     }
 }

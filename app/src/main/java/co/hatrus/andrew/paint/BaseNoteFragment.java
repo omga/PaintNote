@@ -18,14 +18,14 @@ public abstract class BaseNoteFragment extends Fragment {
     public static final String EXTRA_NOTE_TYPE = "NoteFragment.NoteType";
 
     protected NoteLab mNoteLab;
-    protected int id;
+    protected String id;
     protected int type;
 
 
     public abstract void setNoteData();
-    protected BaseNoteFragment putArgs(int id, int type){
+    protected BaseNoteFragment putArgs(String id, int type){
         Bundle args = new Bundle();
-        args.putInt(EXTRA_NOTE_ID,id);
+        args.putString(EXTRA_NOTE_ID,id);
         args.putInt(EXTRA_NOTE_TYPE,type);
         this.setArguments(args);
         return this;
@@ -34,10 +34,10 @@ public abstract class BaseNoteFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        id = getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_ID,-1);
-        type = getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_ID,1);
+        id = getArguments().getString(BaseNoteFragment.EXTRA_NOTE_ID);
+        type = getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_TYPE,1);
         mNoteLab =  NoteLab.getInstance(getActivity());
-        if(id!=-1)
+        if(id!=null)
             setNote();
         else
             newNote();
@@ -49,11 +49,12 @@ public abstract class BaseNoteFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         setNoteData();
-        if(id!=-1)
-            updateNote(id);
+        if(id!=null)
+            updateNote();
         else
             saveNote();
-        Log.d("BaseNoteFragment","onOptionsItemSelected");
+        Log.d("BaseNoteFragment","onOptionsItemSelected do nothing but just finish");
+        getActivity().finish();
         return true;
     }
 
@@ -61,7 +62,7 @@ public abstract class BaseNoteFragment extends Fragment {
 
     protected abstract void newNote();
 
-    protected abstract void updateNote(int id);
+    protected abstract void updateNote();
 
     protected abstract void saveNote();
 

@@ -115,11 +115,11 @@ public class NoteLab {
 //    }
 //
 
-    public TextNote getTextNoteData(int id){
+    public TextNote getTextNoteData(String id){
         TextNote result = mRealm.where(TextNote.class).equalTo("note.id",id).findFirst();
         return result;
     }
-    public ListNote getListNoteData(int id){
+    public ListNote getListNoteData(String id){
         ListNote result = mRealm.where(ListNote.class).equalTo("note.id",id).findFirst();
         return result;
     }

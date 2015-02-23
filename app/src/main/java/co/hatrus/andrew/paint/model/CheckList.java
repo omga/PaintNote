@@ -1,30 +1,36 @@
 package co.hatrus.andrew.paint.model;
 
+import java.util.UUID;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by user on 19.02.15.
  */
+@RealmClass
 public class CheckList extends RealmObject {
     @PrimaryKey
-    private int id;
+    private String id;
     private String item;
     private boolean isChecked=false;
 
     public CheckList() {
+        id = UUID.randomUUID().toString();
     }
 
     public CheckList(String item) {
         super();
+        id = UUID.randomUUID().toString();
         this.item = item;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
