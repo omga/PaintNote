@@ -5,12 +5,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import co.hatrus.andrew.paint.model.Box;
@@ -38,6 +43,47 @@ public class BoxDrawingView extends View {
         mBoxPaint.setStrokeWidth(8);
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setColor(0xfff8efe0);
+        //loadPaintData();
+    }
+
+    private void savePaintData(){
+        Parcel p = Parcel.obtain();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("currentBox", mCurrentBox);
+        bundle.putParcelableArrayList("boxes",mBoxList);
+        p.writeParcelable(bundle,0);
+        FileOutputStream fos = null;
+        try {
+            fos = getContext().openFileOutput("testfoleparcelable", Context.MODE_PRIVATE);
+            fos.write(p.marshall());
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void loadPaintData(){
+        Parcel parcel = Parcel.obtain();
+        try {
+            FileInputStream fis = getContext().openFileInput("testfoleparcelable");
+            byte[] array = new byte[(int) fis.getChannel().size()];
+            fis.read(array, 0, array.length);
+            fis.close();
+            parcel.unmarshall(array, 0, array.length);
+            parcel.setDataPosition(0);
+            Bundle out = parcel.readParcelable(ClassLoader.getSystemClassLoader());//readBundle();
+            out.putAll(out);
+            onRestoreInstanceState(out);
+        } catch (FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {
+            parcel.recycle();
+        }
     }
 
     @Override
@@ -68,6 +114,7 @@ public class BoxDrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawPaint(mBackgroundPaint);
+        Log.d("onDraw","lines size: " + mBoxList.size());
         for(Box box:mBoxList) {
             //drawMyRect(canvas,box);
             drawLikeBrush(canvas, box);
@@ -79,7 +126,7 @@ public class BoxDrawingView extends View {
         if(box.getCurrent()==box.getOrigin())
             canvas.drawPoint(box.getCurrent().x,box.getCurrent().y,mBackgroundPaint);
         else
-        canvas.drawLine(box.getCurrent().x,box.getCurrent().y,box.getOrigin().x,box.getOrigin().y,mBoxPaint);
+        canvas.drawLine(box.getCurrent().x, box.getCurrent().y, box.getOrigin().x, box.getOrigin().y, mBoxPaint);
     }
     private void drawMyRect(Canvas canvas,Box box){
         float left = Math.min(box.getOrigin().x, box.getCurrent().x);
@@ -126,5 +173,12 @@ public class BoxDrawingView extends View {
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Log.e("PAINTVIEW","ONDETACH");
+        savePaintData();
     }
 }
