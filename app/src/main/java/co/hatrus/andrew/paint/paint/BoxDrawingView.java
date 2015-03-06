@@ -1,6 +1,8 @@
 package co.hatrus.andrew.paint.paint;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -31,6 +34,7 @@ public class BoxDrawingView extends View {
     private ArrayList<Box> mBoxList = new ArrayList<>(15);
     private Paint mBoxPaint;
     private Paint mBackgroundPaint;
+    Bitmap mLoadedBitmap;
     public BoxDrawingView(Context context) {
         super(context);
     }
@@ -43,47 +47,52 @@ public class BoxDrawingView extends View {
         mBoxPaint.setStrokeWidth(8);
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setColor(0xfff8efe0);
-        //loadPaintData();
+        loadPaintData();
+
     }
 
+//    @Override
+//    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+//        super.onLayout(changed, left, top, right, bottom);
+//        Log.e("savePaintData","gg");
+//        loadPaintData();
+//    }
+
     private void savePaintData(){
-        Parcel p = Parcel.obtain();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("currentBox", mCurrentBox);
-        bundle.putParcelableArrayList("boxes",mBoxList);
-        p.writeParcelable(bundle,0);
-        FileOutputStream fos = null;
+        Bitmap toDisk = null;
         try {
-            fos = getContext().openFileOutput("testfoleparcelable", Context.MODE_PRIVATE);
-            fos.write(p.marshall());
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+
+            toDisk = Bitmap.createBitmap(getWidth(),getHeight(),Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(toDisk);
+            canvas.drawPaint(mBackgroundPaint);
+            Log.d("onDraw","lines size: " + mBoxList.size());
+            for(Box box:mBoxList) {
+                //drawMyRect(canvas,box);
+                drawLikeBrush(canvas, box);
+
+            }
+            Log.e("savePaintData","bitmap sizes: "+getHeight() +", "+getWidth()+"canvas: "+ canvas.getHeight()+", "+ canvas.getWidth());
+            File file = new File(getContext().getExternalFilesDir("painta")+"/painta.jpg");
+            Log.e("savePaintData",file.getAbsolutePath());
+            toDisk.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+
+        } catch (Exception ex) {
+            Log.e("SavePaintData", ex.getMessage());
         }
 
     }
     private void loadPaintData(){
-        Parcel parcel = Parcel.obtain();
-        try {
-            FileInputStream fis = getContext().openFileInput("testfoleparcelable");
-            byte[] array = new byte[(int) fis.getChannel().size()];
-            fis.read(array, 0, array.length);
-            fis.close();
-            parcel.unmarshall(array, 0, array.length);
-            parcel.setDataPosition(0);
-            Bundle out = parcel.readParcelable(ClassLoader.getSystemClassLoader());//readBundle();
-            out.putAll(out);
-            onRestoreInstanceState(out);
-        } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        } finally {
-            parcel.recycle();
+        File file = new File(getContext().getExternalFilesDir("painta")+"/painta.jpg");
+        if(file.exists()) {
+            mLoadedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//            Log.e("savePaintData","path"+file.getAbsolutePath());
+//            Bitmap mutableBitmap = mLoadedBitmap.copy(Bitmap.Config.ARGB_8888, true);
+//            Canvas canvas = new Canvas(mutableBitmap);
+//            Log.e("savePaintData","bitmap sizes: "+getHeight() +", "+getWidth()+"canvas: "+ canvas.getHeight()+", "+ canvas.getWidth());
+//            canvas.drawBitmap(mutableBitmap,0,0,mBackgroundPaint);
         }
+
     }
 
     @Override
@@ -114,12 +123,14 @@ public class BoxDrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawPaint(mBackgroundPaint);
+        canvas.drawBitmap(mLoadedBitmap,0,0,mBackgroundPaint);
         Log.d("onDraw","lines size: " + mBoxList.size());
         for(Box box:mBoxList) {
             //drawMyRect(canvas,box);
             drawLikeBrush(canvas, box);
 
         }
+        Log.e("onDraw","bitmap sizes: "+getHeight() +", "+getWidth()+"canvas: "+ canvas.getHeight()+", "+ canvas.getWidth());
     }
     private void drawLikeBrush(Canvas canvas, Box box){
         //canvas.drawCircle(box.getCurrent().x,box.getCurrent().y,DRAW_RADIUS,mBoxPaint);
@@ -178,7 +189,7 @@ public class BoxDrawingView extends View {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Log.e("PAINTVIEW","ONDETACH");
+        Log.d("PAINTVIEW","ONDETACH");
         savePaintData();
     }
 }
