@@ -8,14 +8,27 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import co.hatrus.andrew.paint.model.Note;
+import co.hatrus.andrew.paint.paint.DragAndDrawFragment;
 
 
-public abstract class BaseNoteActivity extends MainFragmentActivity {
+public class BaseNoteActivity extends MainFragmentActivity {
     EditText mTitle;
     NoteLab mNoteLab;
+    int note_type;
 
     @Override
-    protected abstract BaseNoteFragment createFragment();
+    protected BaseNoteFragment createFragment() {
+        switch (note_type) {
+            case Note.NOTE_TYPE_TEXT:
+                return new TextNoteFragment();
+            case Note.NOTE_TYPE_LIST:
+                return new ChecklistNoteFragment();
+            case Note.NOTE_TYPE_PAINT:
+                return new DragAndDrawFragment();
+            default:
+                return new TextNoteFragment();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +37,7 @@ public abstract class BaseNoteActivity extends MainFragmentActivity {
         mTitle = (EditText) findViewById(R.id.note_title);
         String note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);
         String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
-        int note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
+        note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
         mNoteLab = NoteLab.getInstance(getApplicationContext());
         if(note_id!=null) {
             setNoteTitle(noteTitle);

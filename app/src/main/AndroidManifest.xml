@@ -18,15 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".paint.DragAndDrawActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name=".TextNoteActivity"
-            android:label="@string/title_activity_base_note" >
-        </activity>
-        <activity android:name=".ChecklistNoteActivity"/>
+        <activity android:name=".BaseNoteActivity"
+                  android:label="Note"/>
+
     </application>
 
 </manifest>

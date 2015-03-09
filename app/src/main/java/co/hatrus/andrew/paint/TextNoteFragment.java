@@ -33,7 +33,6 @@ public class TextNoteFragment extends BaseNoteFragment {
         mNoteText = (EditText) v.findViewById(R.id.note_text);
         if(mTextNote!=null)
             mNoteText.setText(mTextNote.getText());
-
         return v;
     }
 
@@ -48,28 +47,21 @@ public class TextNoteFragment extends BaseNoteFragment {
     @Override
     protected void getNote() {
         mTextNote = mNoteLab.getTextNoteData(id);
-        Log.e("sSSSSSSSSSSssssss",mTextNote.getId());
-        Log.e("sSSSSSSSSSSaaa","txt: "+mTextNote.getText());
-        Log.e("sSSSSSSSSSSuuu","ttl: "+mTextNote.getNote().getTitle());
+
     }
 
     @Override
     protected void newNote() {
-
         mTextNote = new TextNote();
         Note n = new Note();
         n.setType(Note.NOTE_TYPE_TEXT);
         mTextNote.setNote(n);
-        Log.e("sSSSSSSSSSSssssss",mTextNote.getId());
-        Log.e("sSSSSSSSSSSssssss",n.getId());
 
     }
 
     @Override
     protected void updateNote() {
-
         setNoteData();
-
     }
 
     @Override

@@ -10,19 +10,12 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import co.hatrus.andrew.paint.model.ListNote;
 import co.hatrus.andrew.paint.model.Note;
-import co.hatrus.andrew.paint.model.TextNote;
-import co.hatrus.andrew.paint.paint.DragAndDrawActivity;
+
 
 
 public class NoteListActivity extends MainFragmentActivity
         implements NoteListFragment.OnFragmentInteractionListener{
-
 
     public static final String NOTE_ID_EXTRA = "note_id";
     public static final String NOTE_TYPE_EXTRA = "note_type";
@@ -57,13 +50,13 @@ public class NoteListActivity extends MainFragmentActivity
     public void onNoteSelected(Note note,String id) {
 
         Toast.makeText(this,"clicked: "+id,Toast.LENGTH_SHORT).show();
-        Intent intent;// = new Intent(NoteListActivity.this,TextNoteActivity.class);
-        if(note.getType() == Note.NOTE_TYPE_LIST)
-            intent = new Intent(NoteListActivity.this,ChecklistNoteActivity.class);
-        else if (note.getType() == Note.NOTE_TYPE_PAINT)
-            intent = new Intent(NoteListActivity.this,DragAndDrawActivity.class);
-        else
-            intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
+        Intent intent = new Intent(NoteListActivity.this,BaseNoteActivity.class);
+//        if(note.getType() == Note.NOTE_TYPE_LIST)
+//            intent = new Intent(NoteListActivity.this,ChecklistNoteActivity.class);
+//        else if (note.getType() == Note.NOTE_TYPE_PAINT)
+//            intent = new Intent(NoteListActivity.this,DragAndDrawActivity.class);
+//        else
+//            intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
         intent.putExtra(NOTE_ID_EXTRA, id);
         intent.putExtra(NOTE_TITLE_EXTRA, note.getTitle());
         intent.putExtra(NOTE_TYPE_EXTRA, note.getType());
@@ -106,19 +99,19 @@ public class NoteListActivity extends MainFragmentActivity
                     public void onClick(DialogInterface dialog, int which) {
                         // The 'which' argument contains the index position
                         // of the selected item
-                        Intent intent;
+                        Intent intent = new Intent(NoteListActivity.this,BaseNoteActivity.class);
                         switch(which){
                             case 0:
-                                intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
+                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
                                 break;
                             case 1:
-                                intent = new Intent(NoteListActivity.this,ChecklistNoteActivity.class);
+                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_LIST);
                                 break;
                             case 2:
-                                intent = new Intent(NoteListActivity.this,DragAndDrawActivity.class);
+                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_PAINT);
                                 break;
                             default:
-                                intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
+                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
                         }
                         startActivity(intent);
                     }
