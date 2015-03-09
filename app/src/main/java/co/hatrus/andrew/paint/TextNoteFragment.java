@@ -46,7 +46,7 @@ public class TextNoteFragment extends BaseNoteFragment {
     }
 
     @Override
-    protected void setNote() {
+    protected void getNote() {
         mTextNote = mNoteLab.getTextNoteData(id);
         Log.e("sSSSSSSSSSSssssss",mTextNote.getId());
         Log.e("sSSSSSSSSSSaaa","txt: "+mTextNote.getText());

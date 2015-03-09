@@ -10,6 +10,7 @@ import java.util.List;
 import co.hatrus.andrew.paint.db.DataBaseHelper;
 import co.hatrus.andrew.paint.model.ListNote;
 import co.hatrus.andrew.paint.model.Note;
+import co.hatrus.andrew.paint.model.PaintNote;
 import co.hatrus.andrew.paint.model.TextNote;
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -102,6 +103,12 @@ public class NoteLab {
         mRealm.commitTransaction();
     }
 
+    public void updatePaintNote(PaintNote note) {
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(note);
+        mRealm.commitTransaction();
+    }
+
 //    public Note getNote(int id){
 //        DataBaseHelper.NoteCursor noteCursor = mDBHelper.queryNote(id);
 //        Note note=null;
@@ -115,13 +122,18 @@ public class NoteLab {
 //    }
 //
 
-    public TextNote getTextNoteData(String id){
+    public TextNote getTextNoteData(String id) {
         TextNote result = mRealm.where(TextNote.class).equalTo("note.id",id).findFirst();
         return result;
     }
-    public ListNote getListNoteData(String id){
+
+    public ListNote getListNoteData(String id) {
         ListNote result = mRealm.where(ListNote.class).equalTo("note.id",id).findFirst();
         return result;
+    }
+
+    public PaintNote getPaintNoteData(String id) {
+        return mRealm.where(PaintNote.class).equalTo("note.id",id).findFirst();
     }
 
 

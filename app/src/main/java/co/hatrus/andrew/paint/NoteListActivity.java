@@ -61,7 +61,7 @@ public class NoteListActivity extends MainFragmentActivity
         if(note.getType() == Note.NOTE_TYPE_LIST)
             intent = new Intent(NoteListActivity.this,ChecklistNoteActivity.class);
         else if (note.getType() == Note.NOTE_TYPE_PAINT)
-            intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
+            intent = new Intent(NoteListActivity.this,DragAndDrawActivity.class);
         else
             intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
         intent.putExtra(NOTE_ID_EXTRA, id);

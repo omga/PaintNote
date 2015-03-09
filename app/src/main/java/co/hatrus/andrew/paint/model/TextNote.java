@@ -23,7 +23,7 @@ public class TextNote extends RealmObject {
         super();
         id = UUID.randomUUID().toString();
         note = new Note();
-        this.note.setType(1);
+        this.note.setType(Note.NOTE_TYPE_TEXT);
     }
 
     public String getText() {

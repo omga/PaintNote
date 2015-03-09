@@ -23,7 +23,7 @@ public class ListNote extends RealmObject {
         id = UUID.randomUUID().toString();
         noteItems = new RealmList<CheckList>();
         note = new Note();
-        this.note.setType(2);
+        this.note.setType(Note.NOTE_TYPE_LIST);
     }
 
     public RealmList<CheckList> getNoteItems() {

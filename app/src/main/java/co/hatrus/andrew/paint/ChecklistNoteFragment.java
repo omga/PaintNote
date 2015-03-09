@@ -66,7 +66,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     }
 
     @Override
-    protected void setNote() {
+    protected void getNote() {
         mListNote = mNoteLab.getListNoteData(id);
         Log.e("sSSSSSSSSSSssssss", mListNote.getId());
         Log.e("sSSSSSSSSSSaaa","txt: "+mListNote.getNoteItems().size());
@@ -78,7 +78,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         mListNote = new ListNote();
 //        Note n = new Note();
 //        n.setType(Note.NOTE_TYPE_LIST);
-//        mListNote.setNote(n);
+//        mListNote.getNote(n);
         Log.e("sSSSSSSSSSSssssss",mListNote.getId());
         Log.e("sSSSSSSSSSSssssss",mListNote.getNote().getId());
     }

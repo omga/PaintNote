@@ -34,6 +34,7 @@ public class BoxDrawingView extends View {
     private ArrayList<Box> mBoxList = new ArrayList<>(15);
     private Paint mBoxPaint;
     private Paint mBackgroundPaint;
+    private String mFileName = "painta.jpg";
     Bitmap mLoadedBitmap;
     public BoxDrawingView(Context context) {
         super(context);
@@ -58,32 +59,45 @@ public class BoxDrawingView extends View {
 //        loadPaintData();
 //    }
 
-    private void savePaintData(){
-        Bitmap toDisk = null;
+    public void setFileNameForSaving(String fname) {
+        mFileName = fname;
+        loadPaintData();
+    }
+
+    public void savePaintData(){
+        Bitmap mutableBitmap = null;
+        Canvas canvas = null;
         try {
 
+            if(mLoadedBitmap!=null) {
+                mutableBitmap = mLoadedBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                canvas= new Canvas(mutableBitmap);
+            }
+            else {
+                mutableBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+                canvas = new Canvas(mutableBitmap);
+                canvas.drawPaint(mBackgroundPaint);
+            }
 
-            toDisk = Bitmap.createBitmap(getWidth(),getHeight(),Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(toDisk);
-            canvas.drawPaint(mBackgroundPaint);
-            Log.d("onDraw","lines size: " + mBoxList.size());
+
+            Log.e("onDraw","lines size: " + mBoxList.size());
             for(Box box:mBoxList) {
                 //drawMyRect(canvas,box);
                 drawLikeBrush(canvas, box);
 
             }
             Log.e("savePaintData","bitmap sizes: "+getHeight() +", "+getWidth()+"canvas: "+ canvas.getHeight()+", "+ canvas.getWidth());
-            File file = new File(getContext().getExternalFilesDir("painta")+"/painta.jpg");
+            File file = new File(getContext().getExternalFilesDir("painta")+"/"+mFileName);
             Log.e("savePaintData",file.getAbsolutePath());
-            toDisk.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+            mutableBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
 
-        } catch (Exception ex) {
-            Log.e("SavePaintData", ex.getMessage());
+        } catch (Exception e) {
+            Log.e("SavePaintData", "message: " + e.getMessage());
         }
 
     }
-    private void loadPaintData(){
-        File file = new File(getContext().getExternalFilesDir("painta")+"/painta.jpg");
+    public void loadPaintData(){
+        File file = new File(getContext().getExternalFilesDir("painta")+"/"+mFileName);
         if(file.exists()) {
             mLoadedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 //            Log.e("savePaintData","path"+file.getAbsolutePath());
@@ -123,7 +137,8 @@ public class BoxDrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawPaint(mBackgroundPaint);
-        canvas.drawBitmap(mLoadedBitmap,0,0,mBackgroundPaint);
+        if( mLoadedBitmap!=null )
+            canvas.drawBitmap(mLoadedBitmap,0,0,mBackgroundPaint);
         Log.d("onDraw","lines size: " + mBoxList.size());
         for(Box box:mBoxList) {
             //drawMyRect(canvas,box);
@@ -190,6 +205,6 @@ public class BoxDrawingView extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.d("PAINTVIEW","ONDETACH");
-        savePaintData();
+        //savePaintData();
     }
 }

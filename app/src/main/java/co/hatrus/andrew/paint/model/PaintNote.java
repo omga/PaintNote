@@ -21,6 +21,8 @@ public class PaintNote extends RealmObject {
 
     public PaintNote() {
         id = UUID.randomUUID().toString();
+        note = new Note();
+        this.note.setType(Note.NOTE_TYPE_PAINT);
     }
 
     public String getId() {

@@ -3,11 +3,7 @@ package co.hatrus.andrew.paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import co.hatrus.andrew.paint.model.Note;
 
 /**
  * Created by user on 12.02.15.
@@ -22,7 +18,7 @@ public abstract class BaseNoteFragment extends Fragment {
     protected int type;
 
 
-    public abstract void setNoteData();
+
     protected BaseNoteFragment putArgs(String id, int type){
         Bundle args = new Bundle();
         args.putString(EXTRA_NOTE_ID,id);
@@ -38,7 +34,7 @@ public abstract class BaseNoteFragment extends Fragment {
         type = getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_TYPE,1);
         mNoteLab =  NoteLab.getInstance(getActivity());
         if(id!=null)
-            setNote();
+            getNote();
         else
             newNote();
         setHasOptionsMenu(true);
@@ -58,7 +54,9 @@ public abstract class BaseNoteFragment extends Fragment {
         return true;
     }
 
-    protected abstract void setNote();
+    public abstract void setNoteData();
+
+    protected abstract void getNote();
 
     protected abstract void newNote();
 
