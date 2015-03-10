@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fab_main">#FF3F51B5</color>
+    <color name="fab_pressed">#ffcbcc97</color>
+
+    <color name="white_15_percent">#26ffffff</color>
+    <color name="white_30_percent">#4Dffffff</color>
+
+    <color name="divider_color">@color/main_color_500</color>
+
+    <color name="main_color_500">@color/material_yellow_500</color>
+    <color name="main_color_50">@color/material_yellow_50</color>
+    <color name="main_color_100">@color/material_yellow_100</color>
+    <color name="main_color_200">@color/material_yellow_200</color>
+    <color name="main_color_300">@color/material_yellow_300</color>
+    <color name="main_color_400">@color/material_yellow_400</color>
+    <color name="main_color_600">@color/material_yellow_600</color>
+    <color name="main_color_700">@color/material_yellow_700</color>
+    <color name="main_color_800">@color/material_yellow_800</color>
+    <color name="main_color_900">@color/material_yellow_900</color>
+    <color name="main_color_A100">@color/material_light_blue_A100</color>
+    <color name="main_color_A200">@color/material_light_blue_A200</color>
+    <color name="main_color_A400">@color/material_light_blue_A400</color>
+
+</resources>

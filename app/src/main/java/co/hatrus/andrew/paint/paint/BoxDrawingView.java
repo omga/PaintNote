@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import co.hatrus.andrew.paint.R;
 import co.hatrus.andrew.paint.model.Box;
 
 /**
@@ -43,7 +44,7 @@ public class BoxDrawingView extends View {
     public BoxDrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mBoxPaint = new Paint();
-        mBoxPaint.setColor(0xbbaabbee);
+        mBoxPaint.setColor(getResources().getColor(R.color.fab_main));
         mBoxPaint.setStyle(Paint.Style.STROKE);
         mBoxPaint.setStrokeWidth(8);
         mBackgroundPaint = new Paint();
@@ -77,6 +78,7 @@ public class BoxDrawingView extends View {
                 mutableBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
                 canvas = new Canvas(mutableBitmap);
                 canvas.drawPaint(mBackgroundPaint);
+
             }
 
 
@@ -94,6 +96,8 @@ public class BoxDrawingView extends View {
         } catch (Exception e) {
             Log.e("SavePaintData", "message: " + e.getMessage());
         }
+        mLoadedBitmap = mutableBitmap;
+        mBoxList.clear();
 
     }
     public void loadPaintData(){
@@ -206,5 +210,9 @@ public class BoxDrawingView extends View {
         super.onDetachedFromWindow();
         Log.d("PAINTVIEW","ONDETACH");
         //savePaintData();
+    }
+    public void setLineColor(int color){
+        savePaintData();
+        mBoxPaint.setColor(color);
     }
 }

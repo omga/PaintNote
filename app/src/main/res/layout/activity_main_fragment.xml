@@ -2,4 +2,5 @@
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context="co.hatrus.andrew.paint.MainFragmentActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame"
+    android:background="@color/material_yellow_100"/>

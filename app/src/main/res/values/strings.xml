@@ -15,5 +15,8 @@
     <string name="dialog_listnote_item">List</string>
     <string name="dialog_paintnote_item">Paint</string>
     <string name="checklist_add_text">Add</string>
+    <string name="color_chooser">Choose The Color</string>
+    <string name="signalStrength">signal strength</string>
+    <string name="excellent">excelent</string>
 
 </resources>
