@@ -207,9 +207,9 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView title;
             if (convertView == null) {
-                convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+                convertView = inflater.inflate(R.layout.item_notelist, parent, false);
             }
-            title = (TextView) convertView.findViewById(android.R.id.text1);
+            title = (TextView) convertView.findViewById(R.id.title_listnote);
             title.setText(realmResults.get(position).getTitle());
             return convertView;
         }

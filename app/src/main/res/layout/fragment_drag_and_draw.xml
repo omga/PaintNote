@@ -7,15 +7,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ImageButton style="@style/AppTheme"
-                 android:layout_margin="10dp"
-                 android:layout_width="40dp"
-                 android:layout_height="40dp"
-                 android:text="New Button"
-                 android:id="@+id/colorButton"
-                 android:elevation="10dp"
-                 android:src="@drawable/ic_menu_edit"
-                 android:background="@drawable/circle"
-                 android:layout_gravity="right|bottom"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="right|bottom">
+
+        <ImageButton style="@style/AppTheme"
+                     android:layout_margin="10dp"
+                     android:layout_width="40dp"
+                     android:layout_height="40dp"
+                     android:text="New Button"
+                     android:id="@+id/colorButton"
+                     android:elevation="10dp"
+                     android:src="@drawable/ic_menu_edit"
+                     android:background="@drawable/circle"
+            />
+
+        <ImageButton style="@style/AppTheme"
+                     android:layout_margin="10dp"
+                     android:layout_width="40dp"
+                     android:layout_height="40dp"
+                     android:text="New Button"
+                     android:id="@+id/eraserButton"
+                     android:elevation="10dp"
+                     android:src="@drawable/ic_eraser_white"
+                     android:scaleType="centerCrop"
+                     android:background="@drawable/circle"
+            />
+        </LinearLayout>
 
 </FrameLayout>

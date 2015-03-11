@@ -9,7 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import co.hatrus.andrew.paint.model.Note;
 
 
@@ -83,7 +87,8 @@ public class NoteListActivity extends MainFragmentActivity
             return true;
         }else if (id == R.id.action_add_note) {
             Toast.makeText(this,"ADD",Toast.LENGTH_SHORT).show();
-            createAttachmentDialog().show();
+            //createAttachmentDialog().show();
+            showMaterialDialog();
             return true;
         }
 
@@ -117,5 +122,34 @@ public class NoteListActivity extends MainFragmentActivity
                     }
                 });
         return builder.create();
+    }
+    public void showMaterialDialog() {
+        CharSequence[] list={getString(R.string.dialog_textnote_item),
+                getString(R.string.dialog_listnote_item),
+                getString(R.string.dialog_paintnote_item)};
+        new MaterialDialog.Builder(this)
+                .title("Chose attachment please")
+                .items(list)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        Intent intent = new Intent(NoteListActivity.this,BaseNoteActivity.class);
+                        switch(which){
+                            case 0:
+                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
+                                break;
+                            case 1:
+                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_LIST);
+                                break;
+                            case 2:
+                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_PAINT);
+                                break;
+                            default:
+                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
+                        }
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 }

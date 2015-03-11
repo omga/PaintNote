@@ -6,7 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_drag_and_draw">DragAndDrawActivity</string>
     <string name="title_activity_main_fragment">MainFragmentActivity</string>
-    <string name="hello_blank_fragment">Hello blank fragment OLOL</string>
     <string name="action_something">Do Something</string>
     <string name="title_activity_note_list">NoteListActivity</string>
     <string name="action_add_note">Add Note</string>
@@ -18,5 +17,6 @@
     <string name="color_chooser">Choose The Color</string>
     <string name="signalStrength">signal strength</string>
     <string name="excellent">excelent</string>
+    <string name="blank_fragment_tip">text</string>
 
 </resources>

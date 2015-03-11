@@ -28,7 +28,8 @@ import co.hatrus.andrew.paint.model.Box;
  * Created by user on 10.02.15.
  */
 public class BoxDrawingView extends View {
-    private static final float DRAW_RADIUS = 8f;
+    public static final int DEFAULT_LINE_WIDTH = 8;
+    public static final int ERASER_WIDTH = 16;
     private static String TAG = "BoxDrawingView";
     private Box mCurrentBox;
     private Box mMovingBox;
@@ -48,17 +49,11 @@ public class BoxDrawingView extends View {
         mBoxPaint.setStyle(Paint.Style.STROKE);
         mBoxPaint.setStrokeWidth(8);
         mBackgroundPaint = new Paint();
-        mBackgroundPaint.setColor(0xfff8efe0);
+        mBackgroundPaint.setColor(getResources().getColor(R.color.paint_bg));
         loadPaintData();
 
     }
 
-//    @Override
-//    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-//        super.onLayout(changed, left, top, right, bottom);
-//        Log.e("savePaintData","gg");
-//        loadPaintData();
-//    }
 
     public void setFileNameForSaving(String fname) {
         mFileName = fname;
@@ -211,8 +206,14 @@ public class BoxDrawingView extends View {
         Log.d("PAINTVIEW","ONDETACH");
         //savePaintData();
     }
-    public void setLineColor(int color){
+    public void setLineColor(int color) {
         savePaintData();
         mBoxPaint.setColor(color);
+    }
+    public int getLineColor() {
+        return mBoxPaint.getColor();
+    }
+    public void setLineWidth(int width) {
+        mBoxPaint.setStrokeWidth(width);
     }
 }
