@@ -13,6 +13,8 @@ import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
 import co.hatrus.andrew.paint.model.TextNote;
 import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -109,18 +111,7 @@ public class NoteLab {
         mRealm.commitTransaction();
     }
 
-//    public Note getNote(int id){
-//        DataBaseHelper.NoteCursor noteCursor = mDBHelper.queryNote(id);
-//        Note note=null;
-//        noteCursor.moveToFirst();
-//        // if we got a row, get a run
-//        if (!noteCursor.isAfterLast())
-//            note = noteCursor.getNote();
-//        noteCursor.close();
-//        Log.d("NoteLab","crsr " + noteCursor+",note "+note+ " id= "+id);
-//        return note;
-//    }
-//
+
 
     public TextNote getTextNoteData(String id) {
         TextNote result = mRealm.where(TextNote.class).equalTo("note.id",id).findFirst();
@@ -136,41 +127,34 @@ public class NoteLab {
         return mRealm.where(PaintNote.class).equalTo("note.id",id).findFirst();
     }
 
-
-//    public DataBaseHelper.NoteCursor getCursor() {
-//        return mDBHelper.queryNotes();
-//    }
     public RealmResults<Note> getNotes(){
         RealmQuery<Note> noteQuery = mRealm.where(Note.class);
-        RealmResults<Note> results = noteQuery.findAll();
+        RealmResults<Note> results = noteQuery.findAllSorted("timeCreated",false);
         return results;
     }
 
-    public List<Note> getNoteList(){
+    public void deleteObject(RealmObject ... robjects) {
+        try {
 
-//        TextNote a = new TextNote();
-//        a.setTitle("textnote1");
-//        a.setText("texty");
-//        mDBHelper.insertNote(a);
-//        TextNote b = new TextNote();
-//        b.setTitle("textnote2");
-//        b.setText("texty2");
-//        mDBHelper.insertNote(b);
-//        ListNote c = new ListNote();
-//        c.setTitle("listnote3");
-//        List<String > list = new LinkedList<>();
-//        list.add("abc");
-//        list.add("abc2");
-//        list.add("abc3");
-//        c.setItems(list);
-//        mDBHelper.insertNote(c);
-//        mNotes.add(a);
-//        mNotes.add(b);
-//        mNotes.add(c);
-//        for(int i=0;i<10;i++){
-//            mDBHelper.insertNote(new TextNote());
-//        }
-        return mNotes;
+        mRealm.beginTransaction();
+        for(RealmObject robject:robjects)
+            if(robject!=null)
+                robject.removeFromRealm();
+        mRealm.commitTransaction();
+        }catch (Exception ise){
+            Log.e("Notelab","deleteObject "+ise.getMessage());
+        }
+    }
+    public void deleteObjectList(RealmList<? extends RealmObject> robjects) {
+        try{
+        mRealm.beginTransaction();
+        for(RealmObject robject:robjects)
+            if(robject!=null)
+                robject.removeFromRealm();
+        mRealm.commitTransaction();
+        }catch (Exception ise){
+            Log.e("Notelab","deleteObjectList "+ise.getMessage());
+        }
     }
 
 }

@@ -7,7 +7,7 @@
     <string name="title_activity_drag_and_draw">DragAndDrawActivity</string>
     <string name="title_activity_main_fragment">MainFragmentActivity</string>
     <string name="action_something">Do Something</string>
-    <string name="title_activity_note_list">NoteListActivity</string>
+    <string name="title_activity_note_list">MaterialNote</string>
     <string name="action_add_note">Add Note</string>
     <string name="title_activity_base_note">TextNoteActivity</string>
     <string name="dialog_textnote_item">Text</string>
@@ -18,5 +18,6 @@
     <string name="signalStrength">signal strength</string>
     <string name="excellent">excelent</string>
     <string name="blank_fragment_tip">text</string>
+    <string name="add_item_text">Add Item</string>
 
 </resources>

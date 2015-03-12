@@ -19,7 +19,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".BaseNoteActivity"
-                  android:label="Note"/>
+                  android:parentActivityName=".NoteListActivity"
+                  android:label="Note">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NoteListActivity"/>
+            </activity>
 
     </application>
 

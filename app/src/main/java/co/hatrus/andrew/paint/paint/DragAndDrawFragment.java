@@ -64,6 +64,12 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     }
 
     @Override
+    public void deleteNote() {
+        mBoxDrawingView.removePaintData();
+        mNoteLab.deleteObject(mPaintNote,mPaintNote.getNote());
+    }
+
+    @Override
     public void setNoteData() {
         Log.d("DragAndDrawFragment","setNoteData, id : "+ mPaintNote.getId());
         mBoxDrawingView.savePaintData();

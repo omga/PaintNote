@@ -18,5 +18,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"/>
+    <ImageButton
+        style="@style/AppTheme"
+                 android:id="@+id/note_list_add_btn"
+                 android:layout_margin="@dimen/activity_horizontal_margin"
+                 android:layout_width="60dp"
+                 android:layout_height="60dp"
+                 android:text="@string/add_item_text"
+                 android:elevation="15dp"
+                 android:src="@drawable/ic_suggestions_add"
+                 android:background="@drawable/circle_add"
+                 android:layout_gravity="right|bottom"/>
 
 </FrameLayout>

@@ -14,6 +14,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,9 +85,15 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         //(mListView).setAdapter(mCursorAdapter);
-
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        ImageButton fabBtnAdd = (ImageButton) view.findViewById(R.id.note_list_add_btn);
+        fabBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((NoteListActivity)getActivity()).showMaterialDialog();
+            }
+        });
 
         return view;
     }
@@ -206,11 +214,23 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView title;
+            ImageView icon;
+            Note note = realmResults.get(position);
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.item_notelist, parent, false);
             }
+            icon = (ImageView) convertView.findViewById(R.id.type_icon);
             title = (TextView) convertView.findViewById(R.id.title_listnote);
-            title.setText(realmResults.get(position).getTitle());
+            title.setText(note.getTitle());
+            int resImg;
+            switch(note.getType()) {
+                case Note.NOTE_TYPE_LIST: resImg = R.drawable.ic_list_grey;
+                    break;
+                case Note.NOTE_TYPE_PAINT: resImg = R.drawable.ic_brush_grey;
+                    break;
+                default: resImg = R.drawable.ic_text_left_grey;
+            }
+            icon.setImageResource(resImg);
             return convertView;
         }
     }

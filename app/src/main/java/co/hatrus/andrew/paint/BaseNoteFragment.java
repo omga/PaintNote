@@ -2,6 +2,7 @@ package co.hatrus.andrew.paint;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -44,15 +45,28 @@ public abstract class BaseNoteFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        setNoteData();
-        if(id!=null)
-            updateNote();
-        else
-            saveNote();
-        Log.d("BaseNoteFragment","onOptionsItemSelected do nothing but just finish");
-        getActivity().finish();
+        int item_id = item.getItemId();
+        switch (item_id) {
+            case R.id.action_save_note:
+                setNoteData();
+                if(id!=null)
+                    updateNote();
+                else
+                    saveNote();
+                getActivity().finish();
+                break;
+            case R.id.action_delete_note:
+                deleteNote();
+                NavUtils.navigateUpFromSameTask(getActivity());
+                break;
+            case R.id.action_edit_note:
+                break;
+        }
+
         return true;
     }
+
+    public abstract void deleteNote();
 
     public abstract void setNoteData();
 

@@ -36,6 +36,10 @@ public class TextNoteFragment extends BaseNoteFragment {
         return v;
     }
 
+    @Override
+    public void deleteNote() {
+        mNoteLab.deleteObject(mTextNote,mTextNote.getNote());
+    }
 
     @Override
     public void setNoteData() {

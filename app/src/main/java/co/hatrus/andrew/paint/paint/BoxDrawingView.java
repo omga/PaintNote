@@ -95,7 +95,13 @@ public class BoxDrawingView extends View {
         mBoxList.clear();
 
     }
-    public void loadPaintData(){
+    public void removePaintData() {
+        File file = new File(getContext().getExternalFilesDir("painta")+"/"+mFileName);
+        if(file.exists()) {
+            file.delete();
+        }
+    }
+    public void loadPaintData() {
         File file = new File(getContext().getExternalFilesDir("painta")+"/"+mFileName);
         if(file.exists()) {
             mLoadedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
