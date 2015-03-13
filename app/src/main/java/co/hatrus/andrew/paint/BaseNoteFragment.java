@@ -39,7 +39,6 @@ public abstract class BaseNoteFragment extends Fragment {
         else
             newNote();
         setHasOptionsMenu(true);
-
     }
 
 
@@ -48,10 +47,12 @@ public abstract class BaseNoteFragment extends Fragment {
         int item_id = item.getItemId();
         switch (item_id) {
             case R.id.action_save_note:
-                setNoteData();
-                if(id!=null)
-                    updateNote();
-                else
+//                setNoteData();
+//                if(id!=null)
+//                    updateNote();
+//                else
+//                    saveNote();
+                if(id==null)
                     saveNote();
                 getActivity().finish();
                 break;
@@ -60,11 +61,23 @@ public abstract class BaseNoteFragment extends Fragment {
                 NavUtils.navigateUpFromSameTask(getActivity());
                 break;
             case R.id.action_edit_note:
+                toggleEditable();
                 break;
+            case android.R.id.home:
+//                setNoteData();
+//                if(id!=null)
+//                    updateNote();
+//                else
+//                    saveNote();
+                if(id==null)
+                    saveNote();
+                NavUtils.navigateUpFromSameTask(getActivity());
+                return true;
         }
-
         return true;
     }
+
+    public abstract void toggleEditable();
 
     public abstract void deleteNote();
 

@@ -6,6 +6,7 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_save_note"
           android:title="Save"
+          android:icon="@drawable/ic_save_grey"
           android:orderInCategory="1"
           app:showAsAction="always"
           />
@@ -17,6 +18,7 @@
         />
     <item android:id="@+id/action_edit_note"
           android:title="Edit"
+          android:checkable="true"
           android:orderInCategory="2"
           app:showAsAction="always"
           android:icon="@drawable/ic_edit_grey"

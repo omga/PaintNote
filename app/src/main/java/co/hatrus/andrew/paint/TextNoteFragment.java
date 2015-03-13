@@ -31,9 +31,18 @@ public class TextNoteFragment extends BaseNoteFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_text_note, container, false);
         mNoteText = (EditText) v.findViewById(R.id.note_text);
-        if(mTextNote!=null)
+        if(id!=null) {
             mNoteText.setText(mTextNote.getText());
+            mNoteText.setEnabled(false);
+        } //else mNoteText.setEnabled(true);
+
         return v;
+    }
+
+    @Override
+    public void toggleEditable() {
+        mNoteText.setEnabled(!mNoteText.isEnabled());
+        //mNoteText.setClickable(!mNoteText.isClickable());
     }
 
     @Override
@@ -60,7 +69,6 @@ public class TextNoteFragment extends BaseNoteFragment {
         Note n = new Note();
         n.setType(Note.NOTE_TYPE_TEXT);
         mTextNote.setNote(n);
-
     }
 
     @Override

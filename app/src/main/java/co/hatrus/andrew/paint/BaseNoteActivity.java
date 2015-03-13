@@ -2,6 +2,7 @@ package co.hatrus.andrew.paint;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
     EditText mTitle;
     NoteLab mNoteLab;
     int note_type;
+    private Menu menu;
 
     @Override
     protected BaseNoteFragment createFragment() {
@@ -39,8 +41,11 @@ public class BaseNoteActivity extends MainFragmentActivity {
         String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
         note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
         mNoteLab = NoteLab.getInstance(getApplicationContext());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         if(note_id!=null) {
             setNoteTitle(noteTitle);
+            mTitle.setEnabled(false);
         }
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -67,6 +72,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_base_note, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -80,8 +86,18 @@ public class BaseNoteActivity extends MainFragmentActivity {
                 Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
                 ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container)).setNoteTitle(mTitle.getText().toString().trim());
                 break;
+            case R.id.action_edit_note:
+                boolean isEnabled = mTitle.isEnabled();
+                mTitle.setEnabled(!isEnabled);
+                if(isEnabled)
+                    item.setIcon(R.drawable.ic_edit_grey);
+                else item.setIcon(R.drawable.ic_check_grey);
+                break;
             case R.id.action_settings:
                 Toast.makeText(this,"settings",Toast.LENGTH_LONG).show();
+                break;
+            case android.R.id.home:
+                ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container)).setNoteTitle(mTitle.getText().toString().trim());
                 break;
         }
         return super.onOptionsItemSelected(item);

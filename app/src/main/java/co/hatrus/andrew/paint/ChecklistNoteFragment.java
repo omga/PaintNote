@@ -44,7 +44,8 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     private EditText mDialogItemInput;
     private View positiveAction, neutralAction;
     private FrameLayout.LayoutParams btnLayoutParams;
-    private boolean isListEmpty = false;
+    private boolean isListEmpty = false, isEditable = false;
+    private AdapterView.OnItemClickListener mOnItemClickListenerStrikeThru, mOnItemClickListenerEditable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,12 +62,12 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCustomView();
+                showCustomView(getDialogAddtem());
 
 
             }
         });
-        checklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mOnItemClickListenerStrikeThru = new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -82,8 +83,30 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
                 mNoteLab.getRealm().commitTransaction();
                 Log.d("Checklist","bool2: " + checkList.isChecked());
             }
-        });
+        };
+        checklist.setOnItemClickListener(mOnItemClickListenerStrikeThru);
+        mOnItemClickListenerEditable = new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView item = (TextView) view;
+                CheckList checkList = mListNote.getNoteItems().get(position);
+                showCustomView(getDialogEdittem(checkList));
+                if ((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)
+                    item.setPaintFlags( item.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                Log.d("Checklist","edit: " + checkList.getItem());
+            }
+        };
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         return v;
+    }
+
+    @Override
+    public void toggleEditable() {
+        isEditable=!isEditable;
+        if(isEditable)
+            checklist.setOnItemClickListener(mOnItemClickListenerEditable);
+        else checklist.setOnItemClickListener(mOnItemClickListenerStrikeThru);
     }
 
     @Override
@@ -140,42 +163,9 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         btnLayoutParams.gravity = Gravity.BOTTOM|Gravity.RIGHT;
         addBtn.setLayoutParams(btnLayoutParams);
     }
-    private void showCustomView() {
-        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                .title("Add Item")
-                .customView(R.layout.dialog_customview, true)
-                .positiveText("Add")
-                .neutralText("Add More")
-                .negativeText(android.R.string.cancel)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        addChecklistItem(mDialogItemInput.getText().toString());
-                            if(isListEmpty) {
-
-                                fabBtnToCorner();
-                                isListEmpty=false;
-                            }
-                    }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                    }
-
-                    @Override
-                    public void onNeutral(MaterialDialog dialog) {
-                        addChecklistItem(mDialogItemInput.getText().toString());
-                        if(isListEmpty) {
-
-                            fabBtnToCorner();
-                            isListEmpty=false;
-                        }
-                        showCustomView();
-                    }
-                }).build();
+    private void showCustomView(MaterialDialog dialog) {
         positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
         neutralAction = dialog.getActionButton(DialogAction.NEUTRAL);
-        mDialogItemInput = (EditText) dialog.getCustomView().findViewById(R.id.new_item);
         mDialogItemInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -194,12 +184,79 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         dialog.show();
         positiveAction.setEnabled(false); // disabled by default
         neutralAction.setEnabled(false); // disabled by default
-//        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         mDialogItemInput.requestFocus();
-//        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).
-//                showSoftInput(mDialogItemInput, InputMethodManager.SHOW_IMPLICIT);
     }
+    private MaterialDialog getDialogAddtem() {
+        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .title("Add Item")
+                .customView(R.layout.dialog_customview, true)
+                .positiveText("Add")
+                .neutralText("Add More")
+                .negativeText(android.R.string.cancel)
+                .callback(new MaterialButtonAddItemCallback()).build();
+        mDialogItemInput = (EditText) dialog.getCustomView().findViewById(R.id.new_item);
+        return dialog;
+    }
+
+    private MaterialDialog getDialogEdittem(CheckList checkList) {
+        MaterialDialog dialog =  new MaterialDialog.Builder(getActivity())
+                .title("Edit Item")
+                .customView(R.layout.dialog_customview, true)
+                .positiveText("Edit")
+                .negativeText(android.R.string.cancel)
+                .callback(new MaterialButtonEditItemCallback(checkList)).build();
+        mDialogItemInput = (EditText) dialog.getCustomView().findViewById(R.id.new_item);
+        mDialogItemInput.setText(checkList.getItem());
+        return dialog;
+    }
+
+    private class MaterialButtonAddItemCallback extends MaterialDialog.ButtonCallback {
+        @Override
+        public void onPositive(MaterialDialog dialog) {
+            addChecklistItem(mDialogItemInput.getText().toString());
+            if(isListEmpty) {
+                fabBtnToCorner();
+                isListEmpty=false;
+            }
+        }
+
+        @Override
+        public void onNegative(MaterialDialog dialog) {
+        }
+
+        @Override
+        public void onNeutral(MaterialDialog dialog) {
+            addChecklistItem(mDialogItemInput.getText().toString());
+            if(isListEmpty) {
+                fabBtnToCorner();
+                isListEmpty=false;
+            }
+            showCustomView(getDialogAddtem());
+        }
+    }
+
+    private class MaterialButtonEditItemCallback extends MaterialDialog.ButtonCallback {
+        CheckList checkList;
+        public MaterialButtonEditItemCallback(CheckList checkList) {
+            super();
+            this.checkList = checkList;
+        }
+        @Override
+        public void onPositive(MaterialDialog dialog) {
+            mNoteLab.getRealm().beginTransaction();
+            checkList.setChecked(false);
+            checkList.setItem(mDialogItemInput.getText().toString());
+            mNoteLab.getRealm().commitTransaction();
+            mCheckListAdaprer.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onNegative(MaterialDialog dialog) {
+        }
+
+    }
+
 
     private class CheckListAdaprer<CheckList> extends ArrayAdapter<CheckList> {
 

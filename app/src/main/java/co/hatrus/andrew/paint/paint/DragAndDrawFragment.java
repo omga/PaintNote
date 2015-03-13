@@ -64,6 +64,11 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     }
 
     @Override
+    public void toggleEditable() {
+        //TODO enable/disable drawing on view. Or not?
+    }
+
+    @Override
     public void deleteNote() {
         mBoxDrawingView.removePaintData();
         mNoteLab.deleteObject(mPaintNote,mPaintNote.getNote());
