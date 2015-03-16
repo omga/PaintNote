@@ -10,8 +10,9 @@
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:layout_marginBottom="@dimen/activity_vertical_margin"
+    style="@style/ListViewStyle"
     android:id="@+id/checklist_view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     />
 <include layout="@layout/fab_button_add"/>

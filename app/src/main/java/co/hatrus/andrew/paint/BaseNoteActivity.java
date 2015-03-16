@@ -1,8 +1,10 @@
 package co.hatrus.andrew.paint;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
     NoteLab mNoteLab;
     int note_type;
     private Menu menu;
+    private MenuItem homeMenuItem;
 
     @Override
     protected BaseNoteFragment createFragment() {
@@ -37,6 +40,8 @@ public class BaseNoteActivity extends MainFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_note);
         mTitle = (EditText) findViewById(R.id.note_title);
+        mTitle.setTypeface(Typeface
+                .createFromAsset(this.getAssets(), "fonts/Roboto-Regular.ttf"));
         String note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);
         String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
         note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
@@ -73,6 +78,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_base_note, menu);
         this.menu = menu;
+        homeMenuItem = menu.findItem(R.id.action_save_note);
         return true;
     }
 
@@ -81,6 +87,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         switch (item.getItemId()){
             case R.id.action_save_note:
                 Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
@@ -101,5 +108,12 @@ public class BaseNoteActivity extends MainFragmentActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+            onOptionsItemSelected(homeMenuItem);
+        return super.onKeyDown(keyCode, event);
     }
 }

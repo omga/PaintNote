@@ -1,6 +1,7 @@
 package co.hatrus.andrew.paint;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,9 +32,12 @@ public class TextNoteFragment extends BaseNoteFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_text_note, container, false);
         mNoteText = (EditText) v.findViewById(R.id.note_text);
+        mNoteText.setTypeface(Typeface
+                .createFromAsset(getActivity().getAssets(), "fonts/Roboto-Regular.ttf"));
         if(id!=null) {
             mNoteText.setText(mTextNote.getText());
             mNoteText.setEnabled(false);
+
         } //else mNoteText.setEnabled(true);
 
         return v;
@@ -73,7 +77,8 @@ public class TextNoteFragment extends BaseNoteFragment {
 
     @Override
     protected void updateNote() {
-        setNoteData();
+
+        //setNoteData();
     }
 
     @Override

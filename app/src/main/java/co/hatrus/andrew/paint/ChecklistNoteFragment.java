@@ -71,7 +71,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView item = (TextView) view;
+                TextView item = (TextView) (view.findViewById(R.id.checlist_item_text));
                 CheckList checkList = mListNote.getNoteItems().get(position);
                 Log.d("Checklist","bool1: " + checkList.isChecked());
                 mNoteLab.getRealm().beginTransaction();
@@ -89,7 +89,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView item = (TextView) view;
+                TextView item = (TextView) (view.findViewById(R.id.checlist_item_text));
                 CheckList checkList = mListNote.getNoteItems().get(position);
                 showCustomView(getDialogEdittem(checkList));
                 if ((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)
@@ -261,16 +261,16 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     private class CheckListAdaprer<CheckList> extends ArrayAdapter<CheckList> {
 
         public CheckListAdaprer(Context context, List<CheckList> objects) {
-            super(context, android.R.layout.simple_list_item_1, android.R.id.text1, objects);
+            super(context, R.layout.checklist_item, R.id.checlist_item_text, objects);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView==null){
-                convertView = getActivity().getLayoutInflater().inflate(android.R.layout.simple_list_item_1, null);
+                convertView = getActivity().getLayoutInflater().inflate(R.layout.checklist_item, null);
             }
             co.hatrus.andrew.paint.model.CheckList checkList = mListNote.getNoteItems().get(position);
-            TextView textView = (TextView)convertView.findViewById(android.R.id.text1);
+            TextView textView = (TextView)convertView.findViewById(R.id.checlist_item_text);
             textView.setText(checkList.getItem());
             if(checkList.isChecked())
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

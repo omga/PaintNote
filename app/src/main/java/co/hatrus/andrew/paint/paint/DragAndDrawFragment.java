@@ -103,6 +103,8 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     @Override
     protected void saveNote() {
         mNoteLab.updatePaintNote(mPaintNote);
+        Log.d("DragAndDrawFragment","setNoteData, id : "+ mPaintNote.getId());
+        mBoxDrawingView.savePaintData();
     }
 
     @Override

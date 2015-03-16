@@ -48,11 +48,9 @@ public abstract class BaseNoteFragment extends Fragment {
         switch (item_id) {
             case R.id.action_save_note:
 //                setNoteData();
-//                if(id!=null)
-//                    updateNote();
-//                else
-//                    saveNote();
-                if(id==null)
+                if(id!=null)
+                    updateNote();
+                else
                     saveNote();
                 getActivity().finish();
                 break;
@@ -65,12 +63,11 @@ public abstract class BaseNoteFragment extends Fragment {
                 break;
             case android.R.id.home:
 //                setNoteData();
-//                if(id!=null)
-//                    updateNote();
-//                else
-//                    saveNote();
-                if(id==null)
+                if(id!=null)
+                    updateNote();
+                else
                     saveNote();
+
                 NavUtils.navigateUpFromSameTask(getActivity());
                 return true;
         }
