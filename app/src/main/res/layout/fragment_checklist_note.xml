@@ -15,7 +15,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     />
-<include layout="@layout/fab_button_add"/>
+<include
+    android:id="@+id/checklist_add_btn"
+    layout="@layout/fab_button_add_with_margin_16"
+    />
 
 
 

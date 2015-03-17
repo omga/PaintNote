@@ -10,6 +10,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TextViewAppearance.Headline1"
-        android:textSize="16sp"
-        android:padding="16dp"/>
+        android:textSize="16sp"/>
 </co.hatrus.andrew.paint.MaterialRippleLayout>

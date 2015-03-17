@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
              style="@style/AppTheme"
-             android:layout_width="70dp"
-             android:layout_height="70dp"
+             android:layout_margin="@dimen/activity_horizontal_margin"
+             android:layout_width="60dp"
+             android:layout_height="60dp"
              android:text="@string/add_item_text"
-             android:elevation="15dp"
+             android:elevation="10dp"
              android:src="@drawable/ic_suggestions_add"
-             android:background="@drawable/fab_style_pre_lollipop"
+             android:background="@drawable/fab_btn_add"
              android:layout_gravity="right|bottom"/>
