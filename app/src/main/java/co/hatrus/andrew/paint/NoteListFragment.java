@@ -1,13 +1,16 @@
 package co.hatrus.andrew.paint;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -52,6 +55,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      * The fragment's ListView/GridView.
      */
     private AbsListView mListView;
+    private ImageButton fabBtnAdd;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -87,7 +91,23 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         //(mListView).setAdapter(mCursorAdapter);
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
-        ImageButton fabBtnAdd = (ImageButton) view.findViewById(R.id.note_list_add_btn);
+        fabBtnAdd = (ImageButton) view.findViewById(R.id.note_list_add_btn);
+        if(Build.VERSION.SDK_INT>= 21)
+            fabBtnAdd.setOnTouchListener(new View.OnTouchListener() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            fabBtnAdd.setElevation(2.0f);
+                            return false; // if you want to handle the touch event
+                        case MotionEvent.ACTION_UP:
+                            fabBtnAdd.setElevation(10.0f);
+                            return false; // if you want to handle the touch event
+                    }
+                    return false;
+                }
+            });
         fabBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

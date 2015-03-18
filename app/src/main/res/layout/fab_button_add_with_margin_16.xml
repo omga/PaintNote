@@ -7,5 +7,5 @@
              android:text="@string/add_item_text"
              android:elevation="15dp"
              android:src="@drawable/ic_suggestions_add"
-             android:background="@drawable/fab_style_pre_lollipop"
+             android:background="@drawable/fab_pre_lollipop_selector"
              android:layout_gravity="right|bottom"/>

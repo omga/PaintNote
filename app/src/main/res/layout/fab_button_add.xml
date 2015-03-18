@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<co.hatrus.andrew.paint.MaterialRippleLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/RippleStyle"
+    android:background="@drawable/selector_background_empty">
 <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
              style="@style/AppTheme"
              android:layout_width="70dp"
@@ -8,3 +14,4 @@
              android:src="@drawable/ic_suggestions_add"
              android:background="@drawable/fab_style_pre_lollipop"
              android:layout_gravity="right|bottom"/>
+</co.hatrus.andrew.paint.MaterialRippleLayout>

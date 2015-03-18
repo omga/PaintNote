@@ -1,7 +1,9 @@
 package co.hatrus.andrew.paint;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -9,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -67,6 +70,22 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
             }
         });
+        if(Build.VERSION.SDK_INT>= 21)
+            addBtn.setOnTouchListener(new View.OnTouchListener() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            addBtn.setElevation(2.0f);
+                            return false; // if you want to handle the touch event
+                        case MotionEvent.ACTION_UP:
+                            addBtn.setElevation(10.0f);
+                            return false; // if you want to handle the touch event
+                    }
+                    return false;
+                }
+            });
         mOnItemClickListenerStrikeThru = new AdapterView.OnItemClickListener() {
 
             @Override

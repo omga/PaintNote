@@ -114,6 +114,7 @@
             <!--</item>-->
         </layer-list>
     </item>
+
     <item>
         <shape android:shape="oval">
             <solid android:color="@color/main_color_A400"/>
