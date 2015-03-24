@@ -31,6 +31,7 @@ public class BoxDrawingView extends View {
     public static final int DEFAULT_LINE_WIDTH = 8;
     public static final int ERASER_WIDTH = 16;
     private static String TAG = "BoxDrawingView";
+    private Paint mCirclePaint;
     private Box mCurrentBox;
     private Box mMovingBox;
     private ArrayList<Box> mBoxList = new ArrayList<>(15);
@@ -44,10 +45,17 @@ public class BoxDrawingView extends View {
 
     public BoxDrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        int color = getResources().getColor(R.color.fab_main);
         mBoxPaint = new Paint();
-        mBoxPaint.setColor(getResources().getColor(R.color.fab_main));
-        mBoxPaint.setStyle(Paint.Style.STROKE);
-        mBoxPaint.setStrokeWidth(8);
+        mCirclePaint = new Paint();
+        mBoxPaint.setColor(color);
+        mBoxPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mBoxPaint.setStrokeWidth(DEFAULT_LINE_WIDTH);
+
+        mCirclePaint.setStyle(Paint.Style.FILL);
+        mCirclePaint.setAntiAlias(true);
+        mCirclePaint.setColor(color); //opaque red
+
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setColor(getResources().getColor(R.color.paint_bg));
         loadPaintData();
@@ -152,13 +160,12 @@ public class BoxDrawingView extends View {
         }
         Log.e("onDraw","bitmap sizes: "+getHeight() +", "+getWidth()+"canvas: "+ canvas.getHeight()+", "+ canvas.getWidth());
     }
+
     private void drawLikeBrush(Canvas canvas, Box box){
-        //canvas.drawCircle(box.getCurrent().x,box.getCurrent().y,DRAW_RADIUS,mBoxPaint);
-        if(box.getCurrent()==box.getOrigin())
-            canvas.drawPoint(box.getCurrent().x,box.getCurrent().y,mBackgroundPaint);
-        else
         canvas.drawLine(box.getCurrent().x, box.getCurrent().y, box.getOrigin().x, box.getOrigin().y, mBoxPaint);
+        canvas.drawCircle(box.getCurrent().x,box.getCurrent().y, 4, mCirclePaint);
     }
+
     private void drawMyRect(Canvas canvas,Box box){
         float left = Math.min(box.getOrigin().x, box.getCurrent().x);
         float right = Math.max(box.getOrigin().x, box.getCurrent().x);
@@ -215,6 +222,7 @@ public class BoxDrawingView extends View {
     public void setLineColor(int color) {
         savePaintData();
         mBoxPaint.setColor(color);
+        mCirclePaint.setColor(color);
     }
     public int getLineColor() {
         return mBoxPaint.getColor();
