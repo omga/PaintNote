@@ -19,5 +19,6 @@
     <string name="excellent">excelent</string>
     <string name="blank_fragment_tip">text</string>
     <string name="add_item_text">Add Item</string>
+    <string name="empty_string">Not notes...</string>
 
 </resources>

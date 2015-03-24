@@ -41,7 +41,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
         setContentView(R.layout.activity_base_note);
         mTitle = (EditText) findViewById(R.id.note_title);
         mTitle.setTypeface(Typeface
-                .createFromAsset(this.getAssets(), "fonts/Roboto-Regular.ttf"));
+                .createFromAsset(this.getAssets(), "fonts/Roboto-Bold.ttf"));
         String note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);
         String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
         note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
