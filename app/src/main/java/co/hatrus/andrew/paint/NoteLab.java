@@ -133,6 +133,7 @@ public class NoteLab {
         return results;
     }
 
+
     public void deleteObject(RealmObject ... robjects) {
         try {
 

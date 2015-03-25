@@ -15,8 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -280,13 +278,13 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     private class CheckListAdaprer<CheckList> extends ArrayAdapter<CheckList> {
 
         public CheckListAdaprer(Context context, List<CheckList> objects) {
-            super(context, R.layout.checklist_item, R.id.checlist_item_text, objects);
+            super(context, R.layout.item_checklist, R.id.checlist_item_text, objects);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView==null){
-                convertView = getActivity().getLayoutInflater().inflate(R.layout.checklist_item, null);
+                convertView = getActivity().getLayoutInflater().inflate(R.layout.item_checklist, null);
             }
             co.hatrus.andrew.paint.model.CheckList checkList = mListNote.getNoteItems().get(position);
             TextView textView = (TextView)convertView.findViewById(R.id.checlist_item_text);

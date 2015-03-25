@@ -7,16 +7,6 @@
               android:background="@drawable/myshape"
               android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/update"
-        style="@android:style/TextAppearance.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal|center_vertical"
-        android:layout_margin="4dip"
-        android:text="Static Text" >
-    </TextView>
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +17,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/empty_string"
-        android:textColor="#ffffff"
         android:textSize="20sp"
         android:visibility="gone" />
 
