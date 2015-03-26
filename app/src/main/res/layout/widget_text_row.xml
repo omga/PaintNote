@@ -2,18 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:id="@+id/row_container">
 
     <TextView
         android:id="@+id/title_widget_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:paddingLeft="6dip"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
         android:text="titla"
         android:textSize="18sp"
-        android:textColor="#333"
+        android:textStyle="bold"
+        android:textColor="#666"
         />
 
 
@@ -22,8 +26,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:paddingLeft="6dip"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
         android:text="texta"
         android:visibility="gone"
         android:textColor="#777"
@@ -31,11 +37,21 @@
 
     <ImageView
         android:id="@+id/paint_widget_row"
-        android:layout_width="146dp"
+        android:layout_width="match_parent"
         android:layout_height="146dp"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:visibility="gone"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"/>
+    <LinearLayout
+        android:layout_marginBottom="4dp"
+        android:id="@+id/widget_checklist_container"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        </LinearLayout>
 
 </LinearLayout>
