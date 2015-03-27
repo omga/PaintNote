@@ -1,17 +1,26 @@
 package co.hatrus.andrew.paint;
 
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import co.hatrus.andrew.paint.model.Note;
+import co.hatrus.andrew.paint.model.TextNote;
 import co.hatrus.andrew.paint.paint.DragAndDrawFragment;
+import co.hatrus.andrew.paint.widget.LoremViewsFactory;
+import co.hatrus.andrew.paint.widget.WidgetProvider;
 
 
 public class BaseNoteActivity extends MainFragmentActivity {
@@ -20,6 +29,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
     int note_type;
     private Menu menu;
     private MenuItem homeMenuItem;
+    String note_id;
 
     @Override
     protected BaseNoteFragment createFragment() {
@@ -42,7 +52,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
         mTitle = (EditText) findViewById(R.id.note_title);
         mTitle.setTypeface(Typeface
                 .createFromAsset(this.getAssets(), "fonts/Roboto-Bold.ttf"));
-        String note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);
+        note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);
         String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
         note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
         mNoteLab = NoteLab.getInstance(getApplicationContext());
@@ -92,6 +102,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
             case R.id.action_save_note:
                 Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
                 ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container)).setNoteTitle(mTitle.getText().toString().trim());
+                updateWidgets();
                 break;
             case R.id.action_edit_note:
                 boolean isEnabled = mTitle.isEnabled();
@@ -115,5 +126,36 @@ public class BaseNoteActivity extends MainFragmentActivity {
         if(keyCode == KeyEvent.KEYCODE_BACK)
             onOptionsItemSelected(homeMenuItem);
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void updateWidgets() {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), WidgetProvider.class));
+//        if(appWidgetIds.length > 0)
+//            new WidgetProvider().onUpdate(getApplicationContext(),appWidgetManager,appWidgetIds);
+        Intent intent = new Intent(this,WidgetProvider.class);
+        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
+        sendBroadcast(intent);
+
+//
+//        Context context = this;
+//        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+//        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+//        ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
+//        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetManager.getAppWidgetIds(thisWidget), R.id.widget_list);
+
+
+//
+//                remoteViews.removeAllViews(R.id.widget_checklist_container);
+//                remoteViews.setTextViewText(R.id.title_widget_row, getTitle());
+//                Log.e("WOWOWOWOWO","HRUHRU TEXT");
+//                TextNote textNote = mNoteLab.getRealm().where(TextNote.class).equalTo("note.id", note_id).findFirst();
+//                remoteViews.setViewVisibility(R.id.text_widget_row, View.VISIBLE);
+//                remoteViews.setViewVisibility(R.id.widget_checklist_container, View.GONE);
+//                remoteViews.setViewVisibility(R.id.paint_widget_row, View.GONE);
+//                remoteViews.setTextViewText(R.id.text_widget_row, textNote.getText());
+//        appWidgetManager.updateAppWidget(thisWidget, null);
+//        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
     }
 }
