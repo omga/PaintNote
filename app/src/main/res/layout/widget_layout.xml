@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/layout"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:background="@color/main_color_100"
               android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="5dp"
+        android:background="@color/main_color_400">
+        <ImageButton
+            android:id="@+id/btn_new_textnote"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_text_left_grey"
+            android:background="@drawable/imagebutton_widget_selector"
+            />
+        <ImageButton
+            android:id="@+id/btn_new_listnote"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_list_grey"
+            android:background="@drawable/imagebutton_widget_selector"/>
+        <ImageButton
+            android:id="@+id/btn_new_paintnote"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_palette_grey"
+            android:background="@drawable/imagebutton_widget_selector"/>
+    </LinearLayout>
 
     <ListView
-        android:layout_margin="8dip"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/ListViewStyle"
-        android:id="@+id/widget_list"/>
+        android:id="@+id/widget_list"
+        android:dividerHeight="3dp"
+        android:divider="#000"/>
     <TextView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
