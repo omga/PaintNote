@@ -10,17 +10,17 @@ import io.realm.annotations.RealmClass;
  * Created by user on 19.02.15.
  */
 @RealmClass
-public class CheckList extends RealmObject {
+public class CheckListItem extends RealmObject {
     @PrimaryKey
     private String id;
     private String item;
-    private boolean isChecked=false;
+    private boolean isChecked = false;
 
-    public CheckList() {
+    public CheckListItem() {
         id = UUID.randomUUID().toString();
     }
 
-    public CheckList(String item) {
+    public CheckListItem(String item) {
         super();
         id = UUID.randomUUID().toString();
         this.item = item;

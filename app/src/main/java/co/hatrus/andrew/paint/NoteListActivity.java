@@ -1,8 +1,5 @@
 package co.hatrus.andrew.paint;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,7 +33,6 @@ public class NoteListActivity extends MainFragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         mNoteLab = NoteLab.getInstance(getApplicationContext());
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, createFragment())
@@ -52,15 +48,8 @@ public class NoteListActivity extends MainFragmentActivity
 
     @Override
     public void onNoteSelected(Note note,String id) {
-
         Toast.makeText(this,"clicked: "+id,Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(NoteListActivity.this,BaseNoteActivity.class);
-//        if(note.getType() == Note.NOTE_TYPE_LIST)
-//            intent = new Intent(NoteListActivity.this,ChecklistNoteActivity.class);
-//        else if (note.getType() == Note.NOTE_TYPE_PAINT)
-//            intent = new Intent(NoteListActivity.this,DragAndDrawActivity.class);
-//        else
-//            intent = new Intent(NoteListActivity.this,TextNoteActivity.class);
         intent.putExtra(NOTE_ID_EXTRA, id);
         intent.putExtra(NOTE_TITLE_EXTRA, note.getTitle());
         intent.putExtra(NOTE_TYPE_EXTRA, note.getType());
@@ -86,43 +75,13 @@ public class NoteListActivity extends MainFragmentActivity
         if (id == R.id.action_settings) {
             return true;
         }else if (id == R.id.action_add_note) {
-            Toast.makeText(this,"ADD",Toast.LENGTH_SHORT).show();
-            //createAttachmentDialog().show();
             showMaterialDialog();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-    public Dialog createAttachmentDialog() {
-        CharSequence[] list={getString(R.string.dialog_textnote_item),
-                getString(R.string.dialog_listnote_item),
-                getString(R.string.dialog_paintnote_item)};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chose attachment please")
-                .setItems(list, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
-                        Intent intent = new Intent(NoteListActivity.this,BaseNoteActivity.class);
-                        switch(which){
-                            case 0:
-                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
-                                break;
-                            case 1:
-                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_LIST);
-                                break;
-                            case 2:
-                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_PAINT);
-                                break;
-                            default:
-                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
-                        }
-                        startActivity(intent);
-                    }
-                });
-        return builder.create();
-    }
+
     public void showMaterialDialog() {
         CharSequence[] list={getString(R.string.dialog_textnote_item),
                 getString(R.string.dialog_listnote_item),

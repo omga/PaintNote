@@ -1,8 +1,5 @@
 package co.hatrus.andrew.paint.model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.UUID;
 
 import io.realm.RealmObject;
@@ -19,6 +16,7 @@ public class TextNote extends RealmObject {
     private String id;
     private String text;
     private Note note;
+
     public TextNote() {
         super();
         id = UUID.randomUUID().toString();

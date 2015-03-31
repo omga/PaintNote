@@ -1,7 +1,5 @@
 package co.hatrus.andrew.paint.model;
 
-import android.graphics.Color;
-
 import java.util.UUID;
 
 import io.realm.RealmObject;
@@ -16,7 +14,6 @@ public class PaintNote extends RealmObject {
     @PrimaryKey
     private String id;
     private Note note;
-    private int lineColor;
     private int backgroundColor;
 
     public PaintNote() {
@@ -39,14 +36,6 @@ public class PaintNote extends RealmObject {
 
     public void setNote(Note note) {
         this.note = note;
-    }
-
-    public int getLineColor() {
-        return lineColor;
-    }
-
-    public void setLineColor(int lineColor) {
-        this.lineColor = lineColor;
     }
 
     public int getBackgroundColor() {

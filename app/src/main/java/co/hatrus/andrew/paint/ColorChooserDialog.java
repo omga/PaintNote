@@ -1,6 +1,5 @@
 package co.hatrus.andrew.paint;
 
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -17,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 /**
  * @author Aidan Follestad (afollestad)
@@ -24,6 +24,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 public class ColorChooserDialog extends DialogFragment implements View.OnClickListener {
     private Callback mCallback;
     private int[] mColors;
+
+    public ColorChooserDialog() {
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getTag() != null) {
@@ -32,11 +36,7 @@ public class ColorChooserDialog extends DialogFragment implements View.OnClickLi
             dismiss();
         }
     }
-    public static interface Callback {
-        void onColorSelection(int index, int color, int darker);
-    }
-    public ColorChooserDialog() {
-    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
@@ -75,17 +75,22 @@ public class ColorChooserDialog extends DialogFragment implements View.OnClickLi
         }
         return dialog;
     }
+
+    @SuppressWarnings("deprecation")
     private void setBackgroundCompat(View view, Drawable d) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
             view.setBackground(d);
-        else view.setBackgroundDrawable(d);
+        else
+            view.setBackgroundDrawable(d);
     }
+
     private int shiftColor(int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] *= 0.9f; // value component
         return Color.HSVToColor(hsv);
     }
+
     private Drawable createSelector(int color) {
         ShapeDrawable coloredCircle = new ShapeDrawable(new OvalShape());
         coloredCircle.getPaint().setColor(color);
@@ -96,11 +101,16 @@ public class ColorChooserDialog extends DialogFragment implements View.OnClickLi
         stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, darkerCircle);
         return stateListDrawable;
     }
+
     public void show(Activity context, int preselect, Callback callback) {
         mCallback = callback;
         Bundle args = new Bundle();
         args.putInt("preselect", preselect);
         setArguments(args);
         show(context.getFragmentManager(), "COLOR_SELECTOR");
+    }
+
+    public static interface Callback {
+        void onColorSelection(int index, int color, int darker);
     }
 }

@@ -3,7 +3,6 @@ package co.hatrus.andrew.paint.paint;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,16 +21,17 @@ import co.hatrus.andrew.paint.model.PaintNote;
  * A simple {@link Fragment} subclass.
  */
 public class DragAndDrawFragment extends BaseNoteFragment {
+
+    int selectedColorIndex = -1;
     private int mCurrentLineColor;
     private boolean isEraserOn = false;
     private PaintNote mPaintNote;
     private BoxDrawingView mBoxDrawingView;
     private ImageButton mColorButton, mEraserButton;
-    int selectedColorIndex = -1;
+
     public DragAndDrawFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,19 +39,22 @@ public class DragAndDrawFragment extends BaseNoteFragment {
         // Inflate the layout for this fragment
         container = (ViewGroup) inflater.inflate(R.layout.fragment_drag_and_draw, container, false);
         mBoxDrawingView = (BoxDrawingView) container.findViewById(R.id.box_drawing_view);
-        mBoxDrawingView.setFileNameForSaving(mPaintNote.getId()+".jpg");
+        mBoxDrawingView.setFileNameForSaving(mPaintNote.getId() + ".jpg");
 
         mColorButton = (ImageButton) container.findViewById(R.id.colorButton);
         mEraserButton = (ImageButton) container.findViewById(R.id.eraserButton);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(v.getId()==R.id.colorButton)
+                if (v.getId() == R.id.colorButton)
                     showCustomColorChooser();
-                else if(v.getId()==R.id.eraserButton)
+                else if (v.getId() == R.id.eraserButton)
                     toggleEraser();
             }
         };
+
+        if (id != null)
+            mBoxDrawingView.setEditable(false);
 
         mColorButton.setOnClickListener(onClickListener);
         mEraserButton.setOnClickListener(onClickListener);
@@ -66,17 +69,17 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     @Override
     public void toggleEditable() {
         //TODO enable/disable drawing on view. Or not?
+        mBoxDrawingView.setEditable(!mBoxDrawingView.isEditable());
     }
 
     @Override
     public void deleteNote() {
         mBoxDrawingView.removePaintData();
-        mNoteLab.deleteObject(mPaintNote,mPaintNote.getNote());
+        mNoteLab.deleteObject(mPaintNote, mPaintNote.getNote());
     }
 
-    @Override
-    public void setNoteData() {
-        Log.d("DragAndDrawFragment","setNoteData, id : "+ mPaintNote.getId());
+    private void setNoteData() {
+        Log.d("DragAndDrawFragment", "setNoteData, id : " + mPaintNote.getId());
         mBoxDrawingView.savePaintData();
     }
 
@@ -103,7 +106,7 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     @Override
     protected void saveNote() {
         mNoteLab.updatePaintNote(mPaintNote);
-        Log.d("DragAndDrawFragment","setNoteData, id : "+ mPaintNote.getId());
+        Log.d("DragAndDrawFragment", "setNoteData, id : " + mPaintNote.getId());
         mBoxDrawingView.savePaintData();
     }
 
@@ -138,8 +141,9 @@ public class DragAndDrawFragment extends BaseNoteFragment {
             }
         });
     }
-    private void toggleEraser(){
-        if(!isEraserOn) {
+
+    private void toggleEraser() {
+        if (!isEraserOn) {
             mCurrentLineColor = mBoxDrawingView.getLineColor();
             int colorBG = getResources().getColor(R.color.paint_bg);
             mColorButton.setEnabled(false);

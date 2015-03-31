@@ -16,24 +16,23 @@ public class ListNote extends RealmObject {
     @PrimaryKey
     private String id;
     private Note note;
-    private RealmList<CheckList> noteItems;
+    private RealmList<CheckListItem> noteItems;
 
 
     public ListNote() {
         id = UUID.randomUUID().toString();
-        noteItems = new RealmList<CheckList>();
+        noteItems = new RealmList<>();
         note = new Note();
         this.note.setType(Note.NOTE_TYPE_LIST);
     }
 
-    public RealmList<CheckList> getNoteItems() {
+    public RealmList<CheckListItem> getNoteItems() {
         return noteItems;
     }
 
-    public void setNoteItems(RealmList<CheckList> noteItems) {
+    public void setNoteItems(RealmList<CheckListItem> noteItems) {
         this.noteItems = noteItems;
     }
-
 
 
     public String getId() {

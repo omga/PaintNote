@@ -35,13 +35,11 @@ import io.realm.RealmResults;
  */
 public class NoteListFragment extends Fragment implements AbsListView.OnItemClickListener {
 
-    private OnFragmentInteractionListener mListener;
-
     /**
      * Field to save state (position) of the ListView
      */
     Parcelable mListViewState=null;
-
+    private OnFragmentInteractionListener mListener;
     /**
      * The fragment's ListView/GridView.
      */
@@ -52,11 +50,8 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-
-//    private DataBaseHelper.NoteCursor mCursor;
-//    private NoteCursorAdapter mCursorAdapter;
-    private RealmResults<Note> mRealmResults;
     private NoteRealmAdapter mRealmAdapter;
+    private RealmResults<Note> mRealmResults;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -64,13 +59,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
     public NoteListFragment() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-//        mCursor = NoteLab.getInstance(getActivity().getApplicationContext()).getCursor();
-//        mCursorAdapter = new NoteCursorAdapter(getActivity(),mCursor);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,9 +68,9 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        //(mListView).setAdapter(mCursorAdapter);
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        mListView.setEmptyView(view.findViewById(R.id.empty));
         fabBtnAdd = (ImageButton) view.findViewById(R.id.note_list_add_btn);
         if(Build.VERSION.SDK_INT>= 21)
             fabBtnAdd.setOnTouchListener(new View.OnTouchListener() {
@@ -145,21 +134,8 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         }
     }
 
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
-    public void setEmptyText(CharSequence emptyText) {
-        View emptyView = mListView.getEmptyView();
 
-        if (emptyView instanceof TextView) {
-            ((TextView) emptyView).setText(emptyText);
-        }
-    }
     public void updateUI(){
-//        mCursor = NoteLab.getInstance(getActivity().getApplicationContext()).getCursor();
-//        mCursorAdapter = new NoteCursorAdapter(getActivity(),mCursor);
         mRealmResults = NoteLab.getInstance(getActivity().getApplicationContext()).getNotes();
         mRealmAdapter = new NoteRealmAdapter(getActivity(), mRealmResults, true);
         (mListView).setAdapter(mRealmAdapter);

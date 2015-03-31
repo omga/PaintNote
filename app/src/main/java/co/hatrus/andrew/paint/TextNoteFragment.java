@@ -3,18 +3,13 @@ package co.hatrus.andrew.paint;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.TextNote;
-import io.realm.Realm;
 
 
 /**
@@ -37,27 +32,18 @@ public class TextNoteFragment extends BaseNoteFragment {
             mNoteText.setText(mTextNote.getText());
             mNoteText.setEnabled(false);
 
-        } //else mNoteText.setEnabled(true);
-
+        }
         return v;
     }
 
     @Override
     public void toggleEditable() {
         mNoteText.setEnabled(!mNoteText.isEnabled());
-        //mNoteText.setClickable(!mNoteText.isClickable());
     }
 
     @Override
     public void deleteNote() {
         mNoteLab.deleteObject(mTextNote,mTextNote.getNote());
-    }
-
-    @Override
-    public void setNoteData() {
-        mNoteLab.getRealm().beginTransaction();
-        mTextNote.setText(mNoteText.getText().toString().trim());
-        mNoteLab.getRealm().commitTransaction();
     }
 
     @Override
@@ -76,13 +62,12 @@ public class TextNoteFragment extends BaseNoteFragment {
 
     @Override
     protected void updateNote() {
-
         //setNoteData();
     }
 
     @Override
     protected void saveNote() {
-        mNoteLab.updateTextNote(mTextNote,1);
+        mNoteLab.updateTextNote(mTextNote);
     }
 
     @Override

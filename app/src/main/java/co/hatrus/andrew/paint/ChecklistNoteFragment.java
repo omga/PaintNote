@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,19 +28,19 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.List;
 import java.util.UUID;
 
-import co.hatrus.andrew.paint.model.CheckList;
+import co.hatrus.andrew.paint.model.CheckListItem;
 import co.hatrus.andrew.paint.model.ListNote;
-
 
 
 /**
  * Created by user on 12.02.15.
  */
 public class ChecklistNoteFragment extends BaseNoteFragment {
-    ListView checklist;
-    ImageButton addBtn;
-    CheckListAdaprer mCheckListAdaprer;
-    ListNote mListNote;
+
+    private ListView checklist;
+    private ImageButton addBtn;
+    private CheckListAdapter mCheckListAdapter;
+    private ListNote mListNote;
     private EditText mDialogItemInput;
     private View positiveAction, neutralAction;
     private FrameLayout.LayoutParams btnLayoutParams;
@@ -50,13 +49,13 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_checklist_note,container,false);
+        View v = inflater.inflate(R.layout.fragment_checklist_note, container, false);
         checklist = (ListView) v.findViewById(R.id.checklist_view);
         addBtn = (ImageButton) v.findViewById(R.id.checklist_add_btn);
-        mCheckListAdaprer = new CheckListAdaprer(getActivity(), mListNote.getNoteItems());
-        checklist.setAdapter(mCheckListAdaprer);
-        btnLayoutParams = (FrameLayout.LayoutParams)addBtn.getLayoutParams();
-        if(isListEmpty) {
+        mCheckListAdapter = new CheckListAdapter(getActivity(), mListNote.getNoteItems());
+        checklist.setAdapter(mCheckListAdapter);
+        btnLayoutParams = (FrameLayout.LayoutParams) addBtn.getLayoutParams();
+        if (isListEmpty) {
             btnLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
             addBtn.setLayoutParams(btnLayoutParams);
         }
@@ -65,10 +64,9 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
             public void onClick(View v) {
                 showCustomView(getDialogAddtem());
 
-
             }
         });
-        if(Build.VERSION.SDK_INT>= 21)
+        if (Build.VERSION.SDK_INT >= 21)
             addBtn.setOnTouchListener(new View.OnTouchListener() {
                 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -89,29 +87,25 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView item = (TextView) (view.findViewById(R.id.checlist_item_text));
-                CheckList checkList = mListNote.getNoteItems().get(position);
-                Log.d("Checklist","bool1: " + checkList.isChecked());
+                CheckListItem checkListItem = mListNote.getNoteItems().get(position);
                 mNoteLab.getRealm().beginTransaction();
-                checkList.setChecked(!checkList.isChecked());
+                checkListItem.setChecked(!checkListItem.isChecked());
                 if ((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)
-                    item.setPaintFlags( item.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                    item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 else
                     item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 mNoteLab.getRealm().commitTransaction();
-                Log.d("Checklist","bool2: " + checkList.isChecked());
             }
         };
         checklist.setOnItemClickListener(mOnItemClickListenerStrikeThru);
         mOnItemClickListenerEditable = new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView item = (TextView) (view.findViewById(R.id.checlist_item_text));
-                CheckList checkList = mListNote.getNoteItems().get(position);
-                showCustomView(getDialogEdittem(checkList));
+                CheckListItem checkListItem = mListNote.getNoteItems().get(position);
+                showCustomView(getDialogEdittem(checkListItem));
                 if ((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)
-                    item.setPaintFlags( item.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-                Log.d("Checklist","edit: " + checkList.getItem());
+                    item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             }
         };
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -120,8 +114,8 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
     @Override
     public void toggleEditable() {
-        isEditable=!isEditable;
-        if(isEditable)
+        isEditable = !isEditable;
+        if (isEditable)
             checklist.setOnItemClickListener(mOnItemClickListenerEditable);
         else checklist.setOnItemClickListener(mOnItemClickListenerStrikeThru);
     }
@@ -130,10 +124,6 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     public void deleteNote() {
         mNoteLab.deleteObjectList(mListNote.getNoteItems());
         mNoteLab.deleteObject(mListNote, mListNote.getNote());
-    }
-    @Override
-    public void setNoteData() {
-
     }
 
     @Override
@@ -154,7 +144,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
     @Override
     protected void saveNote() {
-        mNoteLab.updateListNote(mListNote,2);
+        mNoteLab.updateListNote(mListNote);
 
     }
 
@@ -165,21 +155,22 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         mNoteLab.getRealm().commitTransaction();
     }
 
-    public void addChecklistItem(String text){
+    public void addChecklistItem(String text) {
         mNoteLab.getRealm().beginTransaction();
-        CheckList checkListItem = mNoteLab.getRealm().createObject(CheckList.class);
+        CheckListItem checkListItem = mNoteLab.getRealm().createObject(CheckListItem.class);
         checkListItem.setId(UUID.randomUUID().toString());
         checkListItem.setItem(text);
         checkListItem.setChecked(false);
         mListNote.getNoteItems().add(checkListItem);
         mNoteLab.getRealm().commitTransaction();
-        mCheckListAdaprer.notifyDataSetChanged();
+        mCheckListAdapter.notifyDataSetChanged();
     }
 
-    private void fabBtnToCorner(){
-        btnLayoutParams.gravity = Gravity.BOTTOM|Gravity.RIGHT;
+    private void fabBtnToCorner() {
+        btnLayoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
         addBtn.setLayoutParams(btnLayoutParams);
     }
+
     private void showCustomView(MaterialDialog dialog) {
         positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
         neutralAction = dialog.getActionButton(DialogAction.NEUTRAL);
@@ -187,13 +178,15 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().trim().length() > 0) {
+                if (s.toString().trim().length() > 0) {
                     positiveAction.setEnabled(true);
                     neutralAction.setEnabled(true);
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -204,6 +197,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         mDialogItemInput.requestFocus();
     }
+
     private MaterialDialog getDialogAddtem() {
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title("Add Item")
@@ -216,15 +210,15 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         return dialog;
     }
 
-    private MaterialDialog getDialogEdittem(CheckList checkList) {
-        MaterialDialog dialog =  new MaterialDialog.Builder(getActivity())
+    private MaterialDialog getDialogEdittem(CheckListItem checkListItem) {
+        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title("Edit Item")
                 .customView(R.layout.dialog_customview, true)
                 .positiveText("Edit")
                 .negativeText(android.R.string.cancel)
-                .callback(new MaterialButtonEditItemCallback(checkList)).build();
+                .callback(new MaterialButtonEditItemCallback(checkListItem)).build();
         mDialogItemInput = (EditText) dialog.getCustomView().findViewById(R.id.new_item);
-        mDialogItemInput.setText(checkList.getItem());
+        mDialogItemInput.setText(checkListItem.getItem());
         return dialog;
     }
 
@@ -232,9 +226,9 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         @Override
         public void onPositive(MaterialDialog dialog) {
             addChecklistItem(mDialogItemInput.getText().toString());
-            if(isListEmpty) {
+            if (isListEmpty) {
                 fabBtnToCorner();
-                isListEmpty=false;
+                isListEmpty = false;
             }
         }
 
@@ -245,27 +239,29 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
         @Override
         public void onNeutral(MaterialDialog dialog) {
             addChecklistItem(mDialogItemInput.getText().toString());
-            if(isListEmpty) {
+            if (isListEmpty) {
                 fabBtnToCorner();
-                isListEmpty=false;
+                isListEmpty = false;
             }
             showCustomView(getDialogAddtem());
         }
     }
 
     private class MaterialButtonEditItemCallback extends MaterialDialog.ButtonCallback {
-        CheckList checkList;
-        public MaterialButtonEditItemCallback(CheckList checkList) {
+        CheckListItem mCheckListItem;
+
+        public MaterialButtonEditItemCallback(CheckListItem checkListItem) {
             super();
-            this.checkList = checkList;
+            this.mCheckListItem = checkListItem;
         }
+
         @Override
         public void onPositive(MaterialDialog dialog) {
             mNoteLab.getRealm().beginTransaction();
-            checkList.setChecked(false);
-            checkList.setItem(mDialogItemInput.getText().toString());
+            mCheckListItem.setChecked(false);
+            mCheckListItem.setItem(mDialogItemInput.getText().toString());
             mNoteLab.getRealm().commitTransaction();
-            mCheckListAdaprer.notifyDataSetChanged();
+            mCheckListAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -275,24 +271,24 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     }
 
 
-    private class CheckListAdaprer<CheckList> extends ArrayAdapter<CheckList> {
+    private class CheckListAdapter<CheckList> extends ArrayAdapter<CheckList> {
 
-        public CheckListAdaprer(Context context, List<CheckList> objects) {
+        public CheckListAdapter(Context context, List<CheckList> objects) {
             super(context, R.layout.item_checklist, R.id.checlist_item_text, objects);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView==null){
+            if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.item_checklist, null);
             }
-            co.hatrus.andrew.paint.model.CheckList checkList = mListNote.getNoteItems().get(position);
-            TextView textView = (TextView)convertView.findViewById(R.id.checlist_item_text);
-            textView.setText(checkList.getItem());
-            if(checkList.isChecked())
+            CheckListItem checkListItem = mListNote.getNoteItems().get(position);
+            TextView textView = (TextView) convertView.findViewById(R.id.checlist_item_text);
+            textView.setText(checkListItem.getItem());
+            if (checkListItem.isChecked())
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             else
-                textView.setPaintFlags(textView.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                textView.setPaintFlags(textView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             return convertView;
         }
     }
