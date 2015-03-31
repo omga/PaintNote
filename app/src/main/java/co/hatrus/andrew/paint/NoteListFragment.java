@@ -3,7 +3,6 @@ package co.hatrus.andrew.paint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,21 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 
-import java.util.List;
-
-
-import co.hatrus.andrew.paint.db.DataBaseHelper;
 import co.hatrus.andrew.paint.model.Note;
-import co.hatrus.andrew.paint.model.TextNote;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 
@@ -198,30 +189,6 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         public void onNoteSelected(Note note, String id);
     }
 
-    private class NoteCursorAdapter extends CursorAdapter {
-        private DataBaseHelper.NoteCursor mCursor;
-
-        public NoteCursorAdapter(Context context, DataBaseHelper.NoteCursor c) {
-            super(context, c, 0);
-            mCursor = c;
-        }
-
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            return inflater.inflate(android.R.layout.simple_list_item_1,parent,false);
-        }
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-            Note note = mCursor.getNote();
-            TextView title = (TextView)view;
-            title.setText(note.getTitle());
-
-        }
-
-    }
-
     /**
      * ListView adapter for RealmResults
      */
@@ -234,6 +201,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView title;
+            TextView date;
             ImageView icon;
             Note note = realmResults.get(position);
             if (convertView == null) {
@@ -241,7 +209,9 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
             }
             icon = (ImageView) convertView.findViewById(R.id.type_icon);
             title = (TextView) convertView.findViewById(R.id.title_listnote);
+            date = (TextView) convertView.findViewById(R.id.date_listnote);
             title.setText(note.getTitle());
+            date.setText(DateFormat.getDateInstance().format(note.getTimeCreated()));
             int resImg;
             switch(note.getType()) {
                 case Note.NOTE_TYPE_LIST: resImg = R.drawable.ic_list_grey;

@@ -33,6 +33,10 @@ public class WidgetProvider extends AppWidgetProvider {
                     R.layout.widget_layout);
             widget.setRemoteAdapter(R.id.widget_list,
                     svcIntent);
+
+            //intent for onListItemClick
+            widget.setPendingIntentTemplate(R.id.widget_list, getBaseNotePendingIntent(ctxt,-1,"ListItemClickTag"));
+
             // 3 PendingIntents and for buttons click to create new textnote/listnote/paintnote
             widget.setOnClickPendingIntent(R.id.btn_new_textnote,getBaseNotePendingIntent(ctxt,Note.NOTE_TYPE_TEXT,"TextTag"));
             widget.setOnClickPendingIntent(R.id.btn_new_paintnote,getBaseNotePendingIntent(ctxt,Note.NOTE_TYPE_PAINT,"PaintTag"));
@@ -45,7 +49,8 @@ public class WidgetProvider extends AppWidgetProvider {
     }
     private PendingIntent getBaseNotePendingIntent(Context ctxt, int noteType, String Tag) {
         Intent clickIntent=new Intent(ctxt, BaseNoteActivity.class);
-        clickIntent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA, noteType);
+        if(noteType!=-1)
+            clickIntent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA, noteType);
         clickIntent.setAction(Tag);
         return PendingIntent
                 .getActivity(ctxt, 0,

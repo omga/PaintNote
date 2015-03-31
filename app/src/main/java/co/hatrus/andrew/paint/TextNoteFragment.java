@@ -24,7 +24,6 @@ public class TextNoteFragment extends BaseNoteFragment {
 
     private TextNote mTextNote;
     private EditText mNoteText;
-    Realm mRealm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +32,7 @@ public class TextNoteFragment extends BaseNoteFragment {
         View v = inflater.inflate(R.layout.fragment_text_note, container, false);
         mNoteText = (EditText) v.findViewById(R.id.note_text);
         mNoteText.setTypeface(Typeface
-                .createFromAsset(getActivity().getAssets(), "fonts/Roboto-Regular.ttf"));
+                .createFromAsset(getActivity().getAssets(), "fonts/Roboto-Medium.ttf"));
         if(id!=null) {
             mNoteText.setText(mTextNote.getText());
             mNoteText.setEnabled(false);

@@ -128,7 +128,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void updateWidgets() {
+    public void updateWidgets() {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), WidgetProvider.class));
 //        if(appWidgetIds.length > 0)

@@ -56,6 +56,7 @@ public abstract class BaseNoteFragment extends Fragment {
                 break;
             case R.id.action_delete_note:
                 deleteNote();
+                ((BaseNoteActivity)getActivity()).updateWidgets();
                 NavUtils.navigateUpFromSameTask(getActivity());
                 break;
             case R.id.action_edit_note:

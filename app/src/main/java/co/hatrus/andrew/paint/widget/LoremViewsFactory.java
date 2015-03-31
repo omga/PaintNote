@@ -156,6 +156,7 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
                 return null;
         }
         Intent i = new Intent(ctxt,BaseNoteActivity.class);
+        i.setAction("OnListItemClickTag");
         i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         i.putExtra(NoteListActivity.NOTE_ID_EXTRA, note.getId());
         i.putExtra(NoteListActivity.NOTE_TITLE_EXTRA, note.getTitle());

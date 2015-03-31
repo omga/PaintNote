@@ -6,6 +6,7 @@
               android:id="@+id/row_container">
 
     <TextView
+        android:typeface="monospace"
         android:id="@+id/title_widget_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +23,7 @@
 
 
     <TextView
+        android:typeface="monospace"
         android:id="@+id/text_widget_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
