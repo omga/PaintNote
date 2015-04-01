@@ -28,16 +28,6 @@ import io.realm.RealmResults;
 
 public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final int DEFAULT_MAX_ITEMS_COUNT = 5;
-    private static final String[] items = {"lorem", "ipsum", "dolor",
-            "sit", "amet", "consectetuer",
-            "adipiscing", "elit", "morbi",
-            "vel", "ligula", "vitae",
-            "arcu", "aliquet", "mollis",
-            "etiam", "vel", "erat",
-            "placerat", "ante",
-            "porttitor", "sodales",
-            "pellentesque", "augue",
-            "purus"};
     private static int ITEMS_COUNT = 5;
     ArrayList<RemoteViews> rowList = new ArrayList<>(ITEMS_COUNT);
     private Realm mRealm;
@@ -138,8 +128,10 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
                 for (CheckListItem checkListItem : listNote.getNoteItems()) {
                     rmChild = new RemoteViews(ctxt.getPackageName(), R.layout.widget_checklist_item);
                     rmChild.setTextViewText(R.id.widget_checklist_item, checkListItem.getItem());
-                    if (checkListItem.isChecked())
+                    if (checkListItem.isChecked()) {
                         rmChild.setInt(R.id.widget_checklist_item, "setPaintFlags", Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+                        rmChild.setImageViewResource(R.id.widget_checklist_icon,R.drawable.btn_check_on_disabled_holo_light);
+                    }
                     row.addView(R.id.widget_checklist_container, rmChild);
                 }
                 break;
@@ -149,7 +141,6 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
                 row.setViewVisibility(R.id.text_widget_row, View.GONE);
                 row.setViewVisibility(R.id.paint_widget_row, View.VISIBLE);
                 File file = new File(ctxt.getExternalFilesDir("painta") + "/" + paintNote.getId() + ".jpg");
-                Log.e("WOWOWOWOWO", "HRUHRU PAINT file path" + file.getAbsolutePath());
                 if (!file.exists())
                     break;
                 Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
