@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import co.hatrus.andrew.paint.model.CheckListItem;
 import co.hatrus.andrew.paint.model.ListNote;
+import co.hatrus.andrew.paint.model.Note;
 
 
 /**
@@ -129,12 +130,15 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     @Override
     protected void getNote() {
         mListNote = mNoteLab.getListNoteData(id);
+        mNote = mListNote.getNote();
 
     }
 
     @Override
     protected void newNote() {
         mListNote = new ListNote();
+        mNote = mListNote.getNote();
+
         isListEmpty = true;
     }
 

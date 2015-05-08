@@ -1,9 +1,19 @@
 package co.hatrus.andrew.paint;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
+
+import co.hatrus.andrew.paint.model.Note;
+import co.hatrus.andrew.paint.notificationstuff.AlarmManagerBroadcastReceiver;
+import co.hatrus.andrew.paint.notificationstuff.NotificationService;
 
 /**
  * Created by user on 12.02.15.
@@ -15,6 +25,7 @@ public abstract class BaseNoteFragment extends Fragment {
     protected NoteLab mNoteLab;
     protected String id;
     protected int type;
+    protected Note mNote;
 
     protected BaseNoteFragment putArgs(String id, int type) {
         Bundle args = new Bundle();
@@ -69,7 +80,30 @@ public abstract class BaseNoteFragment extends Fragment {
         }
         return true;
     }
+    public void setReminder(long timeInMillis) {
+//        mNote.setTimeRemind(timeInMillis);
+//        mNote.setReminderEnabled(true);
 
+
+        Log.d("BaseNoteFragment","setReminder " + mNote.getId() + "type " + mNote.getType());
+//        AlarmManager alarmMgr;
+//        PendingIntent alarmIntent;
+//        alarmMgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+//        Intent intent = new Intent(getActivity(), NotificationService.class);
+//        intent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA,mNote.getType());
+//        intent.putExtra(NoteListActivity.NOTE_ID_EXTRA,mNote.getId());
+//        alarmIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+//
+//        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                SystemClock.elapsedRealtime() +
+//                        60 * 1000, alarmIntent);
+
+        //new AlarmManagerBroadcastReceiver().setOnetimeTimer(getActivity());
+//        Intent intent = new Intent(getActivity(), AlarmManagerBroadcastReceiver.class);
+//        intent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA,mNote.getType());
+//        intent.putExtra(NoteListActivity.NOTE_ID_EXTRA,mNote.getId());
+        new AlarmManagerBroadcastReceiver().setNotificationAlarm(getActivity(), mNote);
+    }
     public abstract void toggleEditable();
 
     public abstract void deleteNote();

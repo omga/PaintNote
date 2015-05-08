@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import co.hatrus.andrew.paint.BaseNoteFragment;
 import co.hatrus.andrew.paint.ColorChooserDialog;
 import co.hatrus.andrew.paint.R;
+import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
 
 
@@ -86,14 +87,13 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     @Override
     protected void getNote() {
         mPaintNote = mNoteLab.getPaintNoteData(id);
+        mNote = mPaintNote.getNote();
     }
 
     @Override
     protected void newNote() {
         mPaintNote = new PaintNote();
-//        Note n = new Note();
-//        n.setType(Note.NOTE_TYPE_TEXT);
-//        mPaintNote.setNote(n);
+        mNote = mPaintNote.getNote();
         Log.e("sSSSSSSSSSSssssss", mPaintNote.getId());
 //        Log.e("sSSSSSSSSSSssssss",n.getId());
     }

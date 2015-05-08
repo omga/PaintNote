@@ -23,6 +23,8 @@ public class Note extends RealmObject {
     private String id;
     private String title;
     private Date timeCreated;
+    private long timeRemind;
+    private boolean reminderEnabled;
     private int type;
 
     public Note() {
@@ -61,4 +63,19 @@ public class Note extends RealmObject {
         this.type = type;
     }
 
+    public long getTimeRemind() {
+        return timeRemind;
+    }
+
+    public void setTimeRemind(long timeRemind) {
+        this.timeRemind = timeRemind;
+    }
+
+    public boolean isReminderEnabled() {
+        return reminderEnabled;
+    }
+
+    public void setReminderEnabled(boolean reminderEnabled) {
+        this.reminderEnabled = reminderEnabled;
+    }
 }

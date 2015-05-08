@@ -1,8 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="co.hatrus.andrew.paint.BaseNoteActivity"
-    android:background="@color/main_color_100">
+    android:background="@color/main_color_100"
+    android:orientation="vertical">
 
     <EditText
         android:padding="@dimen/activity_horizontal_margin"
@@ -15,11 +16,18 @@
         android:background="@color/main_color_200"/>
     <FrameLayout
         android:id="@+id/container"
-        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
         tools:context="co.hatrus.andrew.paint.MainFragmentActivity"
         android:layout_below="@id/note_title"
         android:layout_alignParentLeft="true"
          />
+    <TextView
+        android:id="@+id/reminder_textView"
+        android:text="@string/set_reminder"
+        android:layout_margin="10dp"
+        android:drawableLeft="@android:drawable/ic_lock_idle_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
-
-</RelativeLayout>
+</LinearLayout>

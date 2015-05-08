@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Date;
 
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.paint.DragAndDrawFragment;
@@ -19,7 +23,8 @@ import co.hatrus.andrew.paint.widget.WidgetProvider;
 
 public class BaseNoteActivity extends MainFragmentActivity {
     EditText mTitle;
-    NoteLab mNoteLab;
+    TextView reminderTextView;
+
     int note_type;
     String note_id;
     private Menu menu;
@@ -46,10 +51,20 @@ public class BaseNoteActivity extends MainFragmentActivity {
         mTitle = (EditText) findViewById(R.id.note_title);
         mTitle.setTypeface(Typeface
                 .createFromAsset(this.getAssets(), "fonts/Roboto-Bold.ttf"));
+        reminderTextView = (TextView) findViewById(R.id.reminder_textView);
+        reminderTextView.setTypeface(Typeface
+                .createFromAsset(this.getAssets(), "fonts/Roboto-Bold.ttf"));
+        reminderTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogSetReminder();
+            }
+        });
+
         note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);
         String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
         note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
-        mNoteLab = NoteLab.getInstance(getApplicationContext());
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         if(note_id!=null) {
@@ -125,10 +140,16 @@ public class BaseNoteActivity extends MainFragmentActivity {
 
     public void updateWidgets() {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), WidgetProvider.class));
+        int[] appWidgetIds = appWidgetManager.
+                getAppWidgetIds(new ComponentName(getApplicationContext(), WidgetProvider.class));
         Intent intent = new Intent(this,WidgetProvider.class);
         intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
         sendBroadcast(intent);
+    }
+
+    public void openDialogSetReminder () {
+        ((BaseNoteFragment) getSupportFragmentManager().findFragmentById(R.id.container)).
+                setReminder(new Date().getTime()+10000);
     }
 }

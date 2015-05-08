@@ -49,15 +49,16 @@ public class TextNoteFragment extends BaseNoteFragment {
     @Override
     protected void getNote() {
         mTextNote = mNoteLab.getTextNoteData(id);
+        mNote = mTextNote.getNote();
 
     }
 
     @Override
     protected void newNote() {
         mTextNote = new TextNote();
-        Note n = new Note();
-        n.setType(Note.NOTE_TYPE_TEXT);
-        mTextNote.setNote(n);
+        mNote = new Note();
+        mNote.setType(Note.NOTE_TYPE_TEXT);
+        mTextNote.setNote(mNote);
     }
 
     @Override

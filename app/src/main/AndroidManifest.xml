@@ -3,7 +3,16 @@
     package="co.hatrus.andrew.paint" >
 
     <uses-sdk android:minSdkVersion="15" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -18,18 +27,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BaseNoteActivity"
-                  android:parentActivityName=".NoteListActivity"
-                  android:label="Note">
+        <activity
+            android:name=".BaseNoteActivity"
+            android:label="Note"
+            android:parentActivityName=".NoteListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NoteListActivity"/>
-            </activity>
+                android:value=".NoteListActivity" />
+        </activity>
+
         <receiver
+            android:name=".widget.WidgetProvider"
             android:icon="@drawable/ic_launcher"
-            android:label="PaintNote Widget"
-            android:name=".widget.WidgetProvider" >
-            <intent-filter >
+            android:label="PaintNote Widget" >
+            <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
@@ -37,10 +48,19 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
-        <service android:name=".widget.WidgetService"
-                 android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <service
+            android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service
+            android:name=".notificationstuff.NotificationService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
 
+        <receiver
+            android:name=".notificationstuff.AlarmManagerBroadcastReceiver" >
+        </receiver>
     </application>
 
 </manifest>
