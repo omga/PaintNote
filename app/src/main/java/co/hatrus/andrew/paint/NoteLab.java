@@ -3,6 +3,8 @@ package co.hatrus.andrew.paint;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.Iterator;
+
 import co.hatrus.andrew.paint.model.ListNote;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
@@ -108,6 +110,23 @@ public class NoteLab {
         }catch (Exception ise){
             Log.e("Notelab","deleteObjectList "+ise.getMessage());
         }
+    }
+
+    public Iterator<Note> getUpgoingNoteReminders() {
+        return mRealm.where(Note.class)
+                .equalTo("reminderEnabled", true)
+                        //.greaterThan("timeRemind", Calendar.getInstance().getTimeInMillis())
+                .findAllSorted("timeRemind")
+                .iterator();
+    }
+
+    public void disableAlarm(String id) {
+        mRealm.beginTransaction();
+        mRealm.where(Note.class)
+                .equalTo("id", id)
+                .findFirst()
+                .setReminderEnabled(false);
+        mRealm.commitTransaction();
     }
 
 }

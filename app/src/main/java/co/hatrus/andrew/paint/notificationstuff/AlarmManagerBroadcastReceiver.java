@@ -1,97 +1,118 @@
 package co.hatrus.andrew.paint.notificationstuff;
 
-import java.text.Format;
-
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
-
 import android.app.AlarmManager;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-
 import android.content.BroadcastReceiver;
-
 import android.content.Context;
-
 import android.content.Intent;
-
-import android.os.Bundle;
-
 import android.os.PowerManager;
-
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
-import android.widget.Toast;
+
+import java.util.Iterator;
+import java.util.Random;
 
 import co.hatrus.andrew.paint.BaseNoteActivity;
-import co.hatrus.andrew.paint.BaseNoteFragment;
+import co.hatrus.andrew.paint.NoteLab;
 import co.hatrus.andrew.paint.NoteListActivity;
 import co.hatrus.andrew.paint.R;
 import co.hatrus.andrew.paint.model.Note;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
-
-    final public static String ONE_TIME = "onetime";
+    public static final String TAG = "AlarmManagerReceiver";
+    public static final String ONE_TIME = "onetime";
     Context mContext;
 
 
     @Override
 
     public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "onReceive ");
+        if (intent == null || intent.getAction() == null)
+            return;
         mContext = context;
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
-
-// Осуществляем блокировку
 
         wl.acquire();
 
+        //Set 3 first notification after device reboot
+        if (!intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+            Log.d(TAG, "onReceive " +
+                    intent.getStringExtra(NoteListActivity.NOTE_ID_EXTRA) +
+                    " type " + intent.getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, -1) +
+                    " title " + intent.getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA));
 
-
-// Здесь можно делать обработку.
-
-        Bundle extras = intent.getExtras();
-        Log.d("BaseNoteFragment", "setReminder " +
-                intent.getStringExtra(NoteListActivity.NOTE_ID_EXTRA) +
-                " type " + intent.getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, -1)+
-                " title " + intent.getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA));
-        StringBuilder msgStr = new StringBuilder();
-
-
-
-        if (extras != null) {
-
-            // проверяем параметр ONE_TIME, если это одиночный будильник,
-
-            // выводим соответствующее сообщение.
-
-            msgStr.append("Одноразовый "+ extras.getString(NoteListActivity.NOTE_ID_EXTRA));
-
+            String id = intent.getStringExtra(NoteListActivity.NOTE_ID_EXTRA),
+                    title = intent.getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
+            int type = intent.getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, -1);
+            sendNotif(id, type, title);
+        }
+        Iterator<Note> iterator =
+                NoteLab.getInstance(mContext).
+                        getUpgoingNoteReminders();
+        for (int i = 0; i < 3; i++) {
+            if (iterator.hasNext())
+                setNotificationAlarm(mContext, iterator.next());
         }
 
-        Format formatter = new SimpleDateFormat("hh:mm:ss a");
-
-        msgStr.append(formatter.format(new Date()));
-
-
-
-        Toast.makeText(context, msgStr, Toast.LENGTH_LONG).show();
-        String id =intent.getStringExtra(NoteListActivity.NOTE_ID_EXTRA),
-            title =intent.getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
-        int type = intent.getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, -1);
-        sendNotif(id,type,title);
-
-// Разблокируем поток.
-
         wl.release();
-
     }
 
+    public void setNotificationAlarm(Context context, Note note) {
+        Log.d(TAG, "setNotificationAlarm ");
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+        intent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA, note.getType());
+        intent.putExtra(NoteListActivity.NOTE_ID_EXTRA, note.getId());
+        intent.putExtra(NoteListActivity.NOTE_TITLE_EXTRA, note.getTitle());
+        intent.setAction("setNotificationAlarm");
+        if (PendingIntent.getBroadcast(context, note.getTimeCreated().hashCode(), intent, PendingIntent.FLAG_NO_CREATE) == null) {
+            Log.d(TAG, "setNotificationAlarm create PI");
+            PendingIntent pi = PendingIntent.getBroadcast(context, note.getTimeCreated().hashCode(), intent, 0);
+            am.set(AlarmManager.RTC_WAKEUP, note.getTimeRemind(), pi);
+        }
+    }
+
+    void sendNotif(String id, int type, String title) {
+        NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(mContext)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentText("Click to see your note")
+                        .setContentTitle(title)
+                        .setTicker("Note Reminder!")
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setAutoCancel(true);
+
+
+        Intent intent = new Intent(mContext, BaseNoteActivity.class);
+        intent.putExtra(NoteListActivity.NOTE_ID_EXTRA, id);
+        intent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA, type);
+        intent.putExtra(NoteListActivity.NOTE_TITLE_EXTRA, title);
+//        PendingIntent pIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(BaseNoteActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(intent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        builder.setContentIntent(resultPendingIntent);
+
+        nm.notify(new Random().nextInt(), builder.build());
+        NoteLab.getInstance(mContext).disableAlarm(id);
+    }
 
 
     public void setAlarm(Context context) {
@@ -138,49 +159,5 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
 
-    }
-    public void setNotificationAlarm(Context context, Note note) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA, note.getType());
-        intent.putExtra(NoteListActivity.NOTE_ID_EXTRA, note.getId());
-        intent.putExtra(NoteListActivity.NOTE_TITLE_EXTRA, note.getTitle());
-
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +10000, pi);
-    }
-
-    void sendNotif(String id, int type, String title) {
-        NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(mContext).
-                        setSmallIcon(R.drawable.ic_launcher)
-                        .setContentText("Click to see your note")
-                        .setContentTitle(title)
-                        .setTicker("Note Reminder!").setDefaults(Notification.DEFAULT_LIGHTS);
-
-        Intent intent = new Intent(mContext, BaseNoteActivity.class);
-        intent.putExtra(NoteListActivity.NOTE_ID_EXTRA, id);
-        intent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA, type);
-        intent.putExtra(NoteListActivity.NOTE_TITLE_EXTRA, title);
-//        PendingIntent pIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
-
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
-// Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(BaseNoteActivity.class);
-// Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(intent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-
-        builder.setContentIntent(resultPendingIntent);
-
-        nm.notify(1, builder.build());
     }
 }

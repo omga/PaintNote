@@ -14,8 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Date;
-
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.paint.DragAndDrawFragment;
 import co.hatrus.andrew.paint.widget.WidgetProvider;
@@ -53,7 +51,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
                 .createFromAsset(this.getAssets(), "fonts/Roboto-Bold.ttf"));
         reminderTextView = (TextView) findViewById(R.id.reminder_textView);
         reminderTextView.setTypeface(Typeface
-                .createFromAsset(this.getAssets(), "fonts/Roboto-Bold.ttf"));
+                .createFromAsset(this.getAssets(), "fonts/Roboto-Light.ttf"));
         reminderTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +148,10 @@ public class BaseNoteActivity extends MainFragmentActivity {
 
     public void openDialogSetReminder () {
         ((BaseNoteFragment) getSupportFragmentManager().findFragmentById(R.id.container)).
-                setReminder(new Date().getTime()+10000);
+                setReminder();
+    }
+
+    public void setReminderTextView(String str) {
+        reminderTextView.setText(str);
     }
 }

@@ -1,19 +1,18 @@
 package co.hatrus.andrew.paint;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import co.hatrus.andrew.paint.model.Note;
-import co.hatrus.andrew.paint.notificationstuff.AlarmManagerBroadcastReceiver;
-import co.hatrus.andrew.paint.notificationstuff.NotificationService;
+import co.hatrus.andrew.paint.notificationstuff.DateTimeDialogListener;
+
 
 /**
  * Created by user on 12.02.15.
@@ -41,8 +40,15 @@ public abstract class BaseNoteFragment extends Fragment {
         id = getArguments().getString(BaseNoteFragment.EXTRA_NOTE_ID);
         type = getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_TYPE, 1);
         mNoteLab = NoteLab.getInstance(getActivity());
-        if (id != null)
+        if (id != null) {
             getNote();
+            if (mNote.getTimeRemind() > Calendar.getInstance().getTimeInMillis())
+                ((BaseNoteActivity) getActivity())
+                        .setReminderTextView(
+                                new SimpleDateFormat("EE MMM dd, HH:mm")
+                                        .format(mNote.getTimeRemind())
+                        );
+        }
         else
             newNote();
         setHasOptionsMenu(true);
@@ -80,7 +86,8 @@ public abstract class BaseNoteFragment extends Fragment {
         }
         return true;
     }
-    public void setReminder(long timeInMillis) {
+
+    public void setReminder() {
 //        mNote.setTimeRemind(timeInMillis);
 //        mNote.setReminderEnabled(true);
 
@@ -102,7 +109,13 @@ public abstract class BaseNoteFragment extends Fragment {
 //        Intent intent = new Intent(getActivity(), AlarmManagerBroadcastReceiver.class);
 //        intent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA,mNote.getType());
 //        intent.putExtra(NoteListActivity.NOTE_ID_EXTRA,mNote.getId());
-        new AlarmManagerBroadcastReceiver().setNotificationAlarm(getActivity(), mNote);
+//        new AlarmManagerBroadcastReceiver().setNotificationAlarm(getActivity(), mNote);
+
+        DateTimeDialogListener dateTimeDialogListener =
+                new DateTimeDialogListener(mNote, getActivity(), getActivity().getFragmentManager());
+
+        dateTimeDialogListener.showDialog();
+
     }
     public abstract void toggleEditable();
 
