@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint.paint;
+package co.hatrus.andrew.paint;
 
 
 import android.graphics.drawable.GradientDrawable;
@@ -11,11 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import co.hatrus.andrew.paint.BaseNoteFragment;
-import co.hatrus.andrew.paint.ColorChooserDialog;
-import co.hatrus.andrew.paint.R;
-import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
+import co.hatrus.andrew.paint.view.BoxDrawingView;
 
 
 /**

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<co.hatrus.andrew.paint.MaterialRippleLayout
+<co.hatrus.andrew.paint.view.MaterialRippleLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/RippleStyle"
     android:background="@drawable/selector_background_empty">
-    <co.hatrus.andrew.paint.RobotoTextView
+
+    <co.hatrus.andrew.paint.view.RobotoTextView
         android:id="@+id/checlist_item_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TextViewAppearance.Headline1"
         android:textSize="16sp"/>
-</co.hatrus.andrew.paint.MaterialRippleLayout>
+</co.hatrus.andrew.paint.view.MaterialRippleLayout>

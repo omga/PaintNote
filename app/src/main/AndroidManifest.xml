@@ -53,11 +53,6 @@
         <service
             android:name=".widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service
-            android:name=".notificationstuff.NotificationService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
 
         <receiver
             android:name=".notificationstuff.AlarmManagerBroadcastReceiver" >

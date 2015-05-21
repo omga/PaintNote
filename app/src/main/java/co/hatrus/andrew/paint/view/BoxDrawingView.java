@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint.paint;
+package co.hatrus.andrew.paint.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

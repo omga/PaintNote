@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import co.hatrus.andrew.paint.model.Note;
-import co.hatrus.andrew.paint.paint.DragAndDrawFragment;
 import co.hatrus.andrew.paint.widget.WidgetProvider;
 
 

@@ -38,4 +38,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButtonCancelAlarm"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/reminder_textView"
+        android:layout_toEndOf="@+id/reminder_textView"/>
+
 </RelativeLayout>

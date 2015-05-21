@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.view;
 
 
 import android.animation.Animator;
@@ -31,6 +31,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+
+import co.hatrus.andrew.paint.R;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 

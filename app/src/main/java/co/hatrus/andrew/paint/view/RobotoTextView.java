@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.view;
 
 /**
  * Created by user on 26.02.15.
@@ -9,6 +9,8 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import co.hatrus.andrew.paint.R;
 
 public class RobotoTextView extends TextView {
 
