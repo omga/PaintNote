@@ -4,7 +4,6 @@ package co.hatrus.andrew.paint;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -21,6 +20,8 @@ import co.hatrus.andrew.paint.widget.WidgetProvider;
 public class BaseNoteActivity extends MainFragmentActivity {
     EditText mTitle;
     TextView reminderTextView;
+    TextView cancelReminderTextView;
+
 
     int note_type;
     String note_id;
@@ -46,31 +47,41 @@ public class BaseNoteActivity extends MainFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_note);
         mTitle = (EditText) findViewById(R.id.note_title);
-        mTitle.setTypeface(Typeface
-                .createFromAsset(this.getAssets(), "fonts/Roboto-Bold.ttf"));
         reminderTextView = (TextView) findViewById(R.id.reminder_textView);
-        reminderTextView.setTypeface(Typeface
-                .createFromAsset(this.getAssets(), "fonts/Roboto-Light.ttf"));
+        cancelReminderTextView = (TextView) findViewById(R.id.reminder_cancel_textView);
+
+        Utils.setRobotoTypeface(this, mTitle);
+        Utils.setRobotoTypeface(this, reminderTextView);
+        Utils.setRobotoTypeface(this, cancelReminderTextView);
+
         reminderTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialogSetReminder();
             }
         });
+        cancelReminderTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelReminder();
+                setReminderTextView(getString(R.string.set_reminder));
+            }
+        });
 
         note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);
         String noteTitle = getIntent().getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
         note_type = getIntent().getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, 1);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         if(note_id!=null) {
             setNoteTitle(noteTitle);
             mTitle.setEnabled(false);
         }
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, createFragment().putArgs(note_id,note_type))
+                    .add(R.id.container, createFragment().putArgs(note_id, note_type))
                     .commit();
         }
     }
@@ -150,7 +161,13 @@ public class BaseNoteActivity extends MainFragmentActivity {
                 setReminder();
     }
 
+    public void cancelReminder() {
+        ((BaseNoteFragment) getSupportFragmentManager().findFragmentById(R.id.container)).
+                cancelReminder();
+    }
+
     public void setReminderTextView(String str) {
         reminderTextView.setText(str);
+        cancelReminderTextView.setVisibility(View.VISIBLE);
     }
 }

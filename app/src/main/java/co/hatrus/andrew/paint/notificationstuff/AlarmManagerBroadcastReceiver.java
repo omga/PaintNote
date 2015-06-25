@@ -62,7 +62,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         wl.release();
     }
 
-    public void setNotificationAlarm(Context context, Note note) {
+    public static void setNotificationAlarm(Context context, Note note) {
         Log.d(TAG, "setNotificationAlarm ");
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -71,11 +71,29 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         intent.putExtra(NoteListActivity.NOTE_ID_EXTRA, note.getId());
         intent.putExtra(NoteListActivity.NOTE_TITLE_EXTRA, note.getTitle());
         intent.setAction("setNotificationAlarm");
+
         if (PendingIntent.getBroadcast(context, note.getTimeCreated().hashCode(), intent, PendingIntent.FLAG_NO_CREATE) == null) {
             Log.d(TAG, "setNotificationAlarm create PI");
             PendingIntent pi = PendingIntent.getBroadcast(context, note.getTimeCreated().hashCode(), intent, 0);
             am.set(AlarmManager.RTC_WAKEUP, note.getTimeRemind(), pi);
         }
+    }
+
+    public static void cancelAlarm(Context context, Note note) {
+        Log.d(TAG, "cancelAlarm");
+
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+        intent.putExtra(NoteListActivity.NOTE_TYPE_EXTRA, note.getType());
+        intent.putExtra(NoteListActivity.NOTE_ID_EXTRA, note.getId());
+        intent.putExtra(NoteListActivity.NOTE_TITLE_EXTRA, note.getTitle());
+        intent.setAction("setNotificationAlarm");
+
+        PendingIntent sender = PendingIntent.getBroadcast(context, note.getTimeCreated().hashCode(), intent, 0);
+
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        am.cancel(sender);
+
     }
 
     void sendNotif(String id, int type, String title) {
@@ -133,17 +151,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
 
 
-    public void cancelAlarm(Context context) {
-
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        alarmManager.cancel(sender); // Отменяем будильник, связанный с интентом данного класса
-
-    }
 
 
 

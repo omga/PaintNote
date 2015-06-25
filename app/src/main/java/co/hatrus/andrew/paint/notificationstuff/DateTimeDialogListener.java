@@ -68,7 +68,7 @@ public class DateTimeDialogListener implements
     }
 
     private void setAlarm(long millis) {
-        new AlarmManagerBroadcastReceiver().setNotificationAlarm(mContext, mNote);
+        AlarmManagerBroadcastReceiver.setNotificationAlarm(mContext, mNote);
     }
 
     public void showDialog() {

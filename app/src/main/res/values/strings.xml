@@ -22,5 +22,6 @@
     <string name="empty_string">Not notes...</string>
     <string name="notes_listview_empty_text">No Notes.</string>
     <string name="set_reminder">Set a Reminder</string>
+    <string name="cancel_reminder">Remove Reminder</string>
 
 </resources>
