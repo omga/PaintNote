@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -48,7 +47,7 @@ public class NoteListActivity extends MainFragmentActivity
 
     @Override
     public void onNoteSelected(Note note,String id) {
-        Toast.makeText(this,"clicked: "+id,Toast.LENGTH_SHORT).show();
+
         Intent intent = new Intent(NoteListActivity.this,BaseNoteActivity.class);
         intent.putExtra(NOTE_ID_EXTRA, id);
         intent.putExtra(NOTE_TITLE_EXTRA, note.getTitle());

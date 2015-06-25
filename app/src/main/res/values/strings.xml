@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Paint</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">PaintNote</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_drag_and_draw">DragAndDrawActivity</string>
-    <string name="title_activity_main_fragment">MainFragmentActivity</string>
-    <string name="action_something">Do Something</string>
-    <string name="title_activity_note_list">MaterialNote</string>
+    <string name="title_activity_note_list">PaintNote</string>
+    <string name="NoteActivityTitle">New Note</string>
     <string name="action_add_note">Add Note</string>
-    <string name="title_activity_base_note">TextNoteActivity</string>
     <string name="dialog_textnote_item">Text</string>
     <string name="dialog_listnote_item">List</string>
     <string name="dialog_paintnote_item">Paint</string>
     <string name="checklist_add_text">Add</string>
     <string name="color_chooser">Choose The Color</string>
-    <string name="signalStrength">signal strength</string>
-    <string name="excellent">excelent</string>
     <string name="blank_fragment_tip">text</string>
     <string name="add_item_text">Add Item</string>
-    <string name="empty_string">Not notes...</string>
+    <string name="empty_string">No notes…</string>
     <string name="notes_listview_empty_text">No Notes.</string>
     <string name="set_reminder">Set a Reminder</string>
     <string name="cancel_reminder">Remove Reminder</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_edit">Edit</string>
 
 </resources>

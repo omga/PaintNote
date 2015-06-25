@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PaintNote</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="title_activity_note_list">PaintNote</string>
+    <string name="NoteActivityTitle">Нова замітка</string>
+    <string name="action_add_note">Добавить заметку</string>
+    <string name="dialog_textnote_item">Текст</string>
+    <string name="dialog_listnote_item">Список</string>
+    <string name="dialog_paintnote_item">Малюнок</string>
+    <string name="checklist_add_text">Добавити</string>
+    <string name="color_chooser">Оберіть колір</string>
+    <string name="blank_fragment_tip">текст</string>
+    <string name="add_item_text">Добавити запис</string>
+    <string name="empty_string">Нема заміток…</string>
+    <string name="notes_listview_empty_text">Нема заміток.</string>
+    <string name="set_reminder">Встановити нагадування</string>
+    <string name="cancel_reminder">Прибрати нагадування</string>
+    <string name="save">Зберегти</string>
+    <string name="menu_delete">Видалити</string>
+    <string name="menu_edit">Редактувати</string>
+
+</resources>

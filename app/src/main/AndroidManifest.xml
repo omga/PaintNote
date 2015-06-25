@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name=".BaseNoteActivity"
-            android:label="Note"
+            android:label="@string/NoteActivityTitle"
             android:parentActivityName=".NoteListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
