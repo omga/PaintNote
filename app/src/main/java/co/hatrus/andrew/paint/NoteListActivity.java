@@ -71,9 +71,7 @@ public class NoteListActivity extends MainFragmentActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }else if (id == R.id.action_add_note) {
+        if (id == R.id.action_add_note) {
             showMaterialDialog();
             return true;
         }

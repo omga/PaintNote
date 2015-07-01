@@ -65,6 +65,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
             public void onClick(View v) {
                 cancelReminder();
                 setReminderTextView(getString(R.string.set_reminder));
+                cancelReminderTextView.setVisibility(View.GONE);
             }
         });
 
@@ -128,9 +129,6 @@ public class BaseNoteActivity extends MainFragmentActivity {
                 if(isEnabled)
                     item.setIcon(R.drawable.ic_edit_grey);
                 else item.setIcon(R.drawable.ic_check_grey);
-                break;
-            case R.id.action_settings:
-                Toast.makeText(this,"settings",Toast.LENGTH_LONG).show();
                 break;
             case android.R.id.home:
                 ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container)).setNoteTitle(mTitle.getText().toString().trim());
