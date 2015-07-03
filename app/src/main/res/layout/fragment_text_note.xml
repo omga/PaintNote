@@ -19,6 +19,7 @@
         android:inputType="textMultiLine"
         android:minLines="10"
         android:singleLine="false"
+        android:textColor="@drawable/edit_text_color_selector"
         />
 
 </FrameLayout>

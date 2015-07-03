@@ -84,7 +84,7 @@ public class NoteListActivity extends MainFragmentActivity
                 getString(R.string.dialog_listnote_item),
                 getString(R.string.dialog_paintnote_item)};
         new MaterialDialog.Builder(this)
-                .title("Chose attachment please")
+                .title(R.string.create_note_title_choose)
                 .items(list)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override

@@ -145,7 +145,7 @@ public class DragAndDrawFragment extends BaseNoteFragment {
             int colorBG = getResources().getColor(R.color.paint_bg);
             mColorButton.setEnabled(false);
             mBoxDrawingView.setLineColor(colorBG);
-            mBoxDrawingView.setLineWidth(BoxDrawingView.ERASER_WIDTH);
+            mBoxDrawingView.setLineWidth(BoxDrawingView.DEFAULT_LINE_WIDTH * 2);
             GradientDrawable shapeDrawable = (GradientDrawable) mEraserButton.getBackground();
             shapeDrawable.setColor(colorBG);
             isEraserOn = true;

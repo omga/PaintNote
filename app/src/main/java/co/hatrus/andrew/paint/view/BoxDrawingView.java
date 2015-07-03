@@ -26,7 +26,7 @@ import co.hatrus.andrew.paint.model.Box;
  */
 public class BoxDrawingView extends View {
     public static final int DEFAULT_LINE_WIDTH = 12;
-    public static final int ERASER_WIDTH = 24;
+    public int LINE_WIDTH = DEFAULT_LINE_WIDTH;
     private static String TAG = "BoxDrawingView";
     Bitmap mLoadedBitmap;
     private Paint mCirclePaint;
@@ -149,7 +149,7 @@ public class BoxDrawingView extends View {
 
     private void drawLikeBrush(Canvas canvas, Box box) {
         canvas.drawLine(box.getCurrent().x, box.getCurrent().y, box.getOrigin().x, box.getOrigin().y, mBoxPaint);
-        canvas.drawCircle(box.getCurrent().x, box.getCurrent().y, DEFAULT_LINE_WIDTH / 2, mCirclePaint);
+        canvas.drawCircle(box.getCurrent().x, box.getCurrent().y, LINE_WIDTH / 2, mCirclePaint);
     }
 
     private void drawMyRect(Canvas canvas, Box box) {
@@ -207,6 +207,7 @@ public class BoxDrawingView extends View {
 
     public void setLineWidth(int width) {
         mBoxPaint.setStrokeWidth(width);
+        LINE_WIDTH = width;
     }
 
     public boolean isEditable() {

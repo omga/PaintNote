@@ -4,7 +4,7 @@
     <string name="app_name">PaintNote</string>
     <string name="action_settings">Настройки</string>
     <string name="title_activity_note_list">PaintNote</string>
-    <string name="NoteActivityTitle">Новая заметка</string>
+    <string name="NoteActivityTitle">Заметка</string>
     <string name="action_add_note">Добавить заметку</string>
     <string name="dialog_textnote_item">Текст</string>
     <string name="dialog_listnote_item">Список</string>
@@ -20,5 +20,6 @@
     <string name="menu_save">Сохранить</string>
     <string name="menu_delete">Удалить</string>
     <string name="menu_edit">Редактировать</string>
+    <string name="create_note_title_choose">Выберите тип заметки</string>
 
 </resources>

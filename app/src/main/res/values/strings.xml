@@ -4,7 +4,7 @@
     <string name="app_name">PaintNote</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_note_list">PaintNote</string>
-    <string name="NoteActivityTitle">New Note</string>
+    <string name="NoteActivityTitle">Note</string>
     <string name="action_add_note">Add Note</string>
     <string name="dialog_textnote_item">Text</string>
     <string name="dialog_listnote_item">List</string>
@@ -20,5 +20,6 @@
     <string name="menu_save">Save</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
+    <string name="create_note_title_choose">Choose note type</string>
 
 </resources>
