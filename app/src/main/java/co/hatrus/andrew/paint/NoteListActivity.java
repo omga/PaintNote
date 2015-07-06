@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -60,24 +58,17 @@ public class NoteListActivity extends MainFragmentActivity
         NoteListFragment listFragment = (NoteListFragment)fm.findFragmentById(R.id.container);
         listFragment.updateUI();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_note_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_add_note) {
-            showMaterialDialog();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_note_list, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public void showMaterialDialog() {
         CharSequence[] list={getString(R.string.dialog_textnote_item),

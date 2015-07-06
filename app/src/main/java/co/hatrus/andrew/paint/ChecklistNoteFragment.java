@@ -30,7 +30,6 @@ import java.util.UUID;
 
 import co.hatrus.andrew.paint.model.CheckListItem;
 import co.hatrus.andrew.paint.model.ListNote;
-import co.hatrus.andrew.paint.model.Note;
 
 
 /**
@@ -204,10 +203,10 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
     private MaterialDialog getDialogAddtem() {
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                .title("Add Item")
+                .title(R.string.add_item)
                 .customView(R.layout.dialog_customview, true)
-                .positiveText("Add")
-                .neutralText("Add More")
+                .positiveText(R.string.add_text)
+                .neutralText(R.string.add_more)
                 .negativeText(android.R.string.cancel)
                 .callback(new MaterialButtonAddItemCallback()).build();
         mDialogItemInput = (EditText) dialog.getCustomView().findViewById(R.id.new_item);
@@ -216,9 +215,9 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
     private MaterialDialog getDialogEdittem(CheckListItem checkListItem) {
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                .title("Edit Item")
+                .title(R.string.edit_item)
                 .customView(R.layout.dialog_customview, true)
-                .positiveText("Edit")
+                .positiveText(R.string.edit)
                 .negativeText(android.R.string.cancel)
                 .callback(new MaterialButtonEditItemCallback(checkListItem)).build();
         mDialogItemInput = (EditText) dialog.getCustomView().findViewById(R.id.new_item);

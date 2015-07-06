@@ -119,7 +119,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
 
         switch (item.getItemId()){
             case R.id.action_save_note:
-                Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.saved, Toast.LENGTH_LONG).show();
                 ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container)).setNoteTitle(mTitle.getText().toString().trim());
                 updateWidgets();
                 break;

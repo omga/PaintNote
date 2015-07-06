@@ -16,10 +16,18 @@
     <string name="empty_string">Нет заметок…</string>
     <string name="notes_listview_empty_text">Нет заметок.</string>
     <string name="set_reminder">Установить напоминание</string>
-    <string name="cancel_reminder">Убрать напоминание</string>
+    <string name="cancel_reminder">Отменить</string>
     <string name="menu_save">Сохранить</string>
     <string name="menu_delete">Удалить</string>
     <string name="menu_edit">Редактировать</string>
     <string name="create_note_title_choose">Выберите тип заметки</string>
+    <string name="add_text">Добавить</string>
+    <string name="add_more">Добавить еще</string>
+    <string name="edit_item">Редактировать пункт</string>
+    <string name="edit">Редактировать</string>
+    <string name="add_item">Добавить пункт</string>
+    <string name="delete_note">Удалить заметку?</string>
+    <string name="delete">Удалить</string>
+    <string name="saved">Сохранено</string>
 
 </resources>

@@ -20,6 +20,7 @@
         android:textColor="@drawable/edit_text_color_selector"/>
 
     <LinearLayout
+        android:paddingBottom="6dp"
         android:id="@+id/layout_reminder"
         android:orientation="horizontal"
         android:text="@string/set_reminder"
@@ -36,17 +37,19 @@
             android:drawableLeft="@drawable/perm_group_device_alarms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textSize="20sp"/>
 
         <TextView
             android:visibility="gone"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="16dp"
             android:id="@+id/reminder_cancel_textView"
             android:text="@string/cancel_reminder"
             android:drawableRight="@drawable/alarm_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textSize="20sp"/>
     </LinearLayout>
 
 

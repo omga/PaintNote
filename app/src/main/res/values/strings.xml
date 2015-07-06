@@ -16,10 +16,18 @@
     <string name="empty_string">No notes…</string>
     <string name="notes_listview_empty_text">No Notes.</string>
     <string name="set_reminder">Set a Reminder</string>
-    <string name="cancel_reminder">Remove Reminder</string>
+    <string name="cancel_reminder">Remove</string>
     <string name="menu_save">Save</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_edit">Edit</string>
     <string name="create_note_title_choose">Choose note type</string>
+    <string name="add_text">Add</string>
+    <string name="add_more">Add More</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="edit">Edit</string>
+    <string name="add_item">Add Item</string>
+    <string name="delete_note">Delete note?</string>
+    <string name="delete">Delete</string>
+    <string name="saved">Saved</string>
 
 </resources>

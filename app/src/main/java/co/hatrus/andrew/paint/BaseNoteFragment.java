@@ -7,6 +7,8 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -68,9 +70,7 @@ public abstract class BaseNoteFragment extends Fragment {
                 getActivity().finish();
                 break;
             case R.id.action_delete_note:
-                deleteNote();
-                ((BaseNoteActivity) getActivity()).updateWidgets();
-                NavUtils.navigateUpFromSameTask(getActivity());
+                deleteNoteDialogShow();
                 break;
             case R.id.action_edit_note:
                 toggleEditable();
@@ -87,6 +87,26 @@ public abstract class BaseNoteFragment extends Fragment {
         }
         return true;
     }
+
+    public void deleteNoteDialogShow() {
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.delete_note)
+                .positiveText(R.string.delete)
+                .negativeText(android.R.string.cancel)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        cancelReminder();
+                        deleteNote();
+                        ((BaseNoteActivity) getActivity()).updateWidgets();
+                        NavUtils.navigateUpFromSameTask(getActivity());
+                    }
+                })
+                .build()
+                .show();
+    }
+
 
     public void setReminder() {
 
