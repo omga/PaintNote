@@ -77,15 +77,19 @@ public abstract class BaseNoteFragment extends Fragment {
                 break;
             case android.R.id.home:
 //                setNoteData();
-                if (id != null)
-                    updateNote();
-                else
-                    saveNote();
-
-                NavUtils.navigateUpFromSameTask(getActivity());
+                saveNoteAndNavigateBack();
                 return true;
         }
         return true;
+    }
+
+    public void saveNoteAndNavigateBack() {
+        if (id != null)
+            updateNote();
+        else
+            saveNote();
+
+        NavUtils.navigateUpFromSameTask(getActivity());
     }
 
     public void deleteNoteDialogShow() {
@@ -107,10 +111,11 @@ public abstract class BaseNoteFragment extends Fragment {
                 .show();
     }
 
-
     public void setReminder() {
 
         Log.d("BaseNoteFragment","setReminder " + mNote.getId() + "type " + mNote.getType());
+        if (id == null)
+            saveNote();
         DateTimeDialogListener dateTimeDialogListener =
                 new DateTimeDialogListener(mNote, getActivity(), getActivity().getFragmentManager());
 

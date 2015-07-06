@@ -139,8 +139,14 @@ public class BaseNoteActivity extends MainFragmentActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK)
-            onOptionsItemSelected(homeMenuItem);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            BaseNoteFragment baseNoteFragment = ((BaseNoteFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.container));
+            baseNoteFragment.setNoteTitle(mTitle.getText().toString().trim());
+            baseNoteFragment.saveNoteAndNavigateBack();
+            return true;
+        }
+
         return super.onKeyDown(keyCode, event);
     }
 

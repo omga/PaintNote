@@ -28,7 +28,7 @@ public class TextNoteFragment extends BaseNoteFragment {
         Utils.setRobotoTypeface(getActivity(), mNoteText);
         if(id!=null) {
             mNoteText.setText(mTextNote.getText());
-            mNoteText.setEnabled(false);
+            //mNoteText.setEnabled(false);
 
         }
         return v;
@@ -36,7 +36,7 @@ public class TextNoteFragment extends BaseNoteFragment {
 
     @Override
     public void toggleEditable() {
-        mNoteText.setEnabled(!mNoteText.isEnabled());
+        //mNoteText.setEnabled(!mNoteText.isEnabled());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class TextNoteFragment extends BaseNoteFragment {
     @Override
     protected void newNote() {
         mTextNote = new TextNote();
-        mNote = new Note();
+        mNote = mTextNote.getNote();// new Note();
         mNote.setType(Note.NOTE_TYPE_TEXT);
         mTextNote.setNote(mNote);
     }
