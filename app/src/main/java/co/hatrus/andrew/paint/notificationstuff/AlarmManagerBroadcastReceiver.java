@@ -49,6 +49,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             String id = intent.getStringExtra(NoteListActivity.NOTE_ID_EXTRA),
                     title = intent.getStringExtra(NoteListActivity.NOTE_TITLE_EXTRA);
             int type = intent.getIntExtra(NoteListActivity.NOTE_TYPE_EXTRA, -1);
+            if(title == null || title.isEmpty())
+                title = context.getString(R.string.app_name);
             sendNotif(id, type, title);
         }
         Iterator<Note> iterator =
