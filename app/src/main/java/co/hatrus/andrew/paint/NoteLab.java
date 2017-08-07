@@ -1,6 +1,5 @@
 package co.hatrus.andrew.paint;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.util.Iterator;
@@ -10,7 +9,6 @@ import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
 import co.hatrus.andrew.paint.model.TextNote;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;

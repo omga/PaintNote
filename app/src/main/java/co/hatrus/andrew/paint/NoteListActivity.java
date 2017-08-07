@@ -1,10 +1,12 @@
 package co.hatrus.andrew.paint;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -58,17 +60,48 @@ public class NoteListActivity extends MainFragmentActivity
         NoteListFragment listFragment = (NoteListFragment)fm.findFragmentById(R.id.container);
         listFragment.updateUI();
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_note_list, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    @Override
+    public void onBackPressed() {
+        if(!Utils.shouldShowRateDialog(this)) {
+            super.onBackPressed();
+            return;
+        }
+        CharSequence[] list = {
+                getString(R.string.dialog_rate_never),
+                getString(R.string.dialog_rate_later),
+                getString(R.string.dialog_rate_now)};
+        new MaterialDialog.Builder(this)
+                .title(R.string.dialog_rate_title)
+                .items(list)
+                .itemsCallback((dialog, view, position, text) -> {
+                    switch (position) {
+                        case 0:
+                            Utils.setAppRated(NoteListActivity.this, true);
+                        case 1:
+                            Utils.setLastTimeRateRequest(NoteListActivity.this);
+                        case 2:
+                            Utils.setAppRated(NoteListActivity.this, true);
+                            rateAppRedirect();
+                        default:
+                            dialog.dismiss();
+                            finish();
+
+                    }
+                }).show();
+
+    }
+
+    private void rateAppRedirect() {
+        Intent marketIntent =
+                new Intent("android.intent.action.VIEW",
+                        Uri.parse("market://details?id=co.hatrus.andrew.paint"));
+        if(marketIntent.resolveActivity(getPackageManager())!=null)
+            startActivity(marketIntent);
+        else
+            Toast.makeText(this, "wtf you don't have play market??",
+                    Toast.LENGTH_SHORT).show();
+    }
 
     public void showMaterialDialog() {
         CharSequence[] list={getString(R.string.dialog_textnote_item),

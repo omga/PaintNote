@@ -29,5 +29,9 @@
     <string name="delete_note">Delete note?</string>
     <string name="delete">Delete</string>
     <string name="saved">Saved</string>
+    <string name="dialog_rate_never">Never</string>
+    <string name="dialog_rate_later">Ask Later</string>
+    <string name="dialog_rate_now">Rate Now</string>
+    <string name="dialog_rate_title">Would you like to rate this app?</string>
 
 </resources>

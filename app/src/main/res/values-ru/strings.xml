@@ -29,5 +29,9 @@
     <string name="delete_note">Удалить заметку?</string>
     <string name="delete">Удалить</string>
     <string name="saved">Сохранено</string>
+    <string name="dialog_rate_never">Никогда</string>
+    <string name="dialog_rate_later">Позже</string>
+    <string name="dialog_rate_now">Оценить</string>
+    <string name="dialog_rate_title">Желаете оценить приложение?</string>
 
 </resources>
