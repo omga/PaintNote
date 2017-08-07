@@ -123,8 +123,8 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
     @Override
     public void deleteNote() {
-        mNoteLab.deleteObjectList(mListNote.getNoteItems());
-        mNoteLab.deleteObject(mListNote, mListNote.getNote());
+//        mNoteLab.deleteObject(mListNote, mListNote.getNote());
+        mNoteLab.deleteCheckListNote(mListNote.getNoteItems(), mListNote, mListNote.getNote());
     }
 
     @Override

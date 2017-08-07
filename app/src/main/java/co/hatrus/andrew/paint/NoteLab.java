@@ -96,27 +96,38 @@ public class NoteLab {
     }
 
     public void deleteObject(RealmObject ... robjects) {
+        Realm realm = null;
         try {
-
-        mRealm.beginTransaction();
-        for(RealmObject robject:robjects)
-            if(robject!=null)
-                robject.deleteFromRealm();
-        mRealm.commitTransaction();
-        }catch (Exception ise){
-            Log.e("Notelab","deleteObject "+ise.getMessage());
-        }
+            realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            for(RealmObject robject:robjects)
+                if(robject!=null)
+                    robject.deleteFromRealm();
+            realm.commitTransaction();
+            } catch (Exception ise){
+                Log.e("Notelab","deleteObject "+ise.getMessage());
+            } finally {
+                if(realm!=null)
+                    realm.close();
+            }
     }
-    public void deleteObjectList(RealmList<? extends RealmObject> robjects) {
-        try{
-        mRealm.beginTransaction();
+    public void deleteCheckListNote(RealmList<? extends RealmObject> robjects, ListNote listNote, Note note) {
+        Realm realm = null;
+        try {
+            realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
             for (RealmObject realmObject : robjects)
                 if (realmObject != null)
                     realmObject.deleteFromRealm();
-        mRealm.commitTransaction();
-        }catch (Exception ise){
-            Log.e("Notelab","deleteObjectList "+ise.getMessage());
-        }
+            listNote.deleteFromRealm();
+            note.deleteFromRealm();
+            realm.commitTransaction();
+            } catch (Exception ise){
+                Log.e("Notelab","deleteObjectList "+ise.getMessage());
+            } finally {
+                if(realm!=null)
+                    realm.close();
+            }
     }
 
     public Iterator<Note> getUpgoingNoteReminders() {

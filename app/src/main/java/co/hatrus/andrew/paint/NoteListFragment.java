@@ -137,7 +137,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
 
     public void updateUI(){
         mRealmResults = NoteLab.getInstance().getNotes();
-        mRealmAdapter = new NoteRealmAdapter(getActivity(), mRealmResults, true);
+        mRealmAdapter = new NoteRealmAdapter(mRealmResults);
         (mListView).setAdapter(mRealmAdapter);
         if(mListViewState!=null)
             mListView.onRestoreInstanceState(mListViewState);
@@ -170,7 +170,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      */
     private class NoteRealmAdapter extends RealmBaseAdapter<Note> {
 
-        public NoteRealmAdapter(Context context, RealmResults<Note> realmResults, boolean automaticUpdate) {
+        public NoteRealmAdapter(RealmResults<Note> realmResults) {
             super(realmResults);
         }
 
