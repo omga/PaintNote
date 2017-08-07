@@ -1,5 +1,7 @@
 package co.hatrus.andrew.paint.model;
 
+import android.support.annotation.Nullable;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -7,6 +9,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
+import io.realm.annotations.Required;
 
 /**
  * Created by user on 11.02.15.
@@ -20,8 +23,11 @@ public class Note extends RealmObject {
     @Ignore
     public static final int NOTE_TYPE_PAINT = 3;
     @PrimaryKey
+    @Required
     private String id;
+    @Required
     private String title;
+    @Required
     private Date timeCreated;
     private long timeRemind;
     private boolean reminderEnabled;

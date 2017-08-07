@@ -136,7 +136,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
 
 
     public void updateUI(){
-        mRealmResults = NoteLab.getInstance(getActivity().getApplicationContext()).getNotes();
+        mRealmResults = NoteLab.getInstance().getNotes();
         mRealmAdapter = new NoteRealmAdapter(getActivity(), mRealmResults, true);
         (mListView).setAdapter(mRealmAdapter);
         if(mListViewState!=null)
@@ -171,7 +171,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
     private class NoteRealmAdapter extends RealmBaseAdapter<Note> {
 
         public NoteRealmAdapter(Context context, RealmResults<Note> realmResults, boolean automaticUpdate) {
-            super(context, realmResults, automaticUpdate);
+            super(realmResults);
         }
 
         @Override
@@ -179,13 +179,14 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
             TextView title;
             TextView date;
             ImageView icon;
-            Note note = realmResults.get(position);
+            assert adapterData != null;
+            Note note = adapterData.get(position);
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.item_notelist, parent, false);
+                convertView = getLayoutInflater().inflate(R.layout.item_notelist, parent, false);
             }
-            icon = (ImageView) convertView.findViewById(R.id.type_icon);
-            title = (TextView) convertView.findViewById(R.id.title_listnote);
-            date = (TextView) convertView.findViewById(R.id.date_listnote);
+            icon = convertView.findViewById(R.id.type_icon);
+            title = convertView.findViewById(R.id.title_listnote);
+            date = convertView.findViewById(R.id.date_listnote);
             title.setText(note.getTitle());
             date.setText(DateFormat.getDateInstance().format(note.getTimeCreated()));
             int resImg;

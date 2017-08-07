@@ -5,6 +5,7 @@ import java.util.UUID;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
+import io.realm.annotations.Required;
 
 /**
  * Created by user on 23.02.15.
@@ -12,6 +13,7 @@ import io.realm.annotations.RealmClass;
 @RealmClass
 public class PaintNote extends RealmObject {
     @PrimaryKey
+    @Required
     private String id;
     private Note note;
     private int backgroundColor;
@@ -19,7 +21,6 @@ public class PaintNote extends RealmObject {
     public PaintNote() {
         id = UUID.randomUUID().toString();
         note = new Note();
-        this.note.setType(Note.NOTE_TYPE_PAINT);
     }
 
     public String getId() {

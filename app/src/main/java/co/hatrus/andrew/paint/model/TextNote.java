@@ -5,6 +5,7 @@ import java.util.UUID;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
+import io.realm.annotations.Required;
 
 /**
  * Created by user on 11.02.15.
@@ -13,7 +14,9 @@ import io.realm.annotations.RealmClass;
 public class TextNote extends RealmObject {
 
     @PrimaryKey
+    @Required
     private String id;
+    @Required
     private String text;
     private Note note;
 
@@ -21,7 +24,7 @@ public class TextNote extends RealmObject {
         super();
         id = UUID.randomUUID().toString();
         note = new Note();
-        this.note.setType(Note.NOTE_TYPE_TEXT);
+//        this.note.setType(Note.NOTE_TYPE_TEXT);
     }
 
     public String getText() {

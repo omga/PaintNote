@@ -54,7 +54,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             sendNotif(id, type, title);
         }
         Iterator<Note> iterator =
-                NoteLab.getInstance(mContext).
+                NoteLab.getInstance().
                         getUpgoingNoteReminders();
         for (int i = 0; i < 3; i++) {
             if (iterator.hasNext())
@@ -131,7 +131,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         builder.setContentIntent(resultPendingIntent);
 
         nm.notify(new Random().nextInt(), builder.build());
-        NoteLab.getInstance(mContext).disableAlarm(id);
+        NoteLab.getInstance().disableAlarm(id);
     }
 
 

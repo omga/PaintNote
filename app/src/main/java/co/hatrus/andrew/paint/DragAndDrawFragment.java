@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
 import co.hatrus.andrew.paint.view.BoxDrawingView;
 
@@ -91,6 +92,8 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     protected void newNote() {
         mPaintNote = new PaintNote();
         mNote = mPaintNote.getNote();
+        mNote.setType(Note.NOTE_TYPE_PAINT);
+        mPaintNote.setNote(mNote);
         Log.e("sSSSSSSSSSSssssss", mPaintNote.getId());
 //        Log.e("sSSSSSSSSSSssssss",n.getId());
     }

@@ -29,7 +29,7 @@ public class NoteListActivity extends MainFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
-        mNoteLab = NoteLab.getInstance(getApplicationContext());
+        mNoteLab = NoteLab.getInstance();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, createFragment())

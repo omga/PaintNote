@@ -48,7 +48,7 @@ public class DateTimeDialogListener implements
         hour = hourOfDay;
         this.minute = minute;
         Calendar c = getTimeInMillis();
-        Realm r = Realm.getInstance(mContext);
+        Realm r = Realm.getDefaultInstance();
         r.beginTransaction();
         mNote.setReminderEnabled(true);
         mNote.setTimeRemind(c.getTimeInMillis());

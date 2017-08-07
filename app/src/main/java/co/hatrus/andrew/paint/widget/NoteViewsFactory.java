@@ -26,7 +26,7 @@ import co.hatrus.andrew.paint.model.TextNote;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+public class NoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final int DEFAULT_MAX_ITEMS_COUNT = 5;
     private static int ITEMS_COUNT = 5;
     ArrayList<RemoteViews> rowList = new ArrayList<>(ITEMS_COUNT);
@@ -35,7 +35,7 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
     private Context ctxt = null;
     private int appWidgetId;
 
-    public LoremViewsFactory(Context ctxt, Intent intent) {
+    public NoteViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -83,9 +83,9 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public void onDataSetChanged() {
-        Log.d("LoremViewsFactory", "onDataSetChanged IC " + ITEMS_COUNT);
-        mRealm = Realm.getInstance(ctxt);
-        mRealmResults = mRealm.where(Note.class).findAllSorted("timeCreated", false);
+        Log.d("NoteViewsFactory", "onDataSetChanged IC " + ITEMS_COUNT);
+        mRealm = Realm.getDefaultInstance();
+        mRealmResults = mRealm.where(Note.class).findAllSorted("timeCreated");
         long count = mRealm.where(Note.class).count();
         if (count < DEFAULT_MAX_ITEMS_COUNT) {
             ITEMS_COUNT = (int) count;

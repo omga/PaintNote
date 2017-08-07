@@ -10,28 +10,35 @@ import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
 import co.hatrus.andrew.paint.model.TextNote;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by user on 11.02.15.
  */
 public class NoteLab {
-    private static NoteLab sNoteLab;
-    private Context mAppContext;
+    private static volatile NoteLab sNoteLab;
     private Realm mRealm;
 
 
-    private NoteLab(Context appContext) {
-        mAppContext = appContext;
-        mRealm = Realm.getInstance(appContext);
+    private NoteLab() {
+        mRealm = Realm.getDefaultInstance();
     }
 
-    public static NoteLab getInstance(Context appContext) {
-        if (sNoteLab == null)
-            sNoteLab = new NoteLab(appContext);
+    public static NoteLab getInstance() {
+        NoteLab noteLab = sNoteLab;
+        if (noteLab == null) {
+            synchronized (NoteLab.class) {
+                noteLab = sNoteLab;
+                if (noteLab == null) {
+                    sNoteLab = new NoteLab();
+                }
+            }
+        }
         return sNoteLab;
     }
 
@@ -85,7 +92,7 @@ public class NoteLab {
 
     public RealmResults<Note> getNotes(){
         RealmQuery<Note> noteQuery = mRealm.where(Note.class);
-        return noteQuery.findAllSorted("timeCreated", false);
+        return noteQuery.findAllSorted("timeCreated", Sort.DESCENDING);
     }
 
     public void deleteObject(RealmObject ... robjects) {
@@ -94,7 +101,7 @@ public class NoteLab {
         mRealm.beginTransaction();
         for(RealmObject robject:robjects)
             if(robject!=null)
-                robject.removeFromRealm();
+                robject.deleteFromRealm();
         mRealm.commitTransaction();
         }catch (Exception ise){
             Log.e("Notelab","deleteObject "+ise.getMessage());
@@ -105,7 +112,7 @@ public class NoteLab {
         mRealm.beginTransaction();
             for (RealmObject realmObject : robjects)
                 if (realmObject != null)
-                    realmObject.removeFromRealm();
+                    realmObject.deleteFromRealm();
         mRealm.commitTransaction();
         }catch (Exception ise){
             Log.e("Notelab","deleteObjectList "+ise.getMessage());

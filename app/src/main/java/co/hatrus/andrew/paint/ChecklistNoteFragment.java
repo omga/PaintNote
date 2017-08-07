@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import co.hatrus.andrew.paint.model.CheckListItem;
 import co.hatrus.andrew.paint.model.ListNote;
+import co.hatrus.andrew.paint.model.Note;
 
 
 /**
@@ -137,7 +138,8 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     protected void newNote() {
         mListNote = new ListNote();
         mNote = mListNote.getNote();
-
+        mNote.setType(Note.NOTE_TYPE_LIST);
+        mListNote.setNote(mNote);
         isListEmpty = true;
     }
 
@@ -160,8 +162,10 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
 
     public void addChecklistItem(String text) {
         mNoteLab.getRealm().beginTransaction();
-        CheckListItem checkListItem = mNoteLab.getRealm().createObject(CheckListItem.class);
-        checkListItem.setId(UUID.randomUUID().toString());
+        CheckListItem checkListItem = mNoteLab
+                .getRealm()
+                .createObject(CheckListItem.class,
+                        UUID.randomUUID().toString());
         checkListItem.setItem(text);
         checkListItem.setChecked(false);
         mListNote.getNoteItems().add(checkListItem);

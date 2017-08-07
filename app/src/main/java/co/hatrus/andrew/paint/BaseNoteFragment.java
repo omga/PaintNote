@@ -42,7 +42,7 @@ public abstract class BaseNoteFragment extends Fragment {
         super.onCreate(savedInstanceState);
         id = getArguments().getString(BaseNoteFragment.EXTRA_NOTE_ID);
         type = getArguments().getInt(BaseNoteFragment.EXTRA_NOTE_TYPE, 1);
-        mNoteLab = NoteLab.getInstance(getActivity());
+        mNoteLab = NoteLab.getInstance();
         if (id != null) {
             getNote();
             if (mNote.getTimeRemind() > Calendar.getInstance().getTimeInMillis())

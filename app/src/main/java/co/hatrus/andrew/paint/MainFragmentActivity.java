@@ -1,12 +1,12 @@
 package co.hatrus.andrew.paint;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public abstract class MainFragmentActivity extends ActionBarActivity{
+public abstract class MainFragmentActivity extends AppCompatActivity{
 
     protected int getLayoutResId(){
         return R.layout.activity_main_fragment;

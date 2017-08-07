@@ -120,7 +120,8 @@ public class BaseNoteActivity extends MainFragmentActivity {
         switch (item.getItemId()){
             case R.id.action_save_note:
                 Toast.makeText(this, R.string.saved, Toast.LENGTH_LONG).show();
-                ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container)).setNoteTitle(mTitle.getText().toString().trim());
+                ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container))
+                        .setNoteTitle(mTitle.getText().toString().trim());
                 updateWidgets();
                 break;
             case R.id.action_edit_note:
@@ -131,7 +132,8 @@ public class BaseNoteActivity extends MainFragmentActivity {
                 else item.setIcon(R.drawable.ic_check_grey);
                 break;
             case android.R.id.home:
-                ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container)).setNoteTitle(mTitle.getText().toString().trim());
+                ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container))
+                        .setNoteTitle(mTitle.getText().toString().trim());
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -5,6 +5,7 @@ import java.util.UUID;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
+import io.realm.annotations.Required;
 
 /**
  * Created by user on 19.02.15.
@@ -12,7 +13,9 @@ import io.realm.annotations.RealmClass;
 @RealmClass
 public class CheckListItem extends RealmObject {
     @PrimaryKey
+    @Required
     private String id;
+    @Required
     private String item;
     private boolean isChecked = false;
 

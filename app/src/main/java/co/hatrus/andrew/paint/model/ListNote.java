@@ -6,6 +6,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
+import io.realm.annotations.Required;
 
 
 /**
@@ -14,6 +15,7 @@ import io.realm.annotations.RealmClass;
 @RealmClass
 public class ListNote extends RealmObject {
     @PrimaryKey
+    @Required
     private String id;
     private Note note;
     private RealmList<CheckListItem> noteItems;
@@ -23,7 +25,6 @@ public class ListNote extends RealmObject {
         id = UUID.randomUUID().toString();
         noteItems = new RealmList<>();
         note = new Note();
-        this.note.setType(Note.NOTE_TYPE_LIST);
     }
 
     public RealmList<CheckListItem> getNoteItems() {
