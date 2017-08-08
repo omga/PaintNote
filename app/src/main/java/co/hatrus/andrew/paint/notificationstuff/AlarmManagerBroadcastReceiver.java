@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -101,8 +102,10 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     void sendNotif(String id, int type, String title) {
         NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(mContext)
+                new NotificationCompat.Builder(mContext, "note_notifications")
                         .setSmallIcon(R.drawable.ic_list_white)
+                        .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(),
+                                R.drawable.ic_launcher))
                         .setContentText("Click to see your note")
                         .setContentTitle(title)
                         .setTicker("Note Reminder!")

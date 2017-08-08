@@ -134,6 +134,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
             case android.R.id.home:
                 ((BaseNoteFragment)getSupportFragmentManager().findFragmentById(R.id.container))
                         .setNoteTitle(mTitle.getText().toString().trim());
+                updateWidgets();
                 break;
         }
         return super.onOptionsItemSelected(item);

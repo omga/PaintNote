@@ -155,7 +155,7 @@ public class NoteLab {
         if(note == null)
             return System.currentTimeMillis();
         Date date = note.getTimeCreated();
-        Log.e("Notelab","getFirstEntryTime "+ date);
+        Log.i("Notelab","getFirstEntryTime "+ date);
         return date.getTime();
     }
 
