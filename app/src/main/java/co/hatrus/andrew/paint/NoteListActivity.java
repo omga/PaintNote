@@ -68,9 +68,10 @@ public class NoteListActivity extends MainFragmentActivity
             return;
         }
         CharSequence[] list = {
+                getString(R.string.dialog_rate_now),
                 getString(R.string.dialog_rate_never),
-                getString(R.string.dialog_rate_later),
-                getString(R.string.dialog_rate_now)};
+                getString(R.string.dialog_rate_later)
+                };
         new MaterialDialog.Builder(this)
                 .title(R.string.dialog_rate_title)
                 .items(list)
@@ -78,17 +79,18 @@ public class NoteListActivity extends MainFragmentActivity
                     switch (position) {
                         case 0:
                             Utils.setAppRated(NoteListActivity.this, true);
-                        case 1:
-                            Utils.setLastTimeRateRequest(NoteListActivity.this);
-                        case 2:
-                            Utils.setAppRated(NoteListActivity.this, true);
                             rateAppRedirect();
+                        case 1:
+                            Utils.setAppRated(NoteListActivity.this, true);
+                        case 2:
                         default:
+                            Utils.setLastTimeRateRequest(NoteListActivity.this);
                             dialog.dismiss();
                             finish();
 
                     }
-                }).show();
+                }).cancelListener(dialogInterface -> finish())
+                .show();
 
     }
 

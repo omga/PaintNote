@@ -2,6 +2,7 @@ package co.hatrus.andrew.paint;
 
 import android.util.Log;
 
+import java.util.Date;
 import java.util.Iterator;
 
 import co.hatrus.andrew.paint.model.ListNote;
@@ -113,6 +114,7 @@ public class NoteLab {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
+            realm.removeAllChangeListeners();
             realm.beginTransaction();
             for (RealmObject realmObject : robjects)
                 if (realmObject != null)
@@ -144,5 +146,19 @@ public class NoteLab {
                 .setReminderEnabled(false);
         mRealm.commitTransaction();
     }
+
+    public long getFirstEntryTime() {
+        Realm realm = null;
+        realm = Realm.getDefaultInstance();
+        Note note = realm.where(Note.class).findFirst();
+        realm.close();
+        if(note == null)
+            return System.currentTimeMillis();
+        Date date = note.getTimeCreated();
+        Log.e("Notelab","getFirstEntryTime "+ date);
+        return date.getTime();
+    }
+
+
 
 }

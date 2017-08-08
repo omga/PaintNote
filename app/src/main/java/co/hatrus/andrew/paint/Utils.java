@@ -6,12 +6,12 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.widget.TextView;
 
+import io.realm.RealmBaseAdapter;
+
 /**
  * Created by user on 25.06.15.
  */
 public class Utils {
-
-    private static long RATE_APP_REQUEST_INTERVAL = 5 * 24 * 60 * 60 * 1000; // 5 days
 
     public static void setRobotoTypeface(Context context, TextView textView) {
         textView.setTypeface(Typeface
@@ -40,12 +40,21 @@ public class Utils {
         PreferenceManager
                 .getDefaultSharedPreferences(context)
                 .edit()
-                .putLong("user_rated_app", System.currentTimeMillis())
+                .putLong("rate_app_request_time", System.currentTimeMillis())
                 .apply();
     }
 
     public static boolean shouldShowRateDialog(Context c) {
+
+//        final long RATE_APP_REQUEST_INTERVAL = 2 * 60 * 1000;  //3 min test
+//        final long RATE_APP_TIME_INSTALLED = 3 * 60 * 1000; //5 min test
+        final long RATE_APP_REQUEST_INTERVAL = 5 * 24 * 60 * 60 * 1000;  //5 days
+        final long RATE_APP_TIME_INSTALLED = 7 * 24 * 60 * 60 * 1000; //7 days
+        // if app is not rated yet, request rate dialog every 5 days, only if app installed for at least 7 days
+        long time = System.currentTimeMillis();
         return !isAppRated(c) &&
-                (System.currentTimeMillis() - getLastTimeRateRequest(c) > RATE_APP_REQUEST_INTERVAL);
+                (time - getLastTimeRateRequest(c) > RATE_APP_REQUEST_INTERVAL) &&
+                (time - NoteLab.getInstance().getFirstEntryTime() > RATE_APP_TIME_INSTALLED);
     }
+
 }

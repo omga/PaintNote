@@ -102,7 +102,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(mContext)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_list_white)
                         .setContentText("Click to see your note")
                         .setContentTitle(title)
                         .setTicker("Note Reminder!")

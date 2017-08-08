@@ -25,6 +25,7 @@ import co.hatrus.andrew.paint.model.PaintNote;
 import co.hatrus.andrew.paint.model.TextNote;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class NoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final int DEFAULT_MAX_ITEMS_COUNT = 5;
@@ -85,7 +86,7 @@ public class NoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public void onDataSetChanged() {
         Log.d("NoteViewsFactory", "onDataSetChanged IC " + ITEMS_COUNT);
         mRealm = Realm.getDefaultInstance();
-        mRealmResults = mRealm.where(Note.class).findAllSorted("timeCreated");
+        mRealmResults = mRealm.where(Note.class).findAllSorted("timeCreated", Sort.DESCENDING);
         long count = mRealm.where(Note.class).count();
         if (count < DEFAULT_MAX_ITEMS_COUNT) {
             ITEMS_COUNT = (int) count;

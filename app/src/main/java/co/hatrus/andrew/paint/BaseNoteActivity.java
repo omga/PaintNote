@@ -146,6 +146,7 @@ public class BaseNoteActivity extends MainFragmentActivity {
                     getSupportFragmentManager().findFragmentById(R.id.container));
             baseNoteFragment.setNoteTitle(mTitle.getText().toString().trim());
             baseNoteFragment.saveNoteAndNavigateBack();
+            updateWidgets();
             return true;
         }
 

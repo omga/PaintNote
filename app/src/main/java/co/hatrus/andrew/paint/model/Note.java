@@ -36,6 +36,7 @@ public class Note extends RealmObject {
     public Note() {
         id = UUID.randomUUID().toString();
         timeCreated = new Date();
+        title = "";
     }
     public String getTitle() {
         return title;
