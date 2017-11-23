@@ -74,7 +74,6 @@ public class NoteLab {
     }
 
 
-
     public TextNote getTextNoteData(String id) {
         return mRealm.where(TextNote.class).equalTo("note.id", id).findFirst();
 
@@ -86,54 +85,54 @@ public class NoteLab {
     }
 
     public PaintNote getPaintNoteData(String id) {
-        return mRealm.where(PaintNote.class).equalTo("note.id",id).findFirst();
+        return mRealm.where(PaintNote.class).equalTo("note.id", id).findFirst();
     }
 
-    public RealmResults<Note> getNotes(){
+    public RealmResults<Note> getNotes() {
         RealmQuery<Note> noteQuery = mRealm.where(Note.class);
         return noteQuery.findAllSorted("timeCreated", Sort.DESCENDING);
     }
 
-    public void deleteObject(RealmObject ... robjects) {
+    public void deleteObject(RealmObject... robjects) {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            for(RealmObject robject:robjects)
-                if(robject!=null)
-                    robject.deleteFromRealm();
-            realm.commitTransaction();
-            } catch (Exception ise){
-                Log.e("Notelab","deleteObject "+ise.getMessage());
-            } finally {
-                if(realm!=null)
-                    realm.close();
-            }
+            realm.executeTransaction(realm1 -> {
+                for (RealmObject robject : robjects)
+                    if (robject != null && robject.isManaged())
+                        robject.deleteFromRealm();
+            });
+        } catch (Exception ise) {
+            Log.e("Notelab", "deleteObject " + ise.getMessage());
+        } finally {
+            if (realm != null)
+                realm.close();
+        }
     }
+
     public void deleteCheckListNote(RealmList<? extends RealmObject> robjects, ListNote listNote, Note note) {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
             realm.removeAllChangeListeners();
-            realm.beginTransaction();
-            for (RealmObject realmObject : robjects)
-                if (realmObject != null)
-                    realmObject.deleteFromRealm();
-            listNote.deleteFromRealm();
-            note.deleteFromRealm();
-            realm.commitTransaction();
-            } catch (Exception ise){
-                Log.e("Notelab","deleteObjectList "+ise.getMessage());
-            } finally {
-                if(realm!=null)
-                    realm.close();
-            }
+
+            realm.executeTransaction(realm1 -> {
+                robjects.deleteAllFromRealm();
+                listNote.deleteFromRealm();
+                note.deleteFromRealm();
+            });
+        } catch (Exception ise) {
+            Log.e("Notelab", "deleteObjectList " + ise.getMessage());
+        } finally {
+            if (realm != null)
+                realm.close();
+        }
     }
 
     public Iterator<Note> getUpgoingNoteReminders() {
         return mRealm.where(Note.class)
                 .equalTo("reminderEnabled", true)
-                        //.greaterThan("timeRemind", Calendar.getInstance().getTimeInMillis())
+                //.greaterThan("timeRemind", Calendar.getInstance().getTimeInMillis())
                 .findAllSorted("timeRemind")
                 .iterator();
     }
@@ -152,13 +151,12 @@ public class NoteLab {
         realm = Realm.getDefaultInstance();
         Note note = realm.where(Note.class).findFirst();
         realm.close();
-        if(note == null)
+        if (note == null)
             return System.currentTimeMillis();
         Date date = note.getTimeCreated();
-        Log.i("Notelab","getFirstEntryTime "+ date);
+        Log.i("Notelab", "getFirstEntryTime " + date);
         return date.getTime();
     }
-
 
 
 }
