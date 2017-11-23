@@ -1,55 +1,56 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.hatrus.andrew.paint.BaseNoteActivity"
     android:background="@color/main_color_100"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="co.hatrus.andrew.paint.ui.BaseNoteActivity">
 
     <EditText
-        android:padding="@dimen/activity_horizontal_margin"
-        android:maxLength="60"
         android:id="@+id/note_title"
-        android:hint="tittle"
-        android:textSize="22sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_color_200"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@drawable/edit_text_color_selector"/>
+        android:layout_alignParentTop="true"
+        android:background="@color/main_color_200"
+        android:hint="tittle"
+        android:maxLength="60"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:textColor="@drawable/edit_text_color_selector"
+        android:textSize="22sp" />
 
     <LinearLayout
-        android:paddingBottom="6dp"
         android:id="@+id/layout_reminder"
-        android:orientation="horizontal"
-        android:text="@string/set_reminder"
-        android:drawableLeft="@drawable/perm_group_device_alarms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/perm_group_device_alarms"
+        android:orientation="horizontal"
+        android:paddingBottom="6dp"
+        android:text="@string/set_reminder">
 
         <TextView
             android:id="@+id/reminder_textView"
-            android:text="@string/set_reminder"
-            android:drawableLeft="@drawable/perm_group_device_alarms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="16sp"/>
+            android:drawableLeft="@drawable/perm_group_device_alarms"
+            android:text="@string/set_reminder"
+            android:textSize="16sp" />
 
         <TextView
-            android:visibility="gone"
-            android:layout_marginLeft="16dp"
             android:id="@+id/reminder_cancel_textView"
-            android:text="@string/cancel_reminder"
-            android:drawableRight="@drawable/alarm_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="16sp"/>
+            android:layout_marginLeft="16dp"
+            android:drawableRight="@drawable/alarm_off"
+            android:text="@string/cancel_reminder"
+            android:textSize="16sp"
+            android:visibility="gone" />
     </LinearLayout>
 
 
@@ -57,11 +58,11 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context="co.hatrus.andrew.paint.MainFragmentActivity"
-        android:layout_below="@+id/note_title"
         android:layout_above="@id/layout_reminder"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/note_title"
+        tools:context="co.hatrus.andrew.paint.ui.MainFragmentActivity" />
 
 
 </RelativeLayout>

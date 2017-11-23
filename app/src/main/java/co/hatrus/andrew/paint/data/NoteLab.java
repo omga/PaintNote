@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.data;
 
 import android.util.Log;
 

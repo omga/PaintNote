@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="co.hatrus.andrew.paint.DragAndDrawFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="co.hatrus.andrew.paint.ui.DragAndDrawFragment">
 
     <co.hatrus.andrew.paint.view.BoxDrawingView
         android:id="@+id/box_drawing_view"
@@ -11,33 +12,31 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="right|bottom">
+        android:layout_gravity="end|bottom"
+        android:orientation="vertical">
 
-        <ImageButton style="@style/AppTheme"
-                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                     android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                     android:layout_width="40dp"
-                     android:layout_height="40dp"
-                     android:text="New Button"
-                     android:id="@+id/colorButton"
-                     android:elevation="10dp"
-                     android:src="@drawable/ic_color_palette"
-                     android:background="@drawable/circle"
-            />
+        <ImageButton
+            android:id="@+id/colorButton"
+            style="@style/AppTheme"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/circle"
+            android:elevation="10dp"
+            android:src="@drawable/ic_color_palette" />
 
-        <ImageButton style="@style/AppTheme"
-                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                     android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                     android:layout_width="40dp"
-                     android:layout_height="40dp"
-                     android:text="New Button"
-                     android:id="@+id/eraserButton"
-                     android:elevation="10dp"
-                     android:src="@drawable/ic_eraser_white"
-                     android:scaleType="centerCrop"
-                     android:background="@drawable/circle"
-            />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/eraserButton"
+            style="@style/AppTheme"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/circle"
+            android:elevation="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_eraser_white" />
+    </LinearLayout>
 
 </FrameLayout>

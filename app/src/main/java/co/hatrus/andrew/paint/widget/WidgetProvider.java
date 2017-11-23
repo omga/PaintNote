@@ -9,10 +9,10 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import co.hatrus.andrew.paint.BaseNoteActivity;
-import co.hatrus.andrew.paint.NoteListActivity;
 import co.hatrus.andrew.paint.R;
 import co.hatrus.andrew.paint.model.Note;
+import co.hatrus.andrew.paint.ui.BaseNoteActivity;
+import co.hatrus.andrew.paint.ui.NoteListActivity;
 
 public class WidgetProvider extends AppWidgetProvider {
 

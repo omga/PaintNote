@@ -1,5 +1,5 @@
 <menu
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="co.hatrus.andrew.paint.NoteListActivity">
+    tools:context="co.hatrus.andrew.paint.ui.NoteListActivity">
 
 </menu>

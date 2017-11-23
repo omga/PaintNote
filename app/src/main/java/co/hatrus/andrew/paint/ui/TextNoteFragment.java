@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.ui;
 
 
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import co.hatrus.andrew.paint.R;
+import co.hatrus.andrew.paint.helper.Utils;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.TextNote;
 
@@ -24,7 +26,7 @@ public class TextNoteFragment extends BaseNoteFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_text_note, container, false);
-        mNoteText = (EditText) v.findViewById(R.id.note_text);
+        mNoteText = v.findViewById(R.id.note_text);
         Utils.setRobotoTypeface(getActivity(), mNoteText);
         if(id!=null) {
             mNoteText.setText(mTextNote.getText());
