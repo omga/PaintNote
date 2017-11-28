@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.widget.TextView;
 
-import io.realm.RealmBaseAdapter;
+import co.hatrus.andrew.paint.data.NoteLab;
 
 /**
  * Created by user on 25.06.15.
@@ -18,7 +18,7 @@ public class Utils {
                 .createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf"));
     }
 
-    public static boolean isAppRated(Context context) {
+    private static boolean isAppRated(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean("user_rated_app", false);
     }
@@ -31,7 +31,7 @@ public class Utils {
                 .apply();
     }
 
-    public static long getLastTimeRateRequest(Context context) {
+    private static long getLastTimeRateRequest(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getLong("rate_app_request_time", 0);
     }

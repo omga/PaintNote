@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.ui;
 
 
 import android.graphics.drawable.GradientDrawable;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import co.hatrus.andrew.paint.R;
+import co.hatrus.andrew.paint.helper.ColorChooserDialog;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
 import co.hatrus.andrew.paint.view.BoxDrawingView;
@@ -37,19 +39,16 @@ public class DragAndDrawFragment extends BaseNoteFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         container = (ViewGroup) inflater.inflate(R.layout.fragment_drag_and_draw, container, false);
-        mBoxDrawingView = (BoxDrawingView) container.findViewById(R.id.box_drawing_view);
+        mBoxDrawingView = container.findViewById(R.id.box_drawing_view);
         mBoxDrawingView.setFileNameForSaving(mPaintNote.getId() + ".jpg");
 
-        mColorButton = (ImageButton) container.findViewById(R.id.colorButton);
-        mEraserButton = (ImageButton) container.findViewById(R.id.eraserButton);
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.colorButton)
-                    showCustomColorChooser();
-                else if (v.getId() == R.id.eraserButton)
-                    toggleEraser();
-            }
+        mColorButton = container.findViewById(R.id.colorButton);
+        mEraserButton = container.findViewById(R.id.eraserButton);
+        View.OnClickListener onClickListener = v -> {
+            if (v.getId() == R.id.colorButton)
+                showCustomColorChooser();
+            else if (v.getId() == R.id.eraserButton)
+                toggleEraser();
         };
 
         if (id != null)
@@ -126,19 +125,16 @@ public class DragAndDrawFragment extends BaseNoteFragment {
     }
 
     private void showCustomColorChooser() {
-        new ColorChooserDialog().show(getActivity(), selectedColorIndex, new ColorChooserDialog.Callback() {
-            @Override
-            public void onColorSelection(int index, int color, int darker) {
-                selectedColorIndex = index;
-                mBoxDrawingView.setLineColor(color);
-                GradientDrawable shapeDrawable = (GradientDrawable) mColorButton.getBackground();
-                shapeDrawable.setColor(color);
+        new ColorChooserDialog().show(getActivity(), selectedColorIndex, (index, color, darker) -> {
+            selectedColorIndex = index;
+            mBoxDrawingView.setLineColor(color);
+            GradientDrawable shapeDrawable = (GradientDrawable) mColorButton.getBackground();
+            shapeDrawable.setColor(color);
 //                ThemeSingleton.get().positiveColor = color;
 //                ThemeSingleton.get().neutralColor = color;
 //                ThemeSingleton.get().negativeColor = color;
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 //                    getActivity().getWindow().setStatusBarColor(darker);
-            }
         });
     }
 

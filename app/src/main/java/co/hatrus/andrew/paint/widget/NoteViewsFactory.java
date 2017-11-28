@@ -15,14 +15,14 @@ import android.widget.RemoteViewsService;
 import java.io.File;
 import java.util.ArrayList;
 
-import co.hatrus.andrew.paint.BaseNoteActivity;
-import co.hatrus.andrew.paint.NoteListActivity;
 import co.hatrus.andrew.paint.R;
 import co.hatrus.andrew.paint.model.CheckListItem;
 import co.hatrus.andrew.paint.model.ListNote;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.model.PaintNote;
 import co.hatrus.andrew.paint.model.TextNote;
+import co.hatrus.andrew.paint.ui.BaseNoteActivity;
+import co.hatrus.andrew.paint.ui.NoteListActivity;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;

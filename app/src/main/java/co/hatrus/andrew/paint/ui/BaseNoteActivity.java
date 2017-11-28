@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.ui;
 
 
 import android.appwidget.AppWidgetManager;
@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import co.hatrus.andrew.paint.R;
+import co.hatrus.andrew.paint.helper.Utils;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.widget.WidgetProvider;
 
@@ -46,27 +48,19 @@ public class BaseNoteActivity extends MainFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_note);
-        mTitle = (EditText) findViewById(R.id.note_title);
-        reminderTextView = (TextView) findViewById(R.id.reminder_textView);
-        cancelReminderTextView = (TextView) findViewById(R.id.reminder_cancel_textView);
+        mTitle = findViewById(R.id.note_title);
+        reminderTextView = findViewById(R.id.reminder_textView);
+        cancelReminderTextView = findViewById(R.id.reminder_cancel_textView);
 
         Utils.setRobotoTypeface(this, mTitle);
         Utils.setRobotoTypeface(this, reminderTextView);
         Utils.setRobotoTypeface(this, cancelReminderTextView);
 
-        reminderTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialogSetReminder();
-            }
-        });
-        cancelReminderTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelReminder();
-                setReminderTextView(getString(R.string.set_reminder));
-                cancelReminderTextView.setVisibility(View.GONE);
-            }
+        reminderTextView.setOnClickListener(v -> openDialogSetReminder());
+        cancelReminderTextView.setOnClickListener(v -> {
+            cancelReminder();
+            setReminderTextView(getString(R.string.set_reminder));
+            cancelReminderTextView.setVisibility(View.GONE);
         });
 
         note_id = getIntent().getStringExtra(NoteListActivity.NOTE_ID_EXTRA);

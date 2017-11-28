@@ -1,8 +1,6 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.ui;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,6 +18,8 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 
+import co.hatrus.andrew.paint.R;
+import co.hatrus.andrew.paint.data.NoteLab;
 import co.hatrus.andrew.paint.model.Note;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
@@ -67,33 +67,24 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
         View view = inflater.inflate(R.layout.fragment_note, container, false);
 
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
+        mListView = view.findViewById(android.R.id.list);
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
         mListView.setEmptyView(view.findViewById(R.id.empty));
-        fabBtnAdd = (ImageButton) view.findViewById(R.id.note_list_add_btn);
+        fabBtnAdd = view.findViewById(R.id.note_list_add_btn);
         if(Build.VERSION.SDK_INT>= 21)
-            fabBtnAdd.setOnTouchListener(new View.OnTouchListener() {
-                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            fabBtnAdd.setElevation(2.0f);
-                            return false; // if you want to handle the touch event
-                        case MotionEvent.ACTION_UP:
-                            fabBtnAdd.setElevation(10.0f);
-                            return false; // if you want to handle the touch event
-                    }
-                    return false;
+            fabBtnAdd.setOnTouchListener((v, event) -> {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        fabBtnAdd.setElevation(2.0f);
+                        return false; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        fabBtnAdd.setElevation(10.0f);
+                        return false; // if you want to handle the touch event
                 }
+                return false;
             });
-        fabBtnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((NoteListActivity)getActivity()).showMaterialDialog();
-            }
-        });
+        fabBtnAdd.setOnClickListener(v -> ((NoteListActivity) getActivity()).showMaterialDialog());
 
         return view;
     }
@@ -162,7 +153,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      */
     public interface OnFragmentInteractionListener {
 
-        public void onNoteSelected(Note note, String id);
+        void onNoteSelected(Note note, String id);
     }
 
     /**
@@ -170,7 +161,7 @@ public class NoteListFragment extends Fragment implements AbsListView.OnItemClic
      */
     private class NoteRealmAdapter extends RealmBaseAdapter<Note> {
 
-        public NoteRealmAdapter(RealmResults<Note> realmResults) {
+        NoteRealmAdapter(RealmResults<Note> realmResults) {
             super(realmResults);
         }
 

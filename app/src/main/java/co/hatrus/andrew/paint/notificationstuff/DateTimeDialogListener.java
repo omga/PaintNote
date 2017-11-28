@@ -11,8 +11,8 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import co.hatrus.andrew.paint.BaseNoteActivity;
 import co.hatrus.andrew.paint.model.Note;
+import co.hatrus.andrew.paint.ui.BaseNoteActivity;
 import io.realm.Realm;
 
 /**
@@ -21,12 +21,12 @@ import io.realm.Realm;
 public class DateTimeDialogListener implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
-    int year, month, day, hour, minute;
+    private int year, month, day, hour, minute;
 
-    Note mNote;
+    private Note mNote;
+    private Calendar now = Calendar.getInstance();
+    private FragmentManager fm;
     private Context mContext;
-    Calendar now = Calendar.getInstance();
-    FragmentManager fm;
 
     public DateTimeDialogListener(Note note, Context context, FragmentManager fm) {
         mNote = note;
@@ -82,7 +82,7 @@ public class DateTimeDialogListener implements
 
     }
 
-    public void showTimeDialog() {
+    private void showTimeDialog() {
         TimePickerDialog tpd = TimePickerDialog.newInstance(
                 this,
                 now.get(Calendar.HOUR_OF_DAY),

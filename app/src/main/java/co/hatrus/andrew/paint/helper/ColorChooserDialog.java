@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.helper;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -18,6 +18,9 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import co.hatrus.andrew.paint.R;
+
 /**
  * @author Aidan Follestad (afollestad)
  */
@@ -49,7 +52,7 @@ public class ColorChooserDialog extends DialogFragment implements View.OnClickLi
         for (int i = 0; i < ta.length(); i++)
             mColors[i] = ta.getColor(i, 0);
         ta.recycle();
-        final GridLayout list = (GridLayout) dialog.getCustomView().findViewById(R.id.grid);
+        final GridLayout list = dialog.getCustomView().findViewById(R.id.grid);
         final int preselect = getArguments().getInt("preselect", -1);
         for (int i = 0; i < list.getChildCount(); i++) {
             FrameLayout child = (FrameLayout) list.getChildAt(i);
@@ -110,7 +113,7 @@ public class ColorChooserDialog extends DialogFragment implements View.OnClickLi
         show(context.getFragmentManager(), "COLOR_SELECTOR");
     }
 
-    public static interface Callback {
+    public interface Callback {
         void onColorSelection(int index, int color, int darker);
     }
 }

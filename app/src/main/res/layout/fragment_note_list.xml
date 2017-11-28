@@ -3,7 +3,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="co.hatrus.andrew.paint.NoteListFragment">
+    tools:context="co.hatrus.andrew.paint.ui.NoteListFragment">
 
     <ListView
         android:id="@android:id/list"

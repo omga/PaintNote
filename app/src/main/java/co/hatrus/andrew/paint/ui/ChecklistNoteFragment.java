@@ -1,6 +1,5 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Build;
@@ -28,6 +27,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.List;
 import java.util.UUID;
 
+import co.hatrus.andrew.paint.R;
 import co.hatrus.andrew.paint.model.CheckListItem;
 import co.hatrus.andrew.paint.model.ListNote;
 import co.hatrus.andrew.paint.model.Note;
@@ -51,8 +51,8 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_checklist_note, container, false);
-        checklist = (ListView) v.findViewById(R.id.checklist_view);
-        addBtn = (ImageButton) v.findViewById(R.id.checklist_add_btn);
+        checklist = v.findViewById(R.id.checklist_view);
+        addBtn = v.findViewById(R.id.checklist_add_btn);
         mCheckListAdapter = new CheckListAdapter(getActivity(), mListNote.getNoteItems());
         checklist.setAdapter(mCheckListAdapter);
         btnLayoutParams = (FrameLayout.LayoutParams) addBtn.getLayoutParams();
@@ -68,46 +68,35 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
             }
         });
         if (Build.VERSION.SDK_INT >= 21)
-            addBtn.setOnTouchListener(new View.OnTouchListener() {
-                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            addBtn.setElevation(2.0f);
-                            return false; // if you want to handle the touch event
-                        case MotionEvent.ACTION_UP:
-                            addBtn.setElevation(10.0f);
-                            return false; // if you want to handle the touch event
-                    }
-                    return false;
+            addBtn.setOnTouchListener((v1, event) -> {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        addBtn.setElevation(2.0f);
+                        return false; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        addBtn.setElevation(10.0f);
+                        return false; // if you want to handle the touch event
                 }
+                return false;
             });
-        mOnItemClickListenerStrikeThru = new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView item = (TextView) (view.findViewById(R.id.checlist_item_text));
-                CheckListItem checkListItem = mListNote.getNoteItems().get(position);
-                mNoteLab.getRealm().beginTransaction();
-                checkListItem.setChecked(!checkListItem.isChecked());
-                if ((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)
-                    item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                else
-                    item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                mNoteLab.getRealm().commitTransaction();
-            }
+        mOnItemClickListenerStrikeThru = (parent, view, position, id) -> {
+            TextView item = view.findViewById(R.id.checlist_item_text);
+            CheckListItem checkListItem = mListNote.getNoteItems().get(position);
+            mNoteLab.getRealm().beginTransaction();
+            checkListItem.setChecked(!checkListItem.isChecked());
+            if ((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)
+                item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            else
+                item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            mNoteLab.getRealm().commitTransaction();
         };
         checklist.setOnItemClickListener(mOnItemClickListenerStrikeThru);
-        mOnItemClickListenerEditable = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView item = (TextView) (view.findViewById(R.id.checlist_item_text));
-                CheckListItem checkListItem = mListNote.getNoteItems().get(position);
-                showCustomView(getDialogEdittem(checkListItem));
-                if ((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)
-                    item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-            }
+        mOnItemClickListenerEditable = (parent, view, position, id) -> {
+            TextView item = view.findViewById(R.id.checlist_item_text);
+            CheckListItem checkListItem = mListNote.getNoteItems().get(position);
+            showCustomView(getDialogEdittem(checkListItem));
+            if ((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)
+                item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         };
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         return v;
@@ -213,7 +202,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
                 .neutralText(R.string.add_more)
                 .negativeText(android.R.string.cancel)
                 .callback(new MaterialButtonAddItemCallback()).build();
-        mDialogItemInput = (EditText) dialog.getCustomView().findViewById(R.id.new_item);
+        mDialogItemInput = dialog.getCustomView().findViewById(R.id.new_item);
         return dialog;
     }
 
@@ -224,7 +213,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
                 .positiveText(R.string.edit)
                 .negativeText(android.R.string.cancel)
                 .callback(new MaterialButtonEditItemCallback(checkListItem)).build();
-        mDialogItemInput = (EditText) dialog.getCustomView().findViewById(R.id.new_item);
+        mDialogItemInput = dialog.getCustomView().findViewById(R.id.new_item);
         mDialogItemInput.setText(checkListItem.getItem());
         return dialog;
     }
@@ -290,7 +279,7 @@ public class ChecklistNoteFragment extends BaseNoteFragment {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.item_checklist, null);
             }
             CheckListItem checkListItem = mListNote.getNoteItems().get(position);
-            TextView textView = (TextView) convertView.findViewById(R.id.checlist_item_text);
+            TextView textView = convertView.findViewById(R.id.checlist_item_text);
             textView.setText(checkListItem.getItem());
             if (checkListItem.isChecked())
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

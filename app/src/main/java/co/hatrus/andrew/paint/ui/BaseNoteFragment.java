@@ -1,4 +1,4 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.ui;
 
 
 import android.os.Bundle;
@@ -11,7 +11,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
+import co.hatrus.andrew.paint.R;
+import co.hatrus.andrew.paint.data.NoteLab;
 import co.hatrus.andrew.paint.model.Note;
 import co.hatrus.andrew.paint.notificationstuff.AlarmManagerBroadcastReceiver;
 import co.hatrus.andrew.paint.notificationstuff.DateTimeDialogListener;
@@ -48,7 +51,7 @@ public abstract class BaseNoteFragment extends Fragment {
             if (mNote.getTimeRemind() > Calendar.getInstance().getTimeInMillis())
                 ((BaseNoteActivity) getActivity())
                         .setReminderTextView(
-                                new SimpleDateFormat("EE MMM dd, HH:mm")
+                                new SimpleDateFormat("EE MMM dd, HH:mm", Locale.getDefault())
                                         .format(mNote.getTimeRemind())
                         );
         }

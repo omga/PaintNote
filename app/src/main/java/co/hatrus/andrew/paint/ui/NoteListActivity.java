@@ -1,15 +1,17 @@
-package co.hatrus.andrew.paint;
+package co.hatrus.andrew.paint.ui;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import co.hatrus.andrew.paint.R;
+import co.hatrus.andrew.paint.data.NoteLab;
+import co.hatrus.andrew.paint.helper.Utils;
 import co.hatrus.andrew.paint.model.Note;
 
 
@@ -112,25 +114,22 @@ public class NoteListActivity extends MainFragmentActivity
         new MaterialDialog.Builder(this)
                 .title(R.string.create_note_title_choose)
                 .items(list)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        Intent intent = new Intent(NoteListActivity.this,BaseNoteActivity.class);
-                        switch(which){
-                            case 0:
-                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
-                                break;
-                            case 1:
-                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_LIST);
-                                break;
-                            case 2:
-                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_PAINT);
-                                break;
-                            default:
-                                intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
-                        }
-                        startActivity(intent);
+                .itemsCallback((dialog, view, which, text) -> {
+                    Intent intent = new Intent(NoteListActivity.this, BaseNoteActivity.class);
+                    switch (which) {
+                        case 0:
+                            intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
+                            break;
+                        case 1:
+                            intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_LIST);
+                            break;
+                        case 2:
+                            intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_PAINT);
+                            break;
+                        default:
+                            intent.putExtra(NOTE_TYPE_EXTRA, Note.NOTE_TYPE_TEXT);
                     }
+                    startActivity(intent);
                 })
                 .show();
     }
